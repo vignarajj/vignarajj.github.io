@@ -1,4 +1,6 @@
+// Widget to animate sections with slide, fade, and scale transitions
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AnimatedSection extends StatefulWidget {
   final Widget child;
@@ -15,6 +17,7 @@ class _AnimatedSectionState extends State<AnimatedSection>
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
   late Animation<double> _opacityAnimation;
+  late Animation<double> _scaleAnimation;
 
   @override
   void initState() {
@@ -22,13 +25,32 @@ class _AnimatedSectionState extends State<AnimatedSection>
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 600),
     );
 
+    // Initialize animations (updated in didChangeDependencies)
+    _updateAnimations();
+
+    Future.delayed(Duration(milliseconds: widget.delay), () {
+      if (mounted) {
+        _controller.forward();
+      }
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Update animations when inherited widgets change
+    _updateAnimations();
+  }
+
+  void _updateAnimations() {
     final curve = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
 
+    // Safely access Get.width
     _offsetAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
+      begin: Offset(0, Get.width < 600 ? 0.2 : 0.3),
       end: Offset.zero,
     ).animate(curve);
 
@@ -37,11 +59,10 @@ class _AnimatedSectionState extends State<AnimatedSection>
       end: 1.0,
     ).animate(curve);
 
-    Future.delayed(Duration(milliseconds: widget.delay), () {
-      if (mounted) {
-        _controller.forward();
-      }
-    });
+    _scaleAnimation = Tween<double>(
+      begin: 0.9,
+      end: 1.0,
+    ).animate(curve);
   }
 
   @override
@@ -52,12 +73,21 @@ class _AnimatedSectionState extends State<AnimatedSection>
 
   @override
   Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _opacityAnimation,
-      child: SlideTransition(
-        position: _offsetAnimation,
-        child: widget.child,
-      ),
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Transform.scale(
+          scale: _scaleAnimation.value,
+          child: FadeTransition(
+            opacity: _opacityAnimation,
+            child: SlideTransition(
+              position: _offsetAnimation,
+              child: child,
+            ),
+          ),
+        );
+      },
+      child: widget.child,
     );
   }
 }

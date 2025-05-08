@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.4 <4.0.0'
+  sdk: '^3.6.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -39,13 +39,15 @@ dependencies:
   get: ^4.6.6
   # GetStorage for lightweight key-value storage.
   get_storage: ^2.1.1
-  animated_text_kit: ^4.2.1
+  animated_text_kit: ^4.2.2
   google_fonts: ^2.3.1
   url_launcher: ^6.1.14
   flutter_svg: ^1.1.1+1
   font_awesome_flutter: ^10.7.0
   http: ^0.13.3
   xml: ^6.5.0
+  dio: ^5.4.0
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

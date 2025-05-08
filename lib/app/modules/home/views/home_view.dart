@@ -2,13 +2,17 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/app/views/medium_story_widget.dart';
 import 'package:portfolio/shared/models/core_compentency.dart';
 import 'package:portfolio/shared/theme/text_styles.dart';
 import 'package:portfolio/shared/widgets/animated_section.dart';
 import 'package:portfolio/shared/widgets/bulletin_point_chip.dart';
 import 'package:portfolio/shared/widgets/contact_buttons.dart';
-import 'package:portfolio/shared/widgets/medium_stories_widget.dart';
+import 'package:portfolio/shared/widgets/contact_link_widget.dart';
+import 'package:portfolio/shared/widgets/project_card.dart';
+import 'package:portfolio/shared/widgets/project_marquee.dart';
 import 'package:portfolio/shared/widgets/skill_chip.dart';
+
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetResponsiveView<HomeController> {
@@ -59,6 +63,13 @@ class HomeView extends GetResponsiveView<HomeController> {
                 ],
               ),
             ),
+            AnimatedSection(
+                delay: 1400, child: _buildSectionTitle('Personal Projects')),
+            AnimatedSection(delay: 1500, child: _buildProjectsSection()),
+            AnimatedSection(
+                delay: 1600, child: _buildSectionTitle('Latest Medium Stories')),
+            AnimatedSection(delay: 1700, child: _buildMediumStories()),
+            const AnimatedSection(delay: 1800, child: ContactLinkWidget()),
             const SizedBox(height: 80),
             const ContactButtons(),
             AnimatedSection(delay: 1400, child: _buildFooter()),
@@ -78,7 +89,8 @@ class HomeView extends GetResponsiveView<HomeController> {
             backgroundImage: AssetImage("assets/images/profile_pic.jpeg"),
           ),
           const SizedBox(height: 20),
-          _buildAnimatedText('VIGNARAJ R.R.', TextStyles.consoleHeader.copyWith()),
+          _buildAnimatedText(
+              'VIGNARAJ R.R.', TextStyles.consoleHeader.copyWith()),
           const SizedBox(height: 10),
           _buildAnimatedText(
               'TECH LEAD (MOBILE ENGINEERING)', TextStyles.consoleSubHeader),
@@ -164,19 +176,39 @@ class HomeView extends GetResponsiveView<HomeController> {
   }
 
   Widget _buildMediumStories() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Wrap(
-        crossAxisAlignment: WrapCrossAlignment.center,
-        alignment: WrapAlignment.center,
-        spacing: 10,
-        runSpacing: 10,
-        children: [
-          MediumStoriesWidget(),
-        ],
+    return const MediumStoriesWidget();
+  }
+
+  Widget _buildProjectsSection() {
+    final projects = [
+      Project(
+        title: 'Repo Generator',
+        description:
+        'A tool to automate the creation and setup of Git repositories with customizable templates.',
+        url: 'https://vignaraj.dev/repo_generator/',
       ),
+      Project(
+        title: 'Color Picker',
+        description:
+        'A Flutter-based tool for selecting and generating color palettes for app development.',
+        url: 'https://vignaraj.dev/color_picker/',
+      ),
+      Project(
+        title: 'Theme Builder',
+        description:
+        'A tool to create and customize themes for Flutter applications with real-time previews.',
+        url: 'https://vignaraj.dev/theme_generator/',
+      ),
+    ];
+
+    final cardWidth = Get.width < 600 ? Get.width * 0.6 : 300.0;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: ProjectMarquee(projects: projects, cardWidth: cardWidth),
     );
   }
+
 
   Widget _buildFooter() {
     return Container(
@@ -184,6 +216,8 @@ class HomeView extends GetResponsiveView<HomeController> {
       color: Colors.black,
       child: Column(
         children: [
+          // const VisitCountWidget(),
+          // const SizedBox(height: 10),
           const Text(
             'Developed using Flutter',
             style: TextStyle(fontSize: 16, color: Colors.white70),

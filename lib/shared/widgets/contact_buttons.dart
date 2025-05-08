@@ -1,15 +1,45 @@
+// Widget for animated social media contact buttons
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:portfolio/shared/theme/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ContactButtons extends StatelessWidget {
+class ContactButtons extends StatefulWidget {
   const ContactButtons({super.key});
 
-  void _launchURL(String url) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
+  @override
+  _ContactButtonsState createState() => _ContactButtonsState();
+}
+
+class _ContactButtonsState extends State<ContactButtons> {
+  double _iconSize = 24.0;
+  double _buttonSize = 48.0;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Update responsive sizes
+    _iconSize = Get.width < 600 ? 20.0 : 24.0;
+    _buttonSize = Get.width < 600 ? 40.0 : 48.0;
+
+    // Precache SVGs
+    precachePicture(SvgPicture.asset('assets/images/github.svg').pictureProvider, context);
+    precachePicture(SvgPicture.asset('assets/images/medium.svg').pictureProvider, context);
+    precachePicture(SvgPicture.asset('assets/images/linkedin.svg').pictureProvider, context);
+  }
+
+  Future<void> _launchURL(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
-      throw 'Could not launch $url';
+      Get.snackbar(
+        'Error',
+        'Could not launch $url',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+      );
     }
   }
 
@@ -19,36 +49,71 @@ class ContactButtons extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          IconButton(
+        children: [
+          _buildButton(
             icon: SvgPicture.asset(
-              'assets/images/github.svg', // Path to your LinkedIn SVG icon
-              width: 24,
-              height: 24,
-              color: Colors.green,
+              'assets/images/github.svg',
+              width: _iconSize,
+              height: _iconSize,
+              color: Colors.white,
             ),
-            onPressed: () => _launchURL('https://github.com/vignarajj'),
+            url: 'https://github.com/vignarajj',
+            color: AppColors.appAccentColor.withAlpha(90),
           ),
-          IconButton(
+          const SizedBox(width: 16),
+          _buildButton(
             icon: SvgPicture.asset(
-              'assets/images/medium.svg', // Path to your LinkedIn SVG icon
-              width: 24,
-              height: 24,
-              color: Colors.green,
+              'assets/images/medium.svg',
+              width: _iconSize,
+              height: _iconSize,
+              color: Colors.white,
             ),
-            onPressed: () => _launchURL('https://medium.com/@vignarajj'),
+            url: 'https://medium.com/@vignarajj',
+            color: AppColors.appAccentColor.withAlpha(90),
           ),
-          IconButton(
+          const SizedBox(width: 16),
+          _buildButton(
             icon: SvgPicture.asset(
-              'assets/images/linkedin.svg', // Path to your LinkedIn SVG icon
-              width: 24,
-              height: 24,
-              color: Colors.green,
+              'assets/images/linkedin.svg',
+              width: _iconSize,
+              height: _iconSize,
+              color: Colors.white,
             ),
-            onPressed: () => _launchURL(
-                'https://www.linkedin.com/in/vignaraj-ravi-25750b59/'),
+            url: 'https://www.linkedin.com/in/vignaraj-ravi-25750b59/',
+            color: AppColors.appAccentColor.withAlpha(90),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildButton({required Widget icon, required String url, required Color color}) {
+    return MouseRegion(
+      onEnter: (_) => setState(() {}),
+      onExit: (_) => setState(() {}),
+      child: GestureDetector(
+        onTap: () => _launchURL(url),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          width: _buttonSize,
+          height: _buttonSize,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: RadialGradient(
+              colors: [color, color.withOpacity(0.7)],
+              center: Alignment.center,
+              radius: 0.8,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.3),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Center(child: icon),
+        ),
       ),
     );
   }
