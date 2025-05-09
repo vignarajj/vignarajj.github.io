@@ -26,13 +26,16 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
       });
 
       final totalPadding = (Get.width - _cardWidth) / 2;
-      if (_scrollController.hasClients && Get.find<MediumController>().posts.isNotEmpty) {
+      if (_scrollController.hasClients &&
+          Get.find<MediumController>().posts.isNotEmpty) {
         _scrollController.jumpTo(0);
       }
     });
 
     _scrollController.addListener(() {
-      final index = (_scrollController.offset / _cardWidth).round().clamp(0, Get.find<MediumController>().posts.length - 1);
+      final index = (_scrollController.offset / _cardWidth)
+          .round()
+          .clamp(0, Get.find<MediumController>().posts.length - 1);
       if (index != _currentIndex) {
         setState(() {
           _currentIndex = index;
@@ -175,7 +178,9 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
               height: _currentIndex == index ? 12 : 8,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: _currentIndex == index ? AppColors.appAccentColor : Colors.grey[600],
+                color: _currentIndex == index
+                    ? AppColors.appAccentColor
+                    : Colors.grey[600],
               ),
             ),
           );

@@ -37,11 +37,11 @@ class _BulletPointChipState extends State<BulletPointChip> {
     return GestureDetector(
       onTap: widget.isNavigable && widget.competency != null
           ? () {
-        Get.toNamed(
-          AppRoutes.coreCompetency,
-          arguments: widget.competency,
-        );
-      }
+              Get.toNamed(
+                AppRoutes.coreCompetency,
+                arguments: widget.competency,
+              );
+            }
           : null,
       child: MouseRegion(
         onEnter: (_) => setState(() => _scale = 1.05),
@@ -54,7 +54,10 @@ class _BulletPointChipState extends State<BulletPointChip> {
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [AppColors.appAccentColor, AppColors.appAccentColor.withAlpha(80)],
+                  colors: [
+                    AppColors.appAccentColor,
+                    AppColors.appAccentColor.withAlpha(80)
+                  ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),

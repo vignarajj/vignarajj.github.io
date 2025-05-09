@@ -43,7 +43,9 @@ class _ContactLinkWidgetState extends State<ContactLinkWidget> {
             ],
           ),
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(ContactView());
+            },
             child: const Text(
               'Get in Touch',
               style: TextStyle(

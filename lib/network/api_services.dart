@@ -1,20 +1,86 @@
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'package:portfolio/network/api_constants.dart';
+import 'package:portfolio/shared/models/contact_model.dart';
 
-Future<String> fetchXmlFeed() async {
-  print("fetchXmlFeed");
-  try {
-    final response =
-    await http.get(Uri.parse('https://medium.com/feed/@vignarajj'));
-    // print("response:: ${response.statusCode}");
-    if (response.statusCode == 200) {
+class ApiServices extends GetConnect {
+  @override
+  void onInit() {
+    httpClient.baseUrl = ApiConstants.baseUrl;
+    httpClient.timeout = const Duration(minutes: 3);
+    httpClient.defaultContentType = 'application/json';
+    httpClient.timeout = const Duration(seconds: 10);
+    super.onInit();
+  }
+
+  // Generic GET request
+  Future<T> getRequest<T>(String endpoint,
+      {Map<String, dynamic>? queryParams}) async {
+    try {
+      final response = await get(endpoint, query: queryParams);
+      if (response.status.hasError) {
+        throw Exception('GET failed: ${response.statusText}');
+      }
       return response.body;
-    } else {
-      throw Exception('Failed to load XML feed');
+    } catch (e) {
+      print("❌ GET Error: $e");
+      throw Exception('Failed to fetch data');
     }
-  }catch(e, trace){
-    // print("error:: $e");
-    // print("trace:: $trace");
-    return "error";
+  }
+
+  // Generic POST request
+  Future<T> postRequest<T>(String endpoint, dynamic data) async {
+    try {
+      final response = await post(endpoint, data);
+      if (response.status.hasError) {
+        throw Exception('POST failed: ${response.statusText}');
+      }
+      return response.body;
+    } catch (e) {
+      print("❌ POST Error: $e");
+      throw Exception('Failed to send data');
+    }
+  }
+
+  // Track visitor count
+  Future<int> getVisitorsCount() async {
+    print("📡 Calling: ${httpClient.baseUrl}${ApiConstants.trackVisit}");
+    try {
+      final response = await get("${ApiConstants.trackVisit}");
+
+      if (response.status.hasError) {
+        throw Exception(
+            '❌ Visit tracking failed: ${response.statusCode} ${response.statusText}');
+      }
+
+      if (response.body is Map<String, dynamic>) {
+        return response.body['unique_visits'] ?? 0;
+      } else {
+        throw Exception('Invalid response format');
+      }
+    } catch (e, trace) {
+      print("❌ Visit Count Error: $e $trace");
+      return 0;
+    }
+  }
+
+  // Contact form submission
+  Future<String> sendContact(ContactModel contact) async {
+    try {
+      final response = await post(ApiConstants.contact, contact.toJson());
+
+      if (response.statusCode == 200) {
+        print("✅ Contact sent");
+        return "Message sent successfully!";
+      } else if (response.statusCode == 429) {
+        return "You've reached the message limit. Please try again later.";
+      } else if (response.statusCode == 400) {
+        return "Invalid input data. Please check your entries.";
+      } else {
+        throw Exception("❌ Failed: ${response.statusText}");
+      }
+    } catch (e) {
+      print("❌ Contact Error: $e");
+      return "Something went wrong. Please try again.";
+    }
   }
 }
-

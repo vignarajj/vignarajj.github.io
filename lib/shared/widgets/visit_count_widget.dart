@@ -19,7 +19,7 @@ class _VisitCountWidgetState extends State<VisitCountWidget> {
       duration: const Duration(seconds: 2),
       builder: (context, int value, child) {
         return Text(
-          'Site Visits: $value',
+          'Site Visits: ${_visitCount + widget.visitCount}',
           style: const TextStyle(fontSize: 16, color: Colors.white70),
         );
       },

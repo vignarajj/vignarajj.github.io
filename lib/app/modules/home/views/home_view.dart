@@ -12,6 +12,7 @@ import 'package:portfolio/shared/widgets/contact_link_widget.dart';
 import 'package:portfolio/shared/widgets/project_card.dart';
 import 'package:portfolio/shared/widgets/project_marquee.dart';
 import 'package:portfolio/shared/widgets/skill_chip.dart';
+import 'package:portfolio/shared/widgets/visit_count_widget.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -67,7 +68,8 @@ class HomeView extends GetResponsiveView<HomeController> {
                 delay: 1400, child: _buildSectionTitle('Personal Projects')),
             AnimatedSection(delay: 1500, child: _buildProjectsSection()),
             AnimatedSection(
-                delay: 1600, child: _buildSectionTitle('Latest Medium Stories')),
+                delay: 1600,
+                child: _buildSectionTitle('Latest Medium Stories')),
             AnimatedSection(delay: 1700, child: _buildMediumStories()),
             const AnimatedSection(delay: 1800, child: ContactLinkWidget()),
             const SizedBox(height: 80),
@@ -184,19 +186,19 @@ class HomeView extends GetResponsiveView<HomeController> {
       Project(
         title: 'Repo Generator',
         description:
-        'A tool to automate the creation and setup of Git repositories with customizable templates.',
+            'A tool to automate the creation and setup of Git repositories with customizable templates.',
         url: 'https://vignaraj.dev/repo_generator/',
       ),
       Project(
         title: 'Color Picker',
         description:
-        'A Flutter-based tool for selecting and generating color palettes for app development.',
+            'A Flutter-based tool for selecting and generating color palettes for app development.',
         url: 'https://vignaraj.dev/color_picker/',
       ),
       Project(
         title: 'Theme Builder',
         description:
-        'A tool to create and customize themes for Flutter applications with real-time previews.',
+            'A tool to create and customize themes for Flutter applications with real-time previews.',
         url: 'https://vignaraj.dev/theme_generator/',
       ),
     ];
@@ -209,15 +211,16 @@ class HomeView extends GetResponsiveView<HomeController> {
     );
   }
 
-
   Widget _buildFooter() {
     return Container(
       padding: const EdgeInsets.all(30),
       color: Colors.black,
       child: Column(
         children: [
-          // const VisitCountWidget(),
-          // const SizedBox(height: 10),
+          Obx(() => VisitCountWidget(
+                visitCount: controller.visitorsCount.value,
+              )),
+          const SizedBox(height: 10),
           const Text(
             'Developed using Flutter',
             style: TextStyle(fontSize: 16, color: Colors.white70),

@@ -246,8 +246,27 @@ class HomeController extends GetxController {
     Get.toNamed(AppRoutes.skill, arguments: skill);
   }
 
+  RxInt visitorsCount = 4534.obs;
+  RxBool isLoading = false.obs;
+  ApiServices apiServices = GetInstance().find<ApiServices>();
+
   @override
   Future<void> onInit() async {
+    await getVisitorsCount();
     super.onInit();
+  }
+
+  Future<void> getVisitorsCount() async {
+    print("call1");
+    isLoading.value = true;
+    try {
+      print("call2");
+      visitorsCount.value = await apiServices.getVisitorsCount();
+      print("visitors_count:: ${visitorsCount.value}");
+      isLoading.value = false;
+    } catch (e) {
+      print("failed to get the visitors count");
+      isLoading.value = false;
+    }
   }
 }

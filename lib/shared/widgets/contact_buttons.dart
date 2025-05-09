@@ -24,9 +24,13 @@ class _ContactButtonsState extends State<ContactButtons> {
     _buttonSize = Get.width < 600 ? 40.0 : 48.0;
 
     // Precache SVGs
-    precachePicture(SvgPicture.asset('assets/images/github.svg').pictureProvider, context);
-    precachePicture(SvgPicture.asset('assets/images/medium.svg').pictureProvider, context);
-    precachePicture(SvgPicture.asset('assets/images/linkedin.svg').pictureProvider, context);
+    precachePicture(
+        SvgPicture.asset('assets/images/github.svg').pictureProvider, context);
+    precachePicture(
+        SvgPicture.asset('assets/images/medium.svg').pictureProvider, context);
+    precachePicture(
+        SvgPicture.asset('assets/images/linkedin.svg').pictureProvider,
+        context);
   }
 
   Future<void> _launchURL(String url) async {
@@ -87,7 +91,8 @@ class _ContactButtonsState extends State<ContactButtons> {
     );
   }
 
-  Widget _buildButton({required Widget icon, required String url, required Color color}) {
+  Widget _buildButton(
+      {required Widget icon, required String url, required Color color}) {
     return MouseRegion(
       onEnter: (_) => setState(() {}),
       onExit: (_) => setState(() {}),
