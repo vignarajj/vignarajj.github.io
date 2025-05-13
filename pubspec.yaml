@@ -50,6 +50,7 @@ dependencies:
   intl: ^0.18.1
   get_it: ^8.0.3
   shared_preferences: ^2.3.2
+  rive: ^0.13.20
 
 dev_dependencies:
   flutter_test:

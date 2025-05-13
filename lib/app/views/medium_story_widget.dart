@@ -93,8 +93,12 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
                     margin: const EdgeInsets.symmetric(horizontal: 8),
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.grey[900],
-                      borderRadius: BorderRadius.circular(8),
+                      gradient: LinearGradient(
+                        colors: [Colors.grey[850]!.withAlpha(90), Colors.grey[900]!.withAlpha(90)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -4,15 +4,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/app/views/medium_story_widget.dart';
 import 'package:portfolio/shared/models/core_compentency.dart';
+import 'package:portfolio/shared/theme/app_colors.dart';
 import 'package:portfolio/shared/theme/text_styles.dart';
 import 'package:portfolio/shared/widgets/animated_section.dart';
 import 'package:portfolio/shared/widgets/bulletin_point_chip.dart';
+import 'package:portfolio/shared/widgets/calendly_widget.dart';
 import 'package:portfolio/shared/widgets/contact_buttons.dart';
 import 'package:portfolio/shared/widgets/contact_link_widget.dart';
 import 'package:portfolio/shared/widgets/project_card.dart';
 import 'package:portfolio/shared/widgets/project_marquee.dart';
 import 'package:portfolio/shared/widgets/skill_chip.dart';
 import 'package:portfolio/shared/widgets/visit_count_widget.dart';
+import 'package:rive/rive.dart' as rive;
 
 import '../controllers/home_controller.dart';
 
@@ -25,58 +28,107 @@ class HomeView extends GetResponsiveView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            AnimatedSection(
-              delay: 0,
-              child: _buildHeader(),
+      body: Stack(
+        children: [
+          const rive.RiveAnimation.asset(
+            'assets/images/cosmos.riv',
+            fit: BoxFit.cover,
+          ),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                AnimatedSection(
+                  delay: 0,
+                  child: _buildHeader(),
+                ),
+                AnimatedSection(delay: 200, child: _buildSummary()),
+                AnimatedSection(delay: 400, child: _buildSkillsSection()),
+                AnimatedSection(
+                    delay: 600, child: _buildSectionTitle('Core Competencies')),
+                AnimatedSection(
+                    delay: 800,
+                    child:
+                        _buildChipSection(controller.coreCompetencies, true)),
+                AnimatedSection(
+                    delay: 1000, child: _buildSectionTitle('Future Goals')),
+                AnimatedSection(
+                  delay: 1100,
+                  child: _buildChipSection(
+                    [
+                      'Beginning with RUST',
+                      'Contribute to Open Source Projects',
+                      'Explore the ML and AI implementations',
+                    ],
+                  ),
+                ),
+                AnimatedSection(
+                    delay: 1200,
+                    child: _buildSectionTitle('Hobbies & Interests')),
+                AnimatedSection(
+                  delay: 1300,
+                  child: _buildChipSection(
+                    [
+                      'Tech Gadgets',
+                      'Traveling',
+                      'Playing Cricket',
+                      'Gaming',
+                    ],
+                  ),
+                ),
+                AnimatedSection(
+                    delay: 1400,
+                    child: _buildSectionTitle('Personal Projects')),
+                AnimatedSection(delay: 1500, child: _buildProjectsSection()),
+                AnimatedSection(
+                    delay: 1600,
+                    child: _buildSectionTitle('Latest Medium Stories')),
+                AnimatedSection(delay: 1700, child: _buildMediumStories()),
+                const AnimatedSection(delay: 1800, child: ContactLinkWidget()),
+                const SizedBox(height: 80),
+                const ContactButtons(),
+                const SizedBox(height: 20),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  transform: Matrix4.identity()..scale(1.0),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        AppColors.appAccentColor,
+                        Colors.black54,
+                        AppColors.appAccentColor
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withAlpha(30),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Get.to(() => CalendlyPage()); // Using GetX navigation
+                    },
+                    icon: const Icon(
+                      Icons.calendar_today,
+                      color: Colors.white,
+                    ),
+                    label: const Text(
+                      "Book a Meeting",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                AnimatedSection(delay: 1400, child: _buildFooter()),
+              ],
             ),
-            AnimatedSection(delay: 200, child: _buildSummary()),
-            AnimatedSection(delay: 400, child: _buildSkillsSection()),
-            AnimatedSection(
-                delay: 600, child: _buildSectionTitle('Core Competencies')),
-            AnimatedSection(
-                delay: 800,
-                child: _buildChipSection(controller.coreCompetencies, true)),
-            AnimatedSection(
-                delay: 1000, child: _buildSectionTitle('Future Goals')),
-            AnimatedSection(
-              delay: 1100,
-              child: _buildChipSection(
-                [
-                  'Beginning with RUST',
-                  'Contribute to Open Source Projects',
-                  'Explore the ML and AI implementations',
-                ],
-              ),
-            ),
-            AnimatedSection(
-                delay: 1200, child: _buildSectionTitle('Hobbies & Interests')),
-            AnimatedSection(
-              delay: 1300,
-              child: _buildChipSection(
-                [
-                  'Tech Gadgets',
-                  'Traveling',
-                  'Playing Cricket',
-                  'Gaming',
-                ],
-              ),
-            ),
-            AnimatedSection(
-                delay: 1400, child: _buildSectionTitle('Personal Projects')),
-            AnimatedSection(delay: 1500, child: _buildProjectsSection()),
-            AnimatedSection(
-                delay: 1600,
-                child: _buildSectionTitle('Latest Medium Stories')),
-            AnimatedSection(delay: 1700, child: _buildMediumStories()),
-            const AnimatedSection(delay: 1800, child: ContactLinkWidget()),
-            const SizedBox(height: 80),
-            const ContactButtons(),
-            AnimatedSection(delay: 1400, child: _buildFooter()),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -95,7 +147,8 @@ class HomeView extends GetResponsiveView<HomeController> {
               'VIGNARAJ R.R.', TextStyles.consoleHeader.copyWith()),
           const SizedBox(height: 10),
           _buildAnimatedText(
-              'TECH LEAD (MOBILE ENGINEERING)', TextStyles.consoleSubHeader),
+              'Tech Architect for Mobile Futures | Flutter | Kotlin | AI Curious',
+              TextStyles.consoleSubHeader.copyWith(color: Colors.white)),
         ],
       ),
     );
@@ -119,7 +172,7 @@ class HomeView extends GetResponsiveView<HomeController> {
     return const Padding(
       padding: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: Text(
-        'Experienced Tech Lead with 13+ years in mobile app development. Proficient in Android, Kotlin, Java, Flutter, and Dart. Skilled in testing (manual, unit, and automation), CI/CD with Code Magic, and project management using Jira. Expert in code reviews, documentation, and UI/UX design using Photoshop and Figma.',
+        'Mobile Architect with a focus on AI-driven experiences, combining deep expertise in Flutter, Kotlin, and Java with backend strengths in Python and FastAPI. Skilled in deploying scalable apps via Railway and automating workflows with CodeMagic. Proficient in modern testing practices including Maestro and unit testing. Well-versed in Agile and lean development methodologies. Passionate about researching AI models and applying machine learning to real-world mobile solutions.',
         textAlign: TextAlign.center,
         style: TextStyles.consoleBody,
       ),
@@ -214,7 +267,6 @@ class HomeView extends GetResponsiveView<HomeController> {
   Widget _buildFooter() {
     return Container(
       padding: const EdgeInsets.all(30),
-      color: Colors.black,
       child: Column(
         children: [
           Obx(() => VisitCountWidget(

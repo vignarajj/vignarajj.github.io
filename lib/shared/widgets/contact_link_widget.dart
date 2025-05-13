@@ -27,7 +27,7 @@ class _ContactLinkWidgetState extends State<ContactLinkWidget> {
             gradient: const LinearGradient(
               colors: [
                 AppColors.appAccentColor,
-                Colors.green,
+                Colors.black54,
                 AppColors.appAccentColor
               ],
               begin: Alignment.topLeft,

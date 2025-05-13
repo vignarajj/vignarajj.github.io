@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/shared/theme/app_colors.dart';
 import 'package:portfolio/shared/widgets/project_card.dart';
 
 class ProjectMarquee extends StatefulWidget {
@@ -115,7 +116,7 @@ class _ProjectMarqueeState extends State<ProjectMarquee> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: _currentIndex == index
-                    ? Colors.blueAccent
+                    ? AppColors.appAccentColor
                     : Colors.grey[600],
               ),
             ),

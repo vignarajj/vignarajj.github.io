@@ -35,7 +35,7 @@ class _ProjectCardState extends State<ProjectCard> {
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.grey[850]!, Colors.grey[900]!],
+              colors: [Colors.grey[850]!.withAlpha(90), Colors.grey[900]!.withAlpha(90)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
