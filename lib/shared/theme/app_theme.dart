@@ -8,7 +8,6 @@ class AppTheme {
     scaffoldBackgroundColor: Colors.black,
     appBarTheme: AppBarTheme(
       color: AppColors.appPrimaryColor,
-      iconTheme: const IconThemeData(color: Colors.white),
       toolbarTextStyle: const TextTheme(
         titleLarge: TextStyle(
           color: Colors.white,
@@ -35,7 +34,6 @@ class AppTheme {
       displayLarge: TextStyle(color: Colors.white),
       bodyLarge: TextStyle(color: Colors.white),
     ),
-    iconTheme: const IconThemeData(color: AppColors.appAccentColor),
     colorScheme: const ColorScheme(
       brightness: Brightness.dark,
       primary: AppColors.appPrimaryColor,

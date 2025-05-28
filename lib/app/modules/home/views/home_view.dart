@@ -2,6 +2,8 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+import 'package:portfolio/app/modules/chat/views/chat_bottom_sheet.dart';
 import 'package:portfolio/app/views/medium_story_widget.dart';
 import 'package:portfolio/shared/models/core_compentency.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
@@ -130,6 +132,42 @@ class HomeView extends GetResponsiveView<HomeController> {
           ),
         ],
       ),
+      floatingActionButton: GestureDetector(
+        onTap: () => _showChatBottomSheet(),
+        child: LottieBuilder.asset(
+          'assets/lottie/chatbot_loader.json',
+          width: 100,
+          height: 100,
+        ),
+      ),
+    );
+  }
+
+  void _showChatBottomSheet() {
+    Get.dialog(
+      StatefulBuilder(
+        builder: (context, setState) {
+          return StreamBuilder(
+            stream: Stream.periodic(const Duration(milliseconds: 100)),
+            builder: (context, snapshot) {
+              final isWideScreen = Get.width > 600;
+              return Material(
+                type: MaterialType.transparency,
+                child: Align(
+                  alignment: isWideScreen ? Alignment.centerRight : Alignment.bottomCenter,
+                  child: SizedBox(
+                    width: isWideScreen ? 400 : double.infinity,
+                    height: Get.height * 0.8,
+                    child: const ChatBottomSheet(),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+      barrierColor: Colors.black54,
+      barrierDismissible: true,
     );
   }
 

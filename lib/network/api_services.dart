@@ -83,4 +83,33 @@ class ApiServices extends GetConnect {
       return "Something went wrong. Please try again.";
     }
   }
+
+  // Chatbot question submission
+  Future<String> askQuestion(String question) async {
+    try {
+      print("📡 Sending question to chatbot: $question");
+      final response = await post(
+        ApiConstants.chatbot,
+        {'question': question},
+      );
+
+      if (response.status.hasError) {
+        throw Exception('Chatbot request failed: ${response.statusText}');
+      }
+
+      if (response.body is Map<String, dynamic>) {
+        final data = response.body as Map<String, dynamic>;
+        if (data['status'] == 'success') {
+          return data['answer'] as String;
+        } else {
+          throw Exception('Chatbot returned error status: ${data['status']}');
+        }
+      } else {
+        throw Exception('Invalid response format from chatbot');
+      }
+    } catch (e) {
+      print("❌ Chatbot Error: $e");
+      return "I'm having trouble connecting right now. Please try again later.";
+    }
+  }
 }

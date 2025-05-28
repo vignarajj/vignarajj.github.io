@@ -41,7 +41,7 @@ dependencies:
   get_storage: ^2.1.1
   animated_text_kit: ^4.2.2
   google_fonts: ^2.3.1
-  url_launcher: ^6.1.14
+  url_launcher: ^6.2.5
   flutter_svg: ^1.1.1+1
   font_awesome_flutter: ^10.7.0
   http: ^0.13.3
@@ -51,6 +51,9 @@ dependencies:
   get_it: ^8.0.3
   shared_preferences: ^2.3.2
   rive: ^0.13.20
+  lottie: ^3.0.0
+  flutter_linkify: ^6.0.0
+
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +83,7 @@ flutter:
     - assets/packages/
     - assets/shaders/
     - assets/images/
+    - assets/lottie/
   fonts:
     - family: SourceCodePro
       fonts:
