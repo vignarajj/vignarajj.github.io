@@ -45,7 +45,7 @@ class ApiServices extends GetConnect {
   Future<int> getVisitorsCount() async {
     print("📡 Calling: ${httpClient.baseUrl}${ApiConstants.trackVisit}");
     try {
-      final response = await get("${ApiConstants.trackVisit}");
+      final response = await get(ApiConstants.trackVisit);
 
       if (response.status.hasError) {
         throw Exception(

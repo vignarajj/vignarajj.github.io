@@ -12,7 +12,7 @@ class ProjectCard extends StatefulWidget {
   const ProjectCard({required this.project, super.key});
 
   @override
-  _ProjectCardState createState() => _ProjectCardState();
+  State<ProjectCard> createState() => _ProjectCardState();
 }
 
 class _ProjectCardState extends State<ProjectCard> {

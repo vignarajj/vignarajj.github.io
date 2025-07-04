@@ -12,7 +12,7 @@ class SkillChip extends StatefulWidget {
   const SkillChip({required this.skill, required this.onTap, super.key});
 
   @override
-  _SkillChipState createState() => _SkillChipState();
+  State<SkillChip> createState() => _SkillChipState();
 }
 
 class _SkillChipState extends State<SkillChip> {

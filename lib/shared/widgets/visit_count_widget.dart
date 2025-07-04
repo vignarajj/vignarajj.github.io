@@ -6,7 +6,7 @@ class VisitCountWidget extends StatefulWidget {
   const VisitCountWidget({super.key, this.visitCount = 0});
 
   @override
-  _VisitCountWidgetState createState() => _VisitCountWidgetState();
+  State<VisitCountWidget> createState() => _VisitCountWidgetState();
 }
 
 class _VisitCountWidgetState extends State<VisitCountWidget> {

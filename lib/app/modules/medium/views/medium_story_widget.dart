@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:portfolio/app/controllers/medium_controller.dart';
+import 'package:portfolio/app/modules/medium/controllers/medium_controller.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,7 +9,7 @@ class MediumStoriesWidget extends StatefulWidget {
   const MediumStoriesWidget({super.key});
 
   @override
-  _MediumStoriesWidgetState createState() => _MediumStoriesWidgetState();
+  State<MediumStoriesWidget> createState() => _MediumStoriesWidgetState();
 }
 
 class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
@@ -25,7 +25,6 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
         _cardWidth = Get.width < 600 ? Get.width * 0.6 : 250.0;
       });
 
-      final totalPadding = (Get.width - _cardWidth) / 2;
       if (_scrollController.hasClients &&
           Get.find<MediumController>().posts.isNotEmpty) {
         _scrollController.jumpTo(0);
@@ -70,8 +69,6 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
           ),
         );
       }
-
-      final horizontalPadding = (Get.width - _cardWidth) / 2;
 
       return Column(
         children: [

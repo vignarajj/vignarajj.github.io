@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:portfolio/app/modules/comp-detailview/core_competency_view.dart';
+import 'package:portfolio/app/modules/core_competency/views/core_competency_view.dart';
 import 'package:portfolio/app/modules/home/views/home_view.dart';
-import 'package:portfolio/app/modules/skills/skill_view.dart';
+import 'package:portfolio/app/modules/skills/views/skill_view.dart';
 import 'package:portfolio/shared/models/core_compentency.dart';
 
 part 'app_routes.dart';

@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:portfolio/app/modules/chat/views/chat_bottom_sheet.dart';
-import 'package:portfolio/app/views/medium_story_widget.dart';
+import 'package:portfolio/app/modules/medium/views/medium_story_widget.dart';
 import 'package:portfolio/shared/models/core_compentency.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 import 'package:portfolio/shared/theme/text_styles.dart';

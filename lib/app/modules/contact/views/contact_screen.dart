@@ -1,7 +1,7 @@
 // Contact form page with validation
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/app/controllers/contact_controller.dart';
+import 'package:portfolio/app/modules/contact/controllers/contact_controller.dart';
 
 class ContactView extends StatelessWidget {
   final ContactController controller = Get.put(ContactController());

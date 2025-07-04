@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/app/modules/skills/skill_controller.dart';
+import 'package:portfolio/app/modules/skills/controllers/skill_controller.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 
 class SkillView extends GetResponsiveView<SkillController> {

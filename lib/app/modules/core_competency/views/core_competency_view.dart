@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/app/modules/comp-detailview/core_competency_controller.dart';
+import 'package:portfolio/app/modules/core_competency/controllers/core_competency_controller.dart';
 import 'package:portfolio/shared/models/core_compentency.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 

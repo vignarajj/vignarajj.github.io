@@ -14,7 +14,7 @@ class ProjectMarquee extends StatefulWidget {
   });
 
   @override
-  _ProjectMarqueeState createState() => _ProjectMarqueeState();
+  State<ProjectMarquee> createState() => _ProjectMarqueeState();
 }
 
 class _ProjectMarqueeState extends State<ProjectMarquee> {

@@ -22,7 +22,7 @@ class MediumController extends GetxController {
       final fetchedPosts = await _repository
           .fetchMediumPosts('vignarajj'); // Replace with your username
       posts.assignAll(fetchedPosts);
-    } catch (e, trace) {
+    } catch (e) {
       // print("error fetch medium stories $e $trace");
       // Get.snackbar('Error', 'Failed to load Medium posts: $e');
       posts.addAll([

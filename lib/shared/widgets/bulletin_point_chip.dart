@@ -18,7 +18,7 @@ class BulletPointChip extends StatefulWidget {
   });
 
   @override
-  _BulletPointChipState createState() => _BulletPointChipState();
+  State<BulletPointChip> createState() => _BulletPointChipState();
 }
 
 class _BulletPointChipState extends State<BulletPointChip> {

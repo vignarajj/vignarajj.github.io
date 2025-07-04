@@ -9,7 +9,7 @@ class ContactButtons extends StatefulWidget {
   const ContactButtons({super.key});
 
   @override
-  _ContactButtonsState createState() => _ContactButtonsState();
+  State<ContactButtons> createState() => _ContactButtonsState();
 }
 
 class _ContactButtonsState extends State<ContactButtons> {
@@ -105,13 +105,13 @@ class _ContactButtonsState extends State<ContactButtons> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: RadialGradient(
-              colors: [color, color.withOpacity(0.7)],
+              colors: [color, color.withValues(alpha: 0.7)],
               center: Alignment.center,
               radius: 0.8,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withValues(alpha: 0.3),
                 blurRadius: 8,
                 offset: const Offset(0, 4),
               ),

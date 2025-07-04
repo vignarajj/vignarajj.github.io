@@ -9,7 +9,7 @@ class AnimatedSection extends StatefulWidget {
   const AnimatedSection({required this.child, this.delay = 0, super.key});
 
   @override
-  _AnimatedSectionState createState() => _AnimatedSectionState();
+  State<AnimatedSection> createState() => _AnimatedSectionState();
 }
 
 class _AnimatedSectionState extends State<AnimatedSection>

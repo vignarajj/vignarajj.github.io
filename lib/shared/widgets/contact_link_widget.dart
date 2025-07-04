@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/app/views/contact_screen.dart';
+import 'package:portfolio/app/modules/contact/views/contact_screen.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 
 class ContactLinkWidget extends StatefulWidget {
   const ContactLinkWidget({super.key});
 
   @override
-  _ContactLinkWidgetState createState() => _ContactLinkWidgetState();
+  State<ContactLinkWidget> createState() => _ContactLinkWidgetState();
 }
 
 class _ContactLinkWidgetState extends State<ContactLinkWidget> {
