@@ -121,7 +121,7 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
                         Text(
                           'Read More',
                           style: TextStyle(
-                            color: AppColors.appAccentColor,
+                            color: AppColors.pureWhite,
                             fontSize: Get.width < 600 ? 12 : 14,
                             decoration: TextDecoration.underline,
                           ),

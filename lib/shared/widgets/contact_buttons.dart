@@ -1,6 +1,5 @@
 // Widget for animated social media contact buttons
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,19 +12,15 @@ class ContactButtons extends StatefulWidget {
 }
 
 class _ContactButtonsState extends State<ContactButtons> {
-  double _iconSize = 24.0;
+  double _iconSize = 36.0;
   double _buttonSize = 48.0;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Update responsive sizes
-    _iconSize = Get.width < 600 ? 20.0 : 24.0;
+    _iconSize = Get.width < 600 ? 24.0 : 36.0;
     _buttonSize = Get.width < 600 ? 40.0 : 48.0;
-
-    // Precache SVGs
-    // Precache SVG assets
-    // TODO: Implement proper SVG precaching for Flutter 3.8.1+
   }
 
   Future<void> _launchURL(String url) async {
@@ -50,36 +45,51 @@ class _ContactButtonsState extends State<ContactButtons> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _buildButton(
-            icon: SvgPicture.asset(
-              'assets/images/github.svg',
+            icon: Image.asset(
+              'assets/images/github.png',
               width: _iconSize,
               height: _iconSize,
-              colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
+              color: AppColors.primaryText,
+              errorBuilder: (context, error, stackTrace) => Icon(
+                Icons.code,
+                size: _iconSize,
+                color: AppColors.primaryText,
+              ),
             ),
             url: 'https://github.com/vignarajj',
-            color: AppColors.appAccentColor.withAlpha(90),
+            label: 'GitHub',
           ),
           const SizedBox(width: 16),
           _buildButton(
-            icon: SvgPicture.asset(
-              'assets/images/medium.svg',
+            icon: Image.asset(
+              'assets/images/medium.png',
               width: _iconSize,
               height: _iconSize,
-              colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
+              color: AppColors.primaryText,
+              errorBuilder: (context, error, stackTrace) => Icon(
+                Icons.article,
+                size: _iconSize,
+                color: AppColors.primaryText,
+              ),
             ),
             url: 'https://medium.com/@vignarajj',
-            color: AppColors.appAccentColor.withAlpha(90),
+            label: 'Medium',
           ),
           const SizedBox(width: 16),
           _buildButton(
-            icon: SvgPicture.asset(
-              'assets/images/linkedin.svg',
+            icon: Image.asset(
+              'assets/images/linkedin.png',
               width: _iconSize,
               height: _iconSize,
-              colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
+              color: AppColors.primaryText,
+              errorBuilder: (context, error, stackTrace) => Icon(
+                Icons.person,
+                size: _iconSize,
+                color: AppColors.primaryText,
+              ),
             ),
             url: 'https://www.linkedin.com/in/vignaraj-ravi-25750b59/',
-            color: AppColors.appAccentColor.withAlpha(90),
+            label: 'LinkedIn',
           ),
         ],
       ),
@@ -89,33 +99,45 @@ class _ContactButtonsState extends State<ContactButtons> {
   Widget _buildButton({
     required Widget icon,
     required String url,
-    required Color color,
+    required String label,
   }) {
     return MouseRegion(
       onEnter: (_) => setState(() {}),
       onExit: (_) => setState(() {}),
-      child: GestureDetector(
-        onTap: () => _launchURL(url),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          width: _buttonSize,
-          height: _buttonSize,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: RadialGradient(
-              colors: [color, color.withValues(alpha: 0.7)],
-              center: Alignment.center,
-              radius: 0.8,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
+      child: Tooltip(
+        message: label,
+        child: GestureDetector(
+          onTap: () => _launchURL(url),
+          child: Container(
+            width: _buttonSize + 16,
+            height: _buttonSize + 16,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.grey.shade600,
+              border: Border.all(
+                color: AppColors.borderColor,
+                width: 1.5,
               ),
-            ],
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.pureBlack.withValues(alpha: 0.3),
+                  blurRadius: 12,
+                  offset: const Offset(0, 6),
+                ),
+                BoxShadow(
+                  color: AppColors.pureWhite.withValues(alpha: 0.1),
+                  blurRadius: 6,
+                  offset: const Offset(0, -2),
+                ),
+              ],
+            ),
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                child: icon,
+              ),
+            ),
           ),
-          child: Center(child: icon),
         ),
       ),
     );

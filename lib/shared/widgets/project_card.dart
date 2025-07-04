@@ -35,7 +35,10 @@ class _ProjectCardState extends State<ProjectCard> {
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.grey[850]!.withAlpha(90), Colors.grey[900]!.withAlpha(90)],
+              colors: [
+                Colors.grey[850]!.withAlpha(90),
+                Colors.grey[900]!.withAlpha(90),
+              ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -81,7 +84,7 @@ class _ProjectCardState extends State<ProjectCard> {
                 child: Text(
                   'Visit',
                   style: TextStyle(
-                    color: AppColors.appAccentColor,
+                    color: AppColors.pureWhite,
                     fontSize: Get.width < 600 ? 12 : 14,
                     decoration: TextDecoration.underline,
                   ),

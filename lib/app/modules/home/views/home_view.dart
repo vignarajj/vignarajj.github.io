@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rive/rive.dart' as rive;
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:portfolio/app/modules/home/controllers/home_controller.dart';
 import 'package:portfolio/app/modules/chat/views/chat_bottom_sheet.dart';
+import 'package:portfolio/app/modules/medium/views/medium_story_widget.dart';
 import 'package:portfolio/shared/widgets/animated_section.dart';
 import 'package:portfolio/shared/widgets/contact_buttons.dart';
 import 'package:portfolio/shared/widgets/skill_chip.dart';
 import 'package:portfolio/shared/widgets/calendly_widget.dart';
+import 'package:portfolio/shared/widgets/project_card.dart';
+import 'package:portfolio/shared/widgets/project_marquee.dart';
 import 'package:portfolio/shared/theme/text_styles.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -60,6 +64,16 @@ class HomeView extends GetView<HomeController> {
                     'Fitness & Outdoor Activities',
                     'Photography',
                   ], 2000),
+                  AnimatedSection(
+                    delay: 1400,
+                    child: _buildSectionTitle('Personal Projects', 2200),
+                  ),
+                  AnimatedSection(delay: 1500, child: _buildProjectsSection()),
+                  AnimatedSection(
+                    delay: 1600,
+                    child: _buildSectionTitle('Latest Medium Stories', 2600),
+                  ),
+                  AnimatedSection(delay: 1700, child: _buildMediumStories()),
                   const SizedBox(height: 40),
                   const ContactButtons(),
                   const SizedBox(height: 20),
@@ -159,10 +173,21 @@ class HomeView extends GetView<HomeController> {
           ),
         ],
       ),
-      child: Text(
-        'Mobile Architect with a focus on AI-driven experiences, combining deep expertise in Flutter, Kotlin, and Java with backend strengths in Python and FastAPI. Skilled in deploying scalable apps via Railway and automating workflows with CodeMagic. Proficient in modern testing practices including Maestro and unit testing. Well-versed in Agile and lean development methodologies. Passionate about researching AI models and applying machine learning to real-world mobile solutions.',
-        style: TextStyles.consoleBody,
-        textAlign: TextAlign.center,
+      child: AnimatedTextKit(
+        animatedTexts: [
+          TypewriterAnimatedText(
+            'Mobile Architect with a focus on AI-driven experiences, combining deep expertise in Flutter, Kotlin, and Java with backend strengths in Python and FastAPI. Skilled in deploying scalable apps via Railway and automating workflows with CodeMagic. Proficient in modern testing practices including Maestro and unit testing. Well-versed in Agile and lean development methodologies. Passionate about researching AI models and applying machine learning to real-world mobile solutions.',
+            textStyle: TextStyles.consoleBody.copyWith(
+              color: AppColors.primaryText,
+            ),
+            textAlign: TextAlign.center,
+            speed: const Duration(milliseconds: 50),
+          ),
+        ],
+        totalRepeatCount: 1,
+        pause: const Duration(milliseconds: 1000),
+        displayFullTextOnTap: true,
+        stopPauseOnTap: true,
       ),
     ).animate(delay: const Duration(milliseconds: 600))
         .slideY(
@@ -375,5 +400,39 @@ class HomeView extends GetView<HomeController> {
             curve: Curves.easeOutCubic,
           ),
     );
+  }
+
+  Widget _buildProjectsSection() {
+    final projects = [
+      Project(
+        title: 'Repo Generator',
+        description:
+            'A tool to automate the creation and setup of Git repositories with customizable templates.',
+        url: 'https://vignaraj.dev/repo_generator/',
+      ),
+      Project(
+        title: 'Color Picker',
+        description:
+            'A Flutter-based tool for selecting and generating color palettes for app development.',
+        url: 'https://vignaraj.dev/color_picker/',
+      ),
+      Project(
+        title: 'Theme Builder',
+        description:
+            'A tool to create and customize themes for Flutter applications with real-time previews.',
+        url: 'https://vignaraj.dev/theme_generator/',
+      ),
+    ];
+
+    final cardWidth = Get.width < 600 ? Get.width * 0.6 : 300.0;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: ProjectMarquee(projects: projects, cardWidth: cardWidth),
+    );
+  }
+
+  Widget _buildMediumStories() {
+    return const MediumStoriesWidget();
   }
 }
