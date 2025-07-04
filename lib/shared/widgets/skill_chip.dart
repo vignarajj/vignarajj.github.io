@@ -28,10 +28,7 @@ class _SkillChipState extends State<SkillChip> {
     _fontSize = Get.width < 600 ? 14.0 : 16.0;
 
     // Precache SVG
-    precachePicture(
-      SvgPicture.asset(widget.skill.iconPath).pictureProvider,
-      context,
-    );
+    // TODO: Implement proper SVG precaching for Flutter 3.8.1+
   }
 
   @override
@@ -48,18 +45,15 @@ class _SkillChipState extends State<SkillChip> {
             color: Colors.transparent,
             child: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.appAccentColor,
-                    AppColors.appAccentColor.withAlpha(80)
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+                color: AppColors.cardBackground,
                 borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: AppColors.borderColor,
+                  width: 1,
+                ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withAlpha(30),
+                    color: AppColors.pureBlack.withValues(alpha: 0.4),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -69,8 +63,10 @@ class _SkillChipState extends State<SkillChip> {
                 label: Text(
                   widget.skill.name,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.primaryText,
                     fontSize: _fontSize,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.3,
                   ),
                 ),
                 backgroundColor: Colors.transparent,
@@ -80,7 +76,7 @@ class _SkillChipState extends State<SkillChip> {
                 ),
                 avatar: SvgPicture.asset(
                   widget.skill.iconPath,
-                  color: Colors.white,
+                  colorFilter: const ColorFilter.mode(AppColors.primaryText, BlendMode.srcIn),
                   width: _avatarSize,
                   height: _avatarSize,
                 ),

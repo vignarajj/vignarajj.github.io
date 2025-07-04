@@ -75,17 +75,17 @@ class MediumRepository {
       final document = XmlDocument.parse(xmlString);
       final items = document.findAllElements('item').take(5).map((item) {
         final dcDate = item.findAllElements('dc:date').isNotEmpty
-            ? item.findAllElements('dc:date').first.text
+            ? item.findAllElements('dc:date').first.value
             : null;
         return MediumPost.fromXml({
           'title': item.findElements('title').isNotEmpty
-              ? item.findElements('title').first.text
+              ? item.findElements('title').first.value!
               : 'No Title',
           'link': item.findElements('link').isNotEmpty
-              ? item.findElements('link').first.text
+              ? item.findElements('link').first.value!
               : '',
           'pubDate': item.findElements('pubDate').isNotEmpty
-              ? item.findElements('pubDate').first.text
+              ? item.findElements('pubDate').first.value!
               : dcDate ?? '',
         });
       }).toList();

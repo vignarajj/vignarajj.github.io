@@ -31,40 +31,39 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Core Dependencies
+  cupertino_icons: ^1.0.8
+  get: ^4.7.2                    # State management and routing
+  get_storage: ^2.1.1            # Local storage
+  get_it: ^8.0.3                 # Service locator
+  shared_preferences: ^2.3.2     # Platform-specific storage
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.6
-  # GetX for state management.
-  get: ^4.6.6
-  # GetStorage for lightweight key-value storage.
-  get_storage: ^2.1.1
-  animated_text_kit: ^4.2.2
-  google_fonts: ^2.3.1
-  url_launcher: ^6.2.5
-  flutter_svg: ^1.1.1+1
-  font_awesome_flutter: ^10.7.0
-  http: ^0.13.3
-  xml: ^6.5.0
-  dio: ^5.4.0
-  intl: ^0.18.1
-  get_it: ^8.0.3
-  shared_preferences: ^2.3.2
-  rive: ^0.13.20
-  lottie: ^3.0.0
-  flutter_linkify: ^6.0.0
+  # UI & Animation Dependencies
+  animated_text_kit: ^4.2.3      # Text animations
+  flutter_animate: ^4.5.0        # Advanced animations
+  google_fonts: ^6.2.1           # Typography
+  flutter_svg: ^2.2.0            # SVG support
+  font_awesome_flutter: ^10.8.0  # Icons
+  rive: ^0.13.20                 # Advanced animations (background)
+  lottie: ^3.3.1                 # Lottie animations
+
+  # Network & Data Dependencies  
+  http: ^1.4.0                   # HTTP requests
+  dio: ^5.4.0                    # Advanced HTTP client
+  xml: ^6.5.0                    # XML parsing
+  intl: ^0.20.2                  # Internationalization
+  
+  # Utility Dependencies
+  url_launcher: ^6.3.1           # External links
+  flutter_linkify: ^6.0.0        # Automatic link detection
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  
+  # Code Quality
+  flutter_lints: ^6.0.0          # Latest linting rules
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

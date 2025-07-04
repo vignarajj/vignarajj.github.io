@@ -24,13 +24,8 @@ class _ContactButtonsState extends State<ContactButtons> {
     _buttonSize = Get.width < 600 ? 40.0 : 48.0;
 
     // Precache SVGs
-    precachePicture(
-        SvgPicture.asset('assets/images/github.svg').pictureProvider, context);
-    precachePicture(
-        SvgPicture.asset('assets/images/medium.svg').pictureProvider, context);
-    precachePicture(
-        SvgPicture.asset('assets/images/linkedin.svg').pictureProvider,
-        context);
+    // Precache SVG assets
+    // TODO: Implement proper SVG precaching for Flutter 3.8.1+
   }
 
   Future<void> _launchURL(String url) async {
@@ -59,7 +54,7 @@ class _ContactButtonsState extends State<ContactButtons> {
               'assets/images/github.svg',
               width: _iconSize,
               height: _iconSize,
-              color: Colors.white,
+              colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
             ),
             url: 'https://github.com/vignarajj',
             color: AppColors.appAccentColor.withAlpha(90),
@@ -70,7 +65,7 @@ class _ContactButtonsState extends State<ContactButtons> {
               'assets/images/medium.svg',
               width: _iconSize,
               height: _iconSize,
-              color: Colors.white,
+              colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
             ),
             url: 'https://medium.com/@vignarajj',
             color: AppColors.appAccentColor.withAlpha(90),
@@ -81,7 +76,7 @@ class _ContactButtonsState extends State<ContactButtons> {
               'assets/images/linkedin.svg',
               width: _iconSize,
               height: _iconSize,
-              color: Colors.white,
+              colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
             ),
             url: 'https://www.linkedin.com/in/vignaraj-ravi-25750b59/',
             color: AppColors.appAccentColor.withAlpha(90),
@@ -91,8 +86,11 @@ class _ContactButtonsState extends State<ContactButtons> {
     );
   }
 
-  Widget _buildButton(
-      {required Widget icon, required String url, required Color color}) {
+  Widget _buildButton({
+    required Widget icon,
+    required String url,
+    required Color color,
+  }) {
     return MouseRegion(
       onEnter: (_) => setState(() {}),
       onExit: (_) => setState(() {}),

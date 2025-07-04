@@ -23,8 +23,15 @@ class SkillView extends GetResponsiveView<SkillController> {
           children: [
             Hero(
               tag: controller.skill.name,
-              child: SvgPicture.asset(controller.skill.iconPath,
-                  width: 75, height: 75, color: AppColors.appAccentColor),
+              child: SvgPicture.asset(
+                controller.skill.iconPath,
+                width: 75,
+                height: 75,
+                colorFilter: ColorFilter.mode(
+                  AppColors.appAccentColor,
+                  BlendMode.color,
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             Text(
