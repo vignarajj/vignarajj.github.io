@@ -28,7 +28,7 @@ class _ContactLinkWidgetState extends State<ContactLinkWidget> {
               colors: [
                 AppColors.appAccentColor,
                 Colors.black54,
-                AppColors.appAccentColor
+                AppColors.appAccentColor,
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,

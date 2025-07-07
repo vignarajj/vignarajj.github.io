@@ -28,16 +28,15 @@ class CoreCompetencyDetailView
             Text(
               competency.title,
               style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.appAccentColor),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppColors.appAccentColor,
+              ),
             ),
             const SizedBox(height: 20),
             Text(
               competency.description,
-              style: const TextStyle(
-                fontSize: 18,
-              ),
+              style: const TextStyle(fontSize: 18),
               textAlign: TextAlign.center,
             ),
           ],

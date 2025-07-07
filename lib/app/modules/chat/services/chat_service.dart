@@ -12,4 +12,4 @@ class ChatService extends GetxService {
       return "I'm having trouble connecting right now. Please try again later.";
     }
   }
-} 
+}

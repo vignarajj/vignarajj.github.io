@@ -94,51 +94,57 @@ class ContactView extends StatelessWidget {
                 validator: controller.validateMessage,
               ),
               const SizedBox(height: 24),
-              Obx(() => SizedBox(
-                    width: double.infinity,
-                    child: GestureDetector(
-                      onTap: controller.isSubmitting.value
-                          ? null
-                          : controller.submitForm,
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: controller.isSubmitting.value
-                                  ? [Colors.grey[700]!, Colors.grey[800]!]
-                                  : [Colors.grey[850]!, Colors.grey[900]!],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withAlpha(30),
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
+              Obx(
+                () => SizedBox(
+                  width: double.infinity,
+                  child: GestureDetector(
+                    onTap: controller.isSubmitting.value
+                        ? null
+                        : controller.submitForm,
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: controller.isSubmitting.value
+                                ? [Colors.grey[700]!, Colors.grey[800]!]
+                                : [Colors.grey[850]!, Colors.grey[900]!],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 30, vertical: 15),
-                          child: controller.isSubmitting.value
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                      color: Colors.white))
-                              : const Text(
-                                  'Submit',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withAlpha(30),
+                              blurRadius: 8,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
                         ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 30,
+                          vertical: 15,
+                        ),
+                        child: controller.isSubmitting.value
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const Text(
+                                'Submit',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                       ),
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

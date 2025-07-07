@@ -22,7 +22,7 @@ class BulletPointChip extends StatefulWidget {
 }
 
 class _BulletPointChipState extends State<BulletPointChip> {
-  double _scale = 1.0;
+  final RxDouble _scale = 1.0.obs;
   double _fontSize = 16.0;
 
   @override
@@ -44,53 +44,55 @@ class _BulletPointChipState extends State<BulletPointChip> {
             }
           : null,
       child: MouseRegion(
-        onEnter: (_) => setState(() => _scale = 1.05),
-        onExit: (_) => setState(() => _scale = 1.0),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          transform: Matrix4.identity()..scale(_scale),
-          child: Material(
-            color: Colors.transparent,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.appAccentColor,
-                    AppColors.appAccentColor.withAlpha(80)
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withAlpha(30),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
+        onEnter: (_) => _scale.value = 1.05,
+        onExit: (_) => _scale.value = 1.0,
+        child: Obx(
+          () => AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            transform: Matrix4.identity()..scale(_scale.value),
+            child: Material(
+              color: Colors.transparent,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.appAccentColor,
+                      AppColors.appAccentColor.withAlpha(80),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                ],
-              ),
-              child: Chip(
-                label: Text(
-                  widget.text,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: _fontSize,
-                  ),
-                ),
-                backgroundColor: Colors.transparent,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withAlpha(30),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
-                avatar: const Icon(
-                  Icons.check,
-                  color: Colors.white,
-                  size: 18,
+                child: Chip(
+                  label: Text(
+                    widget.text,
+                    style: TextStyle(color: Colors.white, fontSize: _fontSize),
+                  ),
+                  backgroundColor: Colors.transparent,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  avatar: const Icon(
+                    Icons.check,
+                    color: Colors.white,
+                    size: 18,
+                  ),
+                  labelPadding: const EdgeInsets.only(left: 4, right: 8),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  clipBehavior: Clip.antiAlias,
                 ),
-                labelPadding: const EdgeInsets.only(left: 4, right: 8),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                clipBehavior: Clip.antiAlias,
               ),
             ),
           ),

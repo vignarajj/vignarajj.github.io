@@ -19,20 +19,19 @@ class ProjectMarquee extends StatefulWidget {
 
 class _ProjectMarqueeState extends State<ProjectMarquee> {
   final ScrollController _scrollController = ScrollController();
-  int _currentIndex = 0;
+  final RxInt _currentIndex = 0.obs;
 
   @override
   void initState() {
     super.initState();
 
     _scrollController.addListener(() {
-      final index = (_scrollController.offset / widget.cardWidth)
-          .round()
-          .clamp(0, widget.projects.length - 1);
-      if (index != _currentIndex) {
-        setState(() {
-          _currentIndex = index;
-        });
+      final index = (_scrollController.offset / widget.cardWidth).round().clamp(
+        0,
+        widget.projects.length - 1,
+      );
+      if (index != _currentIndex.value) {
+        _currentIndex.value = index;
       }
     });
 
@@ -40,7 +39,6 @@ class _ProjectMarqueeState extends State<ProjectMarquee> {
       if (_scrollController.hasClients &&
           widget.projects.isNotEmpty &&
           widget.cardWidth > 0) {
-        // Just jump to 0; padding handles centering
         _scrollController.jumpTo(0);
       }
     });
@@ -93,35 +91,35 @@ class _ProjectMarqueeState extends State<ProjectMarquee> {
   Widget _buildIndicators() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(widget.projects.length, (index) {
-          return GestureDetector(
-            onTap: () {
-              final targetOffset = index * widget.cardWidth;
-              _scrollController.animateTo(
-                targetOffset,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut,
-              );
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              margin: const EdgeInsets.symmetric(horizontal: 4.0),
-              width: _currentIndex == index ? 12 : 8,
-              height: _currentIndex == index ? 12 : 8,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _currentIndex == index
-                    ? AppColors.appAccentColor
-                    : Colors.grey[600],
+      child: Obx(
+        () => Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(widget.projects.length, (index) {
+            return GestureDetector(
+              onTap: () {
+                final targetOffset = index * widget.cardWidth;
+                _scrollController.animateTo(
+                  targetOffset,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeInOut,
+                );
+                _currentIndex.value = index;
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                width: _currentIndex.value == index ? 12 : 8,
+                height: _currentIndex.value == index ? 12 : 8,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentIndex.value == index
+                      ? AppColors.appAccentColor
+                      : Colors.grey[600],
+                ),
               ),
-            ),
-          );
-        }),
+            );
+          }),
+        ),
       ),
     );
   }

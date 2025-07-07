@@ -14,6 +14,7 @@ class ContactButtons extends StatefulWidget {
 class _ContactButtonsState extends State<ContactButtons> {
   double _iconSize = 36.0;
   double _buttonSize = 48.0;
+  final RxBool _hovered = false.obs;
 
   @override
   void didChangeDependencies() {
@@ -102,39 +103,37 @@ class _ContactButtonsState extends State<ContactButtons> {
     required String label,
   }) {
     return MouseRegion(
-      onEnter: (_) => setState(() {}),
-      onExit: (_) => setState(() {}),
-      child: Tooltip(
-        message: label,
-        child: GestureDetector(
-          onTap: () => _launchURL(url),
-          child: Container(
-            width: _buttonSize + 16,
-            height: _buttonSize + 16,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.grey.shade600,
-              border: Border.all(
-                color: AppColors.borderColor,
-                width: 1.5,
+      onEnter: (_) => _hovered.value = true,
+      onExit: (_) => _hovered.value = false,
+      child: Obx(
+        () => Tooltip(
+          message: label,
+          child: GestureDetector(
+            onTap: () => _launchURL(url),
+            child: Container(
+              width: _buttonSize + 16,
+              height: _buttonSize + 16,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: _hovered.value
+                    ? Colors.grey.shade700
+                    : Colors.grey.shade600,
+                border: Border.all(color: AppColors.borderColor, width: 1.5),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.pureBlack.withValues(alpha: 0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
+                  ),
+                  BoxShadow(
+                    color: AppColors.pureWhite.withValues(alpha: 0.1),
+                    blurRadius: 6,
+                    offset: const Offset(0, -2),
+                  ),
+                ],
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.pureBlack.withValues(alpha: 0.3),
-                  blurRadius: 12,
-                  offset: const Offset(0, 6),
-                ),
-                BoxShadow(
-                  color: AppColors.pureWhite.withValues(alpha: 0.1),
-                  blurRadius: 6,
-                  offset: const Offset(0, -2),
-                ),
-              ],
-            ),
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                child: icon,
+              child: Center(
+                child: Container(padding: const EdgeInsets.all(8), child: icon),
               ),
             ),
           ),

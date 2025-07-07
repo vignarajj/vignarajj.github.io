@@ -9,7 +9,7 @@ final GetIt locator = GetIt.instance;
 Future<void> setupLocator() async {
   // Register ApiServices as a singleton
   Get.lazyPut<ApiServices>(() => ApiServices(), fenix: true);
-  
+
   // Register ChatService as a singleton
   Get.lazyPut<ChatService>(() => ChatService(), fenix: true);
 }

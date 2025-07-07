@@ -21,21 +21,23 @@ class EnhancedAnimatedText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: style,
-      textAlign: textAlign,
-    ).animate(delay: delay).then(delay: const Duration(milliseconds: 200)).fadeIn(duration: 800.ms, curve: Curves.easeOutCubic).slideY(begin: 0.3, end: 0, duration: 800.ms, curve: Curves.easeOutCubic);
+    return Text(text, style: style, textAlign: textAlign)
+        .animate(delay: delay)
+        .then(delay: const Duration(milliseconds: 200))
+        .fadeIn(duration: 800.ms, curve: Curves.easeOutCubic)
+        .slideY(
+          begin: 0.3,
+          end: 0,
+          duration: 800.ms,
+          curve: Curves.easeOutCubic,
+        );
   }
 
   List<Effect> _getEffects() {
     switch (animationType) {
       case AnimationType.fadeSlide:
         return [
-          FadeEffect(
-            duration: 800.ms,
-            curve: Curves.easeOutCubic,
-          ),
+          FadeEffect(duration: 800.ms, curve: Curves.easeOutCubic),
           SlideEffect(
             begin: const Offset(0, 0.3),
             end: Offset.zero,
@@ -43,7 +45,7 @@ class EnhancedAnimatedText extends StatelessWidget {
             curve: Curves.easeOutCubic,
           ),
         ];
-      
+
       case AnimationType.typewriter:
         return [
           FadeEffect(
@@ -51,7 +53,7 @@ class EnhancedAnimatedText extends StatelessWidget {
             curve: Curves.easeInOut,
           ),
         ];
-      
+
       case AnimationType.shimmer:
         return [
           FadeEffect(duration: 600.ms),
@@ -66,13 +68,13 @@ class EnhancedAnimatedText extends StatelessWidget {
             ],
           ),
         ];
-      
+
       case AnimationType.glow:
         return [
           FadeEffect(duration: 600.ms),
           const TintEffect(color: AppColors.pureWhite),
         ];
-      
+
       case AnimationType.bounce:
         return [
           ScaleEffect(
@@ -83,7 +85,7 @@ class EnhancedAnimatedText extends StatelessWidget {
           ),
           FadeEffect(duration: 400.ms),
         ];
-      
+
       case AnimationType.slide:
         return [
           SlideEffect(
@@ -98,14 +100,7 @@ class EnhancedAnimatedText extends StatelessWidget {
   }
 }
 
-enum AnimationType {
-  fadeSlide,
-  typewriter,
-  shimmer,
-  glow,
-  bounce,
-  slide,
-}
+enum AnimationType { fadeSlide, typewriter, shimmer, glow, bounce, slide }
 
 class AnimatedHeroTitle extends StatelessWidget {
   final String title;
@@ -167,22 +162,20 @@ class AnimatedSectionTitle extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Container(
-            height: 2,
-            width: 80,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.pureWhite,
-                  AppColors.lightAccent,
-                  AppColors.pureWhite,
-                ],
-              ),
-            ),
-          ).animate(delay: delay + const Duration(milliseconds: 300)).scaleX(
-            begin: 0,
-            duration: 600.ms,
-            curve: Curves.easeOutCubic,
-          ),
+                height: 2,
+                width: 80,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.pureWhite,
+                      AppColors.lightAccent,
+                      AppColors.pureWhite,
+                    ],
+                  ),
+                ),
+              )
+              .animate(delay: delay + const Duration(milliseconds: 300))
+              .scaleX(begin: 0, duration: 600.ms, curve: Curves.easeOutCubic),
         ],
       ),
     );
@@ -210,33 +203,27 @@ class AnimatedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width,
-      height: height,
-      margin: margin ?? const EdgeInsets.all(8),
-      padding: padding ?? const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.cardBackground,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: AppColors.borderColor,
-          width: 0.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.pureBlack.withValues(alpha: 0.5),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+          width: width,
+          height: height,
+          margin: margin ?? const EdgeInsets.all(8),
+          padding: padding ?? const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AppColors.cardBackground,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.borderColor, width: 0.5),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.pureBlack.withValues(alpha: 0.5),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: child,
-    ).animate(delay: delay).slideY(
-      begin: 0.3,
-      duration: 800.ms,
-      curve: Curves.easeOutCubic,
-    ).fadeIn(
-      duration: 600.ms,
-    );
+          child: child,
+        )
+        .animate(delay: delay)
+        .slideY(begin: 0.3, duration: 800.ms, curve: Curves.easeOutCubic)
+        .fadeIn(duration: 600.ms);
   }
 }
 
@@ -257,29 +244,30 @@ class AnimatedChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(4),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: isSelected ? AppColors.pureWhite : AppColors.cardBackground,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isSelected ? AppColors.pureWhite : AppColors.borderColor,
-          width: 1,
-        ),
-      ),
-      child: Text(
-        text,
-        style: TextStyles.chipText.copyWith(
-          color: isSelected ? AppColors.pureBlack : AppColors.primaryText,
-        ),
-      ),
-    ).animate(delay: delay).scale(
-      begin: const Offset(0.8, 0.8),
-      duration: 400.ms,
-      curve: Curves.elasticOut,
-    ).fadeIn(
-      duration: 300.ms,
-    );
+          margin: const EdgeInsets.all(4),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.pureWhite : AppColors.cardBackground,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isSelected ? AppColors.pureWhite : AppColors.borderColor,
+              width: 1,
+            ),
+          ),
+          child: Text(
+            text,
+            style: TextStyles.chipText.copyWith(
+              color: isSelected ? AppColors.pureBlack : AppColors.primaryText,
+            ),
+          ),
+        )
+        .animate(delay: delay)
+        .scale(
+          begin: const Offset(0.8, 0.8),
+          duration: 400.ms,
+          curve: Curves.elasticOut,
+        )
+        .fadeIn(duration: 300.ms);
   }
 }
 
@@ -300,19 +288,15 @@ class StaggeredAnimationBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return direction == Axis.vertical
-        ? Column(
-            children: _buildAnimatedChildren(),
-          )
-        : Row(
-            children: _buildAnimatedChildren(),
-          );
+        ? Column(children: _buildAnimatedChildren())
+        : Row(children: _buildAnimatedChildren());
   }
 
   List<Widget> _buildAnimatedChildren() {
     return children.asMap().entries.map((entry) {
       final index = entry.key;
       final child = entry.value;
-      
+
       return child
           .animate(delay: initialDelay + (staggerDelay * index))
           .slideY(
@@ -328,4 +312,4 @@ class StaggeredAnimationBuilder extends StatelessWidget {
           .fadeIn(duration: 400.ms);
     }).toList();
   }
-} 
+}

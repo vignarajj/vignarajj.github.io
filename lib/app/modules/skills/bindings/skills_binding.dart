@@ -4,8 +4,6 @@ import '../controllers/skill_controller.dart';
 class SkillsBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<SkillController>(
-      () => SkillController(),
-    );
+    Get.lazyPut<SkillController>(() => SkillController());
   }
-} 
+}

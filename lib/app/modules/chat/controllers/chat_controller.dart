@@ -4,7 +4,7 @@ import '../services/chat_service.dart';
 
 class ChatController extends GetxController {
   final ChatService _chatService = Get.find<ChatService>();
-  
+
   final RxList<ChatMessage> messages = <ChatMessage>[].obs;
   final RxBool isLoading = false.obs;
   final RxBool isFirstTime = true.obs;
@@ -12,7 +12,7 @@ class ChatController extends GetxController {
   final List<String> predefinedQuestions = [
     'Tell me about your experience',
     'What are your skills?',
-    'How can I contact you?'
+    'How can I contact you?',
   ];
 
   @override
@@ -28,14 +28,14 @@ class ChatController extends GetxController {
     // Add user message
     messages.add(ChatMessage.user(message));
     isFirstTime.value = false;
-    
+
     // Show loading
     isLoading.value = true;
 
     try {
       // Get response from API
       final response = await _chatService.sendMessage(message);
-      
+
       // Add bot response
       messages.add(ChatMessage.bot(response));
     } finally {
@@ -46,4 +46,4 @@ class ChatController extends GetxController {
   void handlePredefinedQuestion(String question) {
     sendMessage(question);
   }
-} 
+}

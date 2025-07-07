@@ -78,9 +78,7 @@ class ChatBottomSheet extends StatelessWidget {
                       if (controller.messages.isNotEmpty)
                         _buildMessageBubble(controller.messages.first),
                       // Show predefined questions
-                      Expanded(
-                        child: _buildPredefinedQuestions(controller),
-                      ),
+                      Expanded(child: _buildPredefinedQuestions(controller)),
                     ],
                   );
                 }
@@ -98,66 +96,70 @@ class ChatBottomSheet extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Obx(() => TextField(
-                            controller: textController,
-                            style: const TextStyle(color: Colors.black),
-                            decoration: InputDecoration(
-                              hintText: 'Type your message...',
-                              errorText: errorText.value.isEmpty
-                                  ? null
-                                  : errorText.value,
-                              errorStyle: const TextStyle(color: Colors.red),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(24),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              fillColor: Colors.grey[200],
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
-                              ),
-                              hintStyle: const TextStyle(color: Colors.black38),
+                      child: Obx(
+                        () => TextField(
+                          controller: textController,
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            hintText: 'Type your message...',
+                            errorText: errorText.value.isEmpty
+                                ? null
+                                : errorText.value,
+                            errorStyle: const TextStyle(color: Colors.red),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(24),
+                              borderSide: BorderSide.none,
                             ),
-                            onSubmitted: (value) {
-                              if (value.trim().isEmpty) {
-                                errorText.value = 'Message cannot be empty';
-                                return;
-                              }
-                              errorText.value = '';
-                              controller.sendMessage(value);
-                              textController.clear();
-                            },
-                          )),
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            hintStyle: const TextStyle(color: Colors.black38),
+                          ),
+                          onSubmitted: (value) {
+                            if (value.trim().isEmpty) {
+                              errorText.value = 'Message cannot be empty';
+                              return;
+                            }
+                            errorText.value = '';
+                            controller.sendMessage(value);
+                            textController.clear();
+                          },
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 8),
-                    Obx(() => controller.isLoading.value
-                        ? const SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: IconButton(
-                              icon: const FaIcon(
-                                FontAwesomeIcons.play,
+                    Obx(
+                      () => controller.isLoading.value
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
                                 color: Colors.white,
-                                size: 24,
                               ),
-                              onPressed: () {
-                                if (textController.text.trim().isEmpty) {
-                                  errorText.value = 'Message cannot be empty';
-                                  return;
-                                }
-                                errorText.value = '';
-                                controller.sendMessage(textController.text);
-                                textController.clear();
-                              },
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: IconButton(
+                                icon: const FaIcon(
+                                  FontAwesomeIcons.play,
+                                  color: Colors.white,
+                                  size: 24,
+                                ),
+                                onPressed: () {
+                                  if (textController.text.trim().isEmpty) {
+                                    errorText.value = 'Message cannot be empty';
+                                    return;
+                                  }
+                                  errorText.value = '';
+                                  controller.sendMessage(textController.text);
+                                  textController.clear();
+                                },
+                              ),
                             ),
-                          )),
+                    ),
                   ],
                 ),
               ),
@@ -195,27 +197,25 @@ class ChatBottomSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          ...controller.predefinedQuestions.map((question) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: ElevatedButton(
-                  onPressed: () =>
-                      controller.handlePredefinedQuestion(question),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[700],
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Text(
-                    question,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
+          ...controller.predefinedQuestions.map(
+            (question) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: ElevatedButton(
+                onPressed: () => controller.handlePredefinedQuestion(question),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey[700],
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-              )),
+                child: Text(
+                  question,
+                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -244,18 +244,13 @@ class ChatBottomSheet extends StatelessWidget {
           color: message.isUser
               ? Get.theme.primaryColor
               : Get.theme.brightness == Brightness.dark
-                  ? Colors.grey[900]
-                  : Colors.grey[200],
+              ? Colors.grey[900]
+              : Colors.grey[200],
           borderRadius: BorderRadius.circular(20),
         ),
-        constraints: BoxConstraints(
-          maxWidth: Get.width * 0.7,
-        ),
+        constraints: BoxConstraints(maxWidth: Get.width * 0.7),
         child: message.isUser
-            ? Text(
-                message.message,
-                style: const TextStyle(color: Colors.white),
-              )
+            ? Text(message.message, style: const TextStyle(color: Colors.white))
             : Linkify(
                 text: message.message,
                 style: const TextStyle(color: Colors.white),

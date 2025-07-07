@@ -6,11 +6,7 @@ class MediumPost {
   final String link;
   final DateTime? pubDate;
 
-  MediumPost({
-    required this.title,
-    required this.link,
-    this.pubDate,
-  });
+  MediumPost({required this.title, required this.link, this.pubDate});
 
   // Factory constructor to create MediumPost from XML data
   factory MediumPost.fromXml(Map<String, String> xmlData) {

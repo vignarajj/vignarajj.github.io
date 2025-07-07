@@ -24,4 +24,4 @@ class ChatMessage {
       timestamp: DateTime.now(),
     );
   }
-} 
+}

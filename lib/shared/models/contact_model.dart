@@ -23,11 +23,6 @@ class ContactModel {
 
   // Method to convert ContactModel to JSON
   Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'email': email,
-      'phone': phone,
-      'message': message,
-    };
+    return {'name': name, 'email': email, 'phone': phone, 'message': message};
   }
 }

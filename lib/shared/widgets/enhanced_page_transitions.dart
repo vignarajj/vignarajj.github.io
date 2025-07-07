@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:get/get.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 
 class EnhancedPageTransitions {
@@ -18,14 +19,13 @@ class EnhancedPageTransitions {
         const curve = Curves.easeInOutCubic;
 
         final tween = Tween(begin: begin, end: end);
-        final offsetAnimation = animation.drive(tween.chain(CurveTween(curve: curve)));
+        final offsetAnimation = animation.drive(
+          tween.chain(CurveTween(curve: curve)),
+        );
 
         return SlideTransition(
           position: offsetAnimation,
-          child: FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
+          child: FadeTransition(opacity: animation, child: child),
         );
       },
     );
@@ -40,10 +40,7 @@ class EnhancedPageTransitions {
       transitionDuration: duration,
       reverseTransitionDuration: duration,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return FadeTransition(
-          opacity: animation,
-          child: child,
-        );
+        return FadeTransition(opacity: animation, child: child);
       },
     );
   }
@@ -59,14 +56,13 @@ class EnhancedPageTransitions {
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const curve = Curves.easeInOutCubic;
         final tween = Tween(begin: 0.8, end: 1.0);
-        final scaleAnimation = animation.drive(tween.chain(CurveTween(curve: curve)));
+        final scaleAnimation = animation.drive(
+          tween.chain(CurveTween(curve: curve)),
+        );
 
         return ScaleTransition(
           scale: scaleAnimation,
-          child: FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
+          child: FadeTransition(opacity: animation, child: child),
         );
       },
     );
@@ -82,7 +78,7 @@ class EnhancedPageTransitions {
       reverseTransitionDuration: duration,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const curve = Curves.easeInOutQuart;
-        
+
         final slideAnimation = Tween<Offset>(
           begin: const Offset(0, 0.1),
           end: Offset.zero,
@@ -97,10 +93,7 @@ class EnhancedPageTransitions {
           position: slideAnimation,
           child: ScaleTransition(
             scale: scaleAnimation,
-            child: FadeTransition(
-              opacity: animation,
-              child: child,
-            ),
+            child: FadeTransition(opacity: animation, child: child),
           ),
         );
       },
@@ -121,12 +114,7 @@ class EnhancedPageTransitions {
   }
 }
 
-enum SlideDirection {
-  left,
-  right,
-  up,
-  down,
-}
+enum SlideDirection { left, right, up, down }
 
 class AnimatedNavigationButton extends StatefulWidget {
   final String text;
@@ -147,74 +135,93 @@ class AnimatedNavigationButton extends StatefulWidget {
   });
 
   @override
-  State<AnimatedNavigationButton> createState() => _AnimatedNavigationButtonState();
+  State<AnimatedNavigationButton> createState() =>
+      _AnimatedNavigationButtonState();
 }
 
 class _AnimatedNavigationButtonState extends State<AnimatedNavigationButton>
     with SingleTickerProviderStateMixin {
-  bool _isHovered = false;
+  final RxBool _isHovered = false.obs;
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: _isHovered
-                ? [AppColors.pureWhite, AppColors.lightAccent]
-                : [AppColors.cardBackground, AppColors.surfaceColor],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: _isHovered ? AppColors.pureWhite : AppColors.borderColor,
-            width: 1,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.pureBlack.withValues(alpha: 0.3),
-              blurRadius: _isHovered ? 12 : 4,
-              offset: Offset(0, _isHovered ? 6 : 2),
-            ),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: widget.onPressed,
-            borderRadius: BorderRadius.circular(12),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    widget.icon,
-                    color: _isHovered ? AppColors.pureBlack : AppColors.primaryText,
-                    size: 20,
+      onEnter: (_) => _isHovered.value = true,
+      onExit: (_) => _isHovered.value = false,
+      child: Obx(
+        () =>
+            Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
                   ),
-                  const SizedBox(width: 8),
-                  Text(
-                    widget.text,
-                    style: TextStyle(
-                      color: _isHovered ? AppColors.pureBlack : AppColors.primaryText,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: _isHovered.value
+                          ? [AppColors.pureWhite, AppColors.lightAccent]
+                          : [AppColors.cardBackground, AppColors.surfaceColor],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: _isHovered.value
+                          ? AppColors.pureWhite
+                          : AppColors.borderColor,
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.pureBlack.withValues(alpha: 0.3),
+                        blurRadius: _isHovered.value ? 12 : 4,
+                        offset: Offset(0, _isHovered.value ? 6 : 2),
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: widget.onPressed,
+                      borderRadius: BorderRadius.circular(12),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              widget.icon,
+                              color: _isHovered.value
+                                  ? AppColors.pureBlack
+                                  : AppColors.primaryText,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              widget.text,
+                              style: TextStyle(
+                                color: _isHovered.value
+                                    ? AppColors.pureBlack
+                                    : AppColors.primaryText,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ).animate(delay: widget.animationDelay).fadeIn(duration: 400.ms).slideX(
-        begin: -0.2,
-        duration: 600.ms,
-        curve: Curves.easeOutCubic,
+                )
+                .animate(delay: widget.animationDelay)
+                .fadeIn(duration: 400.ms)
+                .slideX(
+                  begin: -0.2,
+                  duration: 600.ms,
+                  curve: Curves.easeOutCubic,
+                ),
       ),
     );
   }
@@ -235,16 +242,19 @@ class FloatingActionButtonAnimated extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: onPressed,
-      backgroundColor: AppColors.pureWhite,
-      foregroundColor: AppColors.pureBlack,
-      elevation: 8,
-      child: child,
-    ).animate(delay: delay).scale(
-      begin: const Offset(0.5, 0.5),
-      duration: 800.ms,
-      curve: Curves.elasticOut,
-    ).fadeIn(duration: 400.ms);
+          onPressed: onPressed,
+          backgroundColor: AppColors.pureWhite,
+          foregroundColor: AppColors.pureBlack,
+          elevation: 8,
+          child: child,
+        )
+        .animate(delay: delay)
+        .scale(
+          begin: const Offset(0.5, 0.5),
+          duration: 800.ms,
+          curve: Curves.elasticOut,
+        )
+        .fadeIn(duration: 400.ms);
   }
 }
 
@@ -283,8 +293,8 @@ class EnhancedBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final sheetHeight = isFullScreen 
-        ? screenHeight * 0.9 
+    final sheetHeight = isFullScreen
+        ? screenHeight * 0.9
         : height ?? screenHeight * 0.6;
 
     return Container(
@@ -327,11 +337,7 @@ class LoadingAnimation extends StatelessWidget {
   final String? text;
   final Duration delay;
 
-  const LoadingAnimation({
-    super.key,
-    this.text,
-    this.delay = Duration.zero,
-  });
+  const LoadingAnimation({super.key, this.text, this.delay = Duration.zero});
 
   @override
   Widget build(BuildContext context) {
@@ -339,35 +345,35 @@ class LoadingAnimation extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 60,
-          height: 60,
-          decoration: const BoxDecoration(
-            color: AppColors.cardBackground,
-            shape: BoxShape.circle,
-            border: Border.fromBorderSide(
-              BorderSide(color: AppColors.borderColor, width: 2),
-            ),
-          ),
-          child: const CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.pureWhite),
-            strokeWidth: 3,
-          ),
-        ).animate(onPlay: (controller) => controller.repeat()).rotate(
-          duration: 1500.ms,
-        ),
+              width: 60,
+              height: 60,
+              decoration: const BoxDecoration(
+                color: AppColors.cardBackground,
+                shape: BoxShape.circle,
+                border: Border.fromBorderSide(
+                  BorderSide(color: AppColors.borderColor, width: 2),
+                ),
+              ),
+              child: const CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.pureWhite),
+                strokeWidth: 3,
+              ),
+            )
+            .animate(onPlay: (controller) => controller.repeat())
+            .rotate(duration: 1500.ms),
         if (text != null) ...[
           const SizedBox(height: 16),
           Text(
-            text!,
-            style: const TextStyle(
-              color: AppColors.secondaryText,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-          ).animate(delay: 200.ms).fadeIn().slideY(
-            begin: 0.2,
-            duration: 400.ms,
-          ),
+                text!,
+                style: const TextStyle(
+                  color: AppColors.secondaryText,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              )
+              .animate(delay: 200.ms)
+              .fadeIn()
+              .slideY(begin: 0.2, duration: 400.ms),
         ],
       ],
     ).animate(delay: delay).fadeIn(duration: 300.ms);
@@ -378,11 +384,7 @@ class SuccessAnimation extends StatelessWidget {
   final String? text;
   final Duration delay;
 
-  const SuccessAnimation({
-    super.key,
-    this.text,
-    this.delay = Duration.zero,
-  });
+  const SuccessAnimation({super.key, this.text, this.delay = Duration.zero});
 
   @override
   Widget build(BuildContext context) {
@@ -390,37 +392,39 @@ class SuccessAnimation extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 60,
-          height: 60,
-          decoration: const BoxDecoration(
-            color: AppColors.pureWhite,
-            shape: BoxShape.circle,
-          ),
-          child: const Icon(
-            Icons.check,
-            color: AppColors.pureBlack,
-            size: 32,
-          ),
-        ).animate(delay: delay).scale(
-          begin: const Offset(0.5, 0.5),
-          duration: 600.ms,
-          curve: Curves.elasticOut,
-        ),
+              width: 60,
+              height: 60,
+              decoration: const BoxDecoration(
+                color: AppColors.pureWhite,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.check,
+                color: AppColors.pureBlack,
+                size: 32,
+              ),
+            )
+            .animate(delay: delay)
+            .scale(
+              begin: const Offset(0.5, 0.5),
+              duration: 600.ms,
+              curve: Curves.elasticOut,
+            ),
         if (text != null) ...[
           const SizedBox(height: 16),
           Text(
-            text!,
-            style: const TextStyle(
-              color: AppColors.primaryText,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ).animate(delay: delay + 300.ms).fadeIn().slideY(
-            begin: 0.2,
-            duration: 400.ms,
-          ),
+                text!,
+                style: const TextStyle(
+                  color: AppColors.primaryText,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              )
+              .animate(delay: delay + 300.ms)
+              .fadeIn()
+              .slideY(begin: 0.2, duration: 400.ms),
         ],
       ],
     );
   }
-} 
+}

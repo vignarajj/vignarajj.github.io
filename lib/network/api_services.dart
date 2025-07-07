@@ -13,8 +13,10 @@ class ApiServices extends GetConnect {
   }
 
   // Generic GET request
-  Future<T> getRequest<T>(String endpoint,
-      {Map<String, dynamic>? queryParams}) async {
+  Future<T> getRequest<T>(
+    String endpoint, {
+    Map<String, dynamic>? queryParams,
+  }) async {
     try {
       final response = await get(endpoint, query: queryParams);
       if (response.status.hasError) {
@@ -49,7 +51,8 @@ class ApiServices extends GetConnect {
 
       if (response.status.hasError) {
         throw Exception(
-            '❌ Visit tracking failed: ${response.statusCode} ${response.statusText}');
+          '❌ Visit tracking failed: ${response.statusCode} ${response.statusText}',
+        );
       }
 
       if (response.body is Map<String, dynamic>) {
@@ -88,10 +91,7 @@ class ApiServices extends GetConnect {
   Future<String> askQuestion(String question) async {
     try {
       print("📡 Sending question to chatbot: $question");
-      final response = await post(
-        ApiConstants.chatbot,
-        {'question': question},
-      );
+      final response = await post(ApiConstants.chatbot, {'question': question});
 
       if (response.status.hasError) {
         throw Exception('Chatbot request failed: ${response.statusText}');

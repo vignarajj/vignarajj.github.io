@@ -6,6 +6,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:portfolio/app/modules/home/controllers/home_controller.dart';
 import 'package:portfolio/app/modules/chat/views/chat_bottom_sheet.dart';
 import 'package:portfolio/app/modules/medium/views/medium_story_widget.dart';
+import 'package:portfolio/app/modules/flutter_plugins/views/flutter_plugins_widget.dart';
 import 'package:portfolio/shared/widgets/animated_section.dart';
 import 'package:portfolio/shared/widgets/contact_buttons.dart';
 import 'package:portfolio/shared/widgets/skill_chip.dart';
@@ -27,14 +28,18 @@ class HomeView extends GetView<HomeController> {
         children: [
           // Background Rive animation
           Positioned.fill(
-            child: rive.RiveAnimation.asset(
-              'assets/images/cosmos.riv',
-              fit: BoxFit.cover,
-            ).animate().scale(
-              begin: const Offset(0.8, 0.8),
-              duration: const Duration(milliseconds: 800),
-              curve: Curves.easeOutBack,
-            ).fadeIn(duration: const Duration(milliseconds: 600)),
+            child:
+                rive.RiveAnimation.asset(
+                      'assets/images/cosmos.riv',
+                      fit: BoxFit.cover,
+                    )
+                    .animate()
+                    .scale(
+                      begin: const Offset(0.8, 0.8),
+                      duration: const Duration(milliseconds: 800),
+                      curve: Curves.easeOutBack,
+                    )
+                    .fadeIn(duration: const Duration(milliseconds: 600)),
           ),
           // Content overlay
           Container(
@@ -49,7 +54,10 @@ class HomeView extends GetView<HomeController> {
                   AnimatedSection(delay: 200, child: _buildSummary()),
                   AnimatedSection(delay: 400, child: _buildSkillsSection()),
                   _buildSectionTitle('Core Competencies', 1000),
-                  _buildAnimatedChipSection(controller.coreCompetencies.map((e) => e.title).toList(), 1200),
+                  _buildAnimatedChipSection(
+                    controller.coreCompetencies.map((e) => e.title).toList(),
+                    1200,
+                  ),
                   _buildSectionTitle('Future Goals', 1400),
                   _buildAnimatedChipSection([
                     'Master the Flutter 3.0 ecosystem',
@@ -74,6 +82,11 @@ class HomeView extends GetView<HomeController> {
                     child: _buildSectionTitle('Latest Medium Stories', 2600),
                   ),
                   AnimatedSection(delay: 1700, child: _buildMediumStories()),
+                  AnimatedSection(
+                    delay: 1800,
+                    child: _buildSectionTitle('Flutter Plugins', 2800),
+                  ),
+                  AnimatedSection(delay: 1900, child: _buildFlutterPlugins()),
                   const SizedBox(height: 40),
                   const ContactButtons(),
                   const SizedBox(height: 20),
@@ -91,43 +104,44 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildProfilePicture() {
     return Container(
-      width: 200,
-      height: 200,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: AppColors.pureWhite,
-          width: 3,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.pureBlack.withValues(alpha: 0.5),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
+          width: 200,
+          height: 200,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: AppColors.pureWhite, width: 3),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.pureBlack.withValues(alpha: 0.5),
+                blurRadius: 20,
+                offset: const Offset(0, 8),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: ClipOval(
-        child: Image.asset(
-          'assets/images/profile_pic.jpeg',
-          fit: BoxFit.cover,
-        ),
-      ),
-    ).animate().slideX(
-      begin: 1.0,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeOutCubic,
-    ).fadeIn(duration: const Duration(milliseconds: 300));
+          child: ClipOval(
+            child: Image.asset(
+              'assets/images/profile_pic.jpeg',
+              fit: BoxFit.cover,
+            ),
+          ),
+        )
+        .animate()
+        .slideX(
+          begin: 1.0,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeOutCubic,
+        )
+        .fadeIn(duration: const Duration(milliseconds: 300));
   }
 
   Widget _buildTitleSection() {
     return Column(
       children: [
         Text(
-          'VIGNARAJ R.R.',
-          style: TextStyles.heroTitle,
-          textAlign: TextAlign.center,
-        ).animate(delay: const Duration(milliseconds: 400))
+              'VIGNARAJ R.R.',
+              style: TextStyles.heroTitle,
+              textAlign: TextAlign.center,
+            )
+            .animate(delay: const Duration(milliseconds: 400))
             .fadeIn(duration: const Duration(milliseconds: 600))
             .shimmer(
               duration: const Duration(milliseconds: 1500),
@@ -141,77 +155,75 @@ class HomeView extends GetView<HomeController> {
             ),
         const SizedBox(height: 16),
         Text(
-          'Tech Architect for Mobile Futures | Flutter | Kotlin | AI Curious',
-          style: TextStyles.heroSubtitle,
-          textAlign: TextAlign.center,
-        ).animate(delay: const Duration(milliseconds: 800))
+              'Tech Architect for Mobile Futures | Flutter | Kotlin | AI Curious',
+              style: TextStyles.heroSubtitle,
+              textAlign: TextAlign.center,
+            )
+            .animate(delay: const Duration(milliseconds: 800))
             .fadeIn(duration: const Duration(milliseconds: 600))
-            .slideY(
-              begin: 0.2,
-              duration: const Duration(milliseconds: 400),
-            ),
+            .slideY(begin: 0.2, duration: const Duration(milliseconds: 400)),
       ],
     );
   }
 
   Widget _buildSummary() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.cardBackground,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: AppColors.borderColor,
-          width: 0.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.pureBlack.withValues(alpha: 0.5),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AppColors.cardBackground,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.borderColor, width: 0.5),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.pureBlack.withValues(alpha: 0.5),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: AnimatedTextKit(
-        animatedTexts: [
-          TypewriterAnimatedText(
-            'Mobile Architect with a focus on AI-driven experiences, combining deep expertise in Flutter, Kotlin, and Java with backend strengths in Python and FastAPI. Skilled in deploying scalable apps via Railway and automating workflows with CodeMagic. Proficient in modern testing practices including Maestro and unit testing. Well-versed in Agile and lean development methodologies. Passionate about researching AI models and applying machine learning to real-world mobile solutions.',
-            textStyle: TextStyles.consoleBody.copyWith(
-              color: AppColors.primaryText,
-            ),
-            textAlign: TextAlign.center,
-            speed: const Duration(milliseconds: 50),
+          child: AnimatedTextKit(
+            animatedTexts: [
+              TypewriterAnimatedText(
+                'Mobile Architect with a focus on AI-driven experiences, combining deep expertise in Flutter, Kotlin, and Java with backend strengths in Python and FastAPI. Skilled in deploying scalable apps via Railway and automating workflows with CodeMagic. Proficient in modern testing practices including Maestro and unit testing. Well-versed in Agile and lean development methodologies. Passionate about researching AI models and applying machine learning to real-world mobile solutions.',
+                textStyle: TextStyles.consoleBody.copyWith(
+                  color: AppColors.primaryText,
+                ),
+                textAlign: TextAlign.center,
+                speed: const Duration(milliseconds: 30),
+              ),
+            ],
+            totalRepeatCount: 1,
+            pause: const Duration(milliseconds: 500),
+            displayFullTextOnTap: true,
+            stopPauseOnTap: true,
           ),
-        ],
-        totalRepeatCount: 1,
-        pause: const Duration(milliseconds: 1000),
-        displayFullTextOnTap: true,
-        stopPauseOnTap: true,
-      ),
-    ).animate(delay: const Duration(milliseconds: 600))
+        )
+        .animate(delay: const Duration(milliseconds: 600))
         .slideY(
           begin: 0.3,
           duration: const Duration(milliseconds: 800),
           curve: Curves.easeOutCubic,
         )
-        .fadeIn(
-          duration: const Duration(milliseconds: 600),
-        );
+        .fadeIn(duration: const Duration(milliseconds: 600));
   }
 
   Widget _buildSkillsSection() {
-    return Obx(() => Wrap(
-          alignment: WrapAlignment.center,
-          runSpacing: 4.0,
-          spacing: 6.0,
-          children: controller.skills
-              .map((skill) => SkillChip(
+    return Obx(
+      () => Wrap(
+        alignment: WrapAlignment.center,
+        runSpacing: 4.0,
+        spacing: 6.0,
+        children: controller.skills
+            .map(
+              (skill) => SkillChip(
                 skill: skill,
                 onTap: () => controller.openSkillDetail(skill),
-              ))
-              .toList(),
-        ));
+              ),
+            )
+            .toList(),
+      ),
+    );
   }
 
   Widget _buildSectionTitle(String title, int delayMs) {
@@ -219,10 +231,8 @@ class HomeView extends GetView<HomeController> {
       margin: const EdgeInsets.symmetric(vertical: 32),
       child: Column(
         children: [
-          Text(
-            title,
-            style: TextStyles.sectionTitle,
-          ).animate(delay: Duration(milliseconds: delayMs))
+          Text(title, style: TextStyles.sectionTitle)
+              .animate(delay: Duration(milliseconds: delayMs))
               .slideX(
                 begin: -1,
                 duration: const Duration(milliseconds: 800),
@@ -231,18 +241,19 @@ class HomeView extends GetView<HomeController> {
               .fadeIn(duration: const Duration(milliseconds: 600)),
           const SizedBox(height: 12),
           Container(
-            height: 2,
-            width: 80,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.pureWhite,
-                  AppColors.lightAccent,
-                  AppColors.pureWhite,
-                ],
-              ),
-            ),
-          ).animate(delay: Duration(milliseconds: delayMs + 300))
+                height: 2,
+                width: 80,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.pureWhite,
+                      AppColors.lightAccent,
+                      AppColors.pureWhite,
+                    ],
+                  ),
+                ),
+              )
+              .animate(delay: Duration(milliseconds: delayMs + 300))
               .scaleX(
                 begin: 0,
                 duration: const Duration(milliseconds: 600),
@@ -261,94 +272,88 @@ class HomeView extends GetView<HomeController> {
       children: items.asMap().entries.map((entry) {
         final index = entry.key;
         final item = entry.value;
-        
+
         return Container(
-          margin: const EdgeInsets.all(4),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            color: AppColors.cardBackground,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: AppColors.borderColor,
-              width: 1,
-            ),
-          ),
-          child: Text(
-            item,
-            style: const TextStyle(
-              color: AppColors.primaryText,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.3,
-            ),
-          ),
-        ).animate(delay: Duration(milliseconds: delayMs + index * 100))
+              margin: const EdgeInsets.all(4),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppColors.cardBackground,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: AppColors.borderColor, width: 1),
+              ),
+              child: Text(
+                item,
+                style: const TextStyle(
+                  color: AppColors.primaryText,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.3,
+                ),
+              ),
+            )
+            .animate(delay: Duration(milliseconds: delayMs + index * 100))
             .scale(
               begin: const Offset(0.8, 0.8),
               duration: const Duration(milliseconds: 400),
               curve: Curves.elasticOut,
             )
-            .fadeIn(
-              duration: const Duration(milliseconds: 300),
-            );
+            .fadeIn(duration: const Duration(milliseconds: 300));
       }).toList(),
     );
   }
 
   Widget _buildBookMeetingButton() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [AppColors.pureWhite, AppColors.lightAccent],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: AppColors.pureWhite,
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.pureBlack.withValues(alpha: 0.3),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
+          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [AppColors.pureWhite, AppColors.lightAccent],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.pureWhite, width: 1),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.pureBlack.withValues(alpha: 0.3),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () {
-            Get.to(() => CalendlyPage());
-          },
-          borderRadius: BorderRadius.circular(12),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.calendar_today,
-                  color: AppColors.pureBlack,
-                  size: 20,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                Get.to(() => CalendlyPage());
+              },
+              borderRadius: BorderRadius.circular(12),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.calendar_today,
+                      color: AppColors.pureBlack,
+                      size: 20,
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      "Book a Meeting",
+                      style: TextStyle(
+                        color: AppColors.pureBlack,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 8),
-                Text(
-                  "Book a Meeting",
-                  style: TextStyle(
-                    color: AppColors.pureBlack,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
-    ).animate(delay: const Duration(milliseconds: 2200))
+        )
+        .animate(delay: const Duration(milliseconds: 2200))
         .fadeIn(duration: const Duration(milliseconds: 400))
         .slideX(
           begin: -0.2,
@@ -359,16 +364,17 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildFloatingActionButton() {
     return FloatingActionButton(
-      onPressed: () => _showChatBottomSheet(),
-      backgroundColor: Colors.grey.shade700,
-      foregroundColor: AppColors.pureWhite,
-      elevation: 8,
-      child: LottieBuilder.asset(
-        'assets/lottie/chatbot_loader.json',
-        width: 60,
-        height: 60,
-      ),
-    ).animate(delay: const Duration(milliseconds: 2500))
+          onPressed: () => _showChatBottomSheet(),
+          backgroundColor: Colors.grey.shade700,
+          foregroundColor: AppColors.pureWhite,
+          elevation: 8,
+          child: LottieBuilder.asset(
+            'assets/lottie/chatbot_loader.json',
+            width: 60,
+            height: 60,
+          ),
+        )
+        .animate(delay: const Duration(milliseconds: 2500))
         .scale(
           begin: const Offset(0.5, 0.5),
           duration: const Duration(milliseconds: 800),
@@ -383,18 +389,18 @@ class HomeView extends GetView<HomeController> {
       isScrollControlled: true,
       isDismissible: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        height: Get.height * 0.8,
-        decoration: const BoxDecoration(
-          color: AppColors.primaryBackground,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
-        ),
-        child: const ChatBottomSheet(),
-      ).animate()
-          .slideY(
+      builder: (context) =>
+          Container(
+            height: Get.height * 0.8,
+            decoration: const BoxDecoration(
+              color: AppColors.primaryBackground,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(24),
+                topRight: Radius.circular(24),
+              ),
+            ),
+            child: const ChatBottomSheet(),
+          ).animate().slideY(
             begin: 1.0,
             duration: const Duration(milliseconds: 400),
             curve: Curves.easeOutCubic,
@@ -434,5 +440,9 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildMediumStories() {
     return const MediumStoriesWidget();
+  }
+
+  Widget _buildFlutterPlugins() {
+    return const FlutterPluginsWidget();
   }
 }

@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:portfolio/app/modules/medium/controllers/medium_controller.dart';
+import 'package:portfolio/app/modules/flutter_plugins/controllers/flutter_plugins_controller.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MediumStoriesWidget extends StatefulWidget {
-  const MediumStoriesWidget({super.key});
+class FlutterPluginsWidget extends StatefulWidget {
+  const FlutterPluginsWidget({super.key});
 
   @override
-  State<MediumStoriesWidget> createState() => _MediumStoriesWidgetState();
+  State<FlutterPluginsWidget> createState() => _FlutterPluginsWidgetState();
 }
 
-class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
+class _FlutterPluginsWidgetState extends State<FlutterPluginsWidget> {
   final ScrollController _scrollController = ScrollController();
-  final controller = Get.find<MediumController>();
+  final controller = Get.find<FlutterPluginsController>();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.updateCardWidth(Get.width < 600 ? Get.width * 0.6 : 250.0);
-      if (_scrollController.hasClients && controller.posts.isNotEmpty) {
+      if (_scrollController.hasClients && controller.plugins.isNotEmpty) {
         _scrollController.jumpTo(0);
       }
     });
@@ -29,7 +28,7 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
     _scrollController.addListener(() {
       final index = (_scrollController.offset / controller.cardWidth.value)
           .round()
-          .clamp(0, controller.posts.length - 1);
+          .clamp(0, controller.plugins.length - 1);
       if (index != controller.currentIndex.value) {
         controller.updateCurrentIndex(index);
       }
@@ -44,6 +43,8 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<FlutterPluginsController>();
+
     return Obx(() {
       if (controller.isLoading.value) {
         return const Padding(
@@ -51,11 +52,11 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
           child: CircularProgressIndicator(color: AppColors.appAccentColor),
         );
       }
-      if (controller.posts.isEmpty) {
+      if (controller.plugins.isEmpty) {
         return const Padding(
           padding: EdgeInsets.all(16.0),
           child: Text(
-            'No posts found',
+            'No plugins found',
             style: TextStyle(color: Colors.grey, fontSize: 16),
           ),
         );
@@ -71,11 +72,11 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
               padding: EdgeInsets.symmetric(
                 horizontal: (Get.width - controller.cardWidth.value) / 2,
               ),
-              itemCount: controller.posts.length,
+              itemCount: controller.plugins.length,
               itemBuilder: (context, index) {
-                final post = controller.posts[index];
+                final plugin = controller.plugins[index];
                 return GestureDetector(
-                  onTap: () => _launchUrl(post.link),
+                  onTap: () => _launchUrl(plugin.pubDevUrl),
                   child: Container(
                     width: controller.cardWidth.value,
                     margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -94,26 +95,37 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          post.title,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: Get.width < 600 ? 14 : 16,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                plugin.name,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: Get.width < 600 ? 14 : 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          _formatDate(post.pubDate),
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: Get.width < 600 ? 12 : 14,
+                        const SizedBox(height: 8),
+                        Expanded(
+                          child: Text(
+                            plugin.description,
+                            style: TextStyle(
+                              color: Colors.grey[300],
+                              fontSize: Get.width < 600 ? 12 : 13,
+                            ),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        const Spacer(),
+                        const SizedBox(height: 8),
                         Text(
-                          'Read More',
+                          'View on pub.dev',
                           style: TextStyle(
                             color: AppColors.pureWhite,
                             fontSize: Get.width < 600 ? 12 : 14,
@@ -127,15 +139,10 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
               },
             ),
           ),
-          if (controller.posts.length >= 5) _buildIndicators(),
+          if (controller.plugins.length > 1) _buildIndicators(),
         ],
       );
     });
-  }
-
-  String _formatDate(DateTime? date) {
-    if (date == null) return 'No Date';
-    return DateFormat('MMM d, yyyy').format(date);
   }
 
   Future<void> _launchUrl(String url) async {
@@ -148,12 +155,12 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
   }
 
   Widget _buildIndicators() {
-    final posts = Get.find<MediumController>().posts;
+    final plugins = Get.find<FlutterPluginsController>().plugins;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(posts.length, (index) {
+        children: List.generate(plugins.length, (index) {
           return GestureDetector(
             onTap: () {
               final targetOffset = index * controller.cardWidth.value;

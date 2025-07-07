@@ -16,7 +16,7 @@ class ProjectCard extends StatefulWidget {
 }
 
 class _ProjectCardState extends State<ProjectCard> {
-  double _scale = 1.0;
+  final RxDouble _scale = 1.0.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -25,72 +25,74 @@ class _ProjectCardState extends State<ProjectCard> {
     return GestureDetector(
       onTap: () => _launchUrl(widget.project.url),
       child: MouseRegion(
-        onEnter: (_) => setState(() => _scale = 1.05),
-        onExit: (_) => setState(() => _scale = 1.0),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          transform: Matrix4.identity()..scale(_scale),
-          width: cardWidth,
-          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.grey[850]!.withAlpha(90),
-                Colors.grey[900]!.withAlpha(90),
+        onEnter: (_) => _scale.value = 1.05,
+        onExit: (_) => _scale.value = 1.0,
+        child: Obx(
+          () => AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            transform: Matrix4.identity()..scale(_scale.value),
+            width: cardWidth,
+            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.grey[850]!.withAlpha(90),
+                  Colors.grey[900]!.withAlpha(90),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withAlpha(30),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
               ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(30),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  widget.project.title,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: Get.width < 600 ? 14 : 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Flexible(
-                child: Text(
-                  widget.project.description,
-                  style: TextStyle(
-                    color: Colors.grey[400],
-                    fontSize: Get.width < 600 ? 10 : 12,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Flexible(
-                child: Text(
-                  'Visit',
-                  style: TextStyle(
-                    color: AppColors.pureWhite,
-                    fontSize: Get.width < 600 ? 12 : 14,
-                    decoration: TextDecoration.underline,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    widget.project.title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: Get.width < 600 ? 14 : 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 2),
+                Flexible(
+                  child: Text(
+                    widget.project.description,
+                    style: TextStyle(
+                      color: Colors.grey[400],
+                      fontSize: Get.width < 600 ? 10 : 12,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Flexible(
+                  child: Text(
+                    'Visit',
+                    style: TextStyle(
+                      color: AppColors.pureWhite,
+                      fontSize: Get.width < 600 ? 12 : 14,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
