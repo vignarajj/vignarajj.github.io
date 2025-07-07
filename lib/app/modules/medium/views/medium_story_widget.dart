@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:portfolio/app/controllers/medium_controller.dart';
+import 'package:portfolio/app/modules/medium/controllers/medium_controller.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,37 +9,29 @@ class MediumStoriesWidget extends StatefulWidget {
   const MediumStoriesWidget({super.key});
 
   @override
-  _MediumStoriesWidgetState createState() => _MediumStoriesWidgetState();
+  State<MediumStoriesWidget> createState() => _MediumStoriesWidgetState();
 }
 
 class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
   final ScrollController _scrollController = ScrollController();
-  int _currentIndex = 0;
-  double _cardWidth = 250.0;
+  final controller = Get.find<MediumController>();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        _cardWidth = Get.width < 600 ? Get.width * 0.6 : 250.0;
-      });
-
-      final totalPadding = (Get.width - _cardWidth) / 2;
-      if (_scrollController.hasClients &&
-          Get.find<MediumController>().posts.isNotEmpty) {
+      controller.updateCardWidth(Get.width < 600 ? Get.width * 0.6 : 250.0);
+      if (_scrollController.hasClients && controller.posts.isNotEmpty) {
         _scrollController.jumpTo(0);
       }
     });
 
     _scrollController.addListener(() {
-      final index = (_scrollController.offset / _cardWidth)
+      final index = (_scrollController.offset / controller.cardWidth.value)
           .round()
-          .clamp(0, Get.find<MediumController>().posts.length - 1);
-      if (index != _currentIndex) {
-        setState(() {
-          _currentIndex = index;
-        });
+          .clamp(0, controller.posts.length - 1);
+      if (index != controller.currentIndex.value) {
+        controller.updateCurrentIndex(index);
       }
     });
   }
@@ -52,8 +44,6 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<MediumController>();
-
     return Obx(() {
       if (controller.isLoading.value) {
         return const Padding(
@@ -71,8 +61,6 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
         );
       }
 
-      final horizontalPadding = (Get.width - _cardWidth) / 2;
-
       return Column(
         children: [
           SizedBox(
@@ -81,7 +69,7 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
               scrollDirection: Axis.horizontal,
               controller: _scrollController,
               padding: EdgeInsets.symmetric(
-                horizontal: (Get.width - _cardWidth) / 2,
+                horizontal: (Get.width - controller.cardWidth.value) / 2,
               ),
               itemCount: controller.posts.length,
               itemBuilder: (context, index) {
@@ -89,12 +77,15 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
                 return GestureDetector(
                   onTap: () => _launchUrl(post.link),
                   child: Container(
-                    width: _cardWidth,
+                    width: controller.cardWidth.value,
                     margin: const EdgeInsets.symmetric(horizontal: 8),
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Colors.grey[850]!.withAlpha(90), Colors.grey[900]!.withAlpha(90)],
+                        colors: [
+                          Colors.grey[850]!.withAlpha(90),
+                          Colors.grey[900]!.withAlpha(90),
+                        ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -124,7 +115,7 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
                         Text(
                           'Read More',
                           style: TextStyle(
-                            color: AppColors.appAccentColor,
+                            color: AppColors.pureWhite,
                             fontSize: Get.width < 600 ? 12 : 14,
                             decoration: TextDecoration.underline,
                           ),
@@ -165,24 +156,22 @@ class _MediumStoriesWidgetState extends State<MediumStoriesWidget> {
         children: List.generate(posts.length, (index) {
           return GestureDetector(
             onTap: () {
-              final targetOffset = index * _cardWidth;
+              final targetOffset = index * controller.cardWidth.value;
               _scrollController.animateTo(
                 targetOffset,
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.easeInOut,
               );
-              setState(() {
-                _currentIndex = index;
-              });
+              controller.updateCurrentIndex(index);
             },
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               margin: const EdgeInsets.symmetric(horizontal: 4.0),
-              width: _currentIndex == index ? 12 : 8,
-              height: _currentIndex == index ? 12 : 8,
+              width: controller.currentIndex.value == index ? 12 : 8,
+              height: controller.currentIndex.value == index ? 12 : 8,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: _currentIndex == index
+                color: controller.currentIndex.value == index
                     ? AppColors.appAccentColor
                     : Colors.grey[600],
               ),

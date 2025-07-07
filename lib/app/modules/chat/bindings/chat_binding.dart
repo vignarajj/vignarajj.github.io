@@ -8,4 +8,4 @@ class ChatBinding extends Bindings {
     Get.lazyPut<ChatService>(() => ChatService());
     Get.lazyPut<ChatController>(() => ChatController());
   }
-} 
+}

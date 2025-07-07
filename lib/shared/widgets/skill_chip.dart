@@ -12,11 +12,11 @@ class SkillChip extends StatefulWidget {
   const SkillChip({required this.skill, required this.onTap, super.key});
 
   @override
-  _SkillChipState createState() => _SkillChipState();
+  State<SkillChip> createState() => _SkillChipState();
 }
 
 class _SkillChipState extends State<SkillChip> {
-  double _scale = 1.0;
+  final RxDouble _scale = 1.0.obs;
   double _avatarSize = 20.0;
   double _fontSize = 16.0;
 
@@ -28,10 +28,7 @@ class _SkillChipState extends State<SkillChip> {
     _fontSize = Get.width < 600 ? 14.0 : 16.0;
 
     // Precache SVG
-    precachePicture(
-      SvgPicture.asset(widget.skill.iconPath).pictureProvider,
-      context,
-    );
+    // TODO: Implement proper SVG precaching for Flutter 3.8.1+
   }
 
   @override
@@ -39,54 +36,58 @@ class _SkillChipState extends State<SkillChip> {
     return GestureDetector(
       onTap: widget.onTap,
       child: MouseRegion(
-        onEnter: (_) => setState(() => _scale = 1.05),
-        onExit: (_) => setState(() => _scale = 1.0),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          transform: Matrix4.identity()..scale(_scale),
-          child: Material(
-            color: Colors.transparent,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.appAccentColor,
-                    AppColors.appAccentColor.withAlpha(80)
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withAlpha(30),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Chip(
-                label: Text(
-                  widget.skill.name,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: _fontSize,
-                  ),
-                ),
-                backgroundColor: Colors.transparent,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                shape: RoundedRectangleBorder(
+        onEnter: (_) => _scale.value = 1.05,
+        onExit: (_) => _scale.value = 1.0,
+        child: Obx(
+          () => AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            transform: Matrix4.identity()..scale(_scale.value),
+            child: Material(
+              color: Colors.transparent,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.cardBackground,
                   borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: AppColors.borderColor, width: 1),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.pureBlack.withValues(alpha: 0.4),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
-                avatar: SvgPicture.asset(
-                  widget.skill.iconPath,
-                  color: Colors.white,
-                  width: _avatarSize,
-                  height: _avatarSize,
+                child: Chip(
+                  label: Text(
+                    widget.skill.name,
+                    style: TextStyle(
+                      color: AppColors.primaryText,
+                      fontSize: _fontSize,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.3,
+                    ),
+                  ),
+                  backgroundColor: Colors.transparent,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  avatar: SvgPicture.asset(
+                    widget.skill.iconPath,
+                    colorFilter: const ColorFilter.mode(
+                      AppColors.primaryText,
+                      BlendMode.srcIn,
+                    ),
+                    width: _avatarSize,
+                    height: _avatarSize,
+                  ),
+                  labelPadding: const EdgeInsets.only(left: 4, right: 8),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  clipBehavior: Clip.antiAlias,
                 ),
-                labelPadding: const EdgeInsets.only(left: 4, right: 8),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                clipBehavior: Clip.antiAlias,
               ),
             ),
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/app/modules/comp-detailview/core_competency_controller.dart';
+import 'package:portfolio/app/modules/core_competency/controllers/core_competency_controller.dart';
 import 'package:portfolio/shared/models/core_compentency.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 
@@ -28,16 +28,15 @@ class CoreCompetencyDetailView
             Text(
               competency.title,
               style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.appAccentColor),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppColors.appAccentColor,
+              ),
             ),
             const SizedBox(height: 20),
             Text(
               competency.description,
-              style: const TextStyle(
-                fontSize: 18,
-              ),
+              style: const TextStyle(fontSize: 18),
               textAlign: TextAlign.center,
             ),
           ],

@@ -30,37 +30,43 @@ class ContactController extends GetxController {
       isSubmitting.value = true;
       // Simulate a network call (replace with actual API call if needed)
       await apiServices
-          .sendContact(ContactModel(
+          .sendContact(
+            ContactModel(
               name: nameController.text,
               email: emailController.text,
               phone: phoneController.text,
-              message: messageController.text))
-          .then((res) {
-        if (res.contains("success")) {
-          Get.snackbar(
-            'Success',
-            'Your message has been sent!',
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.green,
-            colorText: Colors.white,
+              message: messageController.text,
+            ),
+          )
+          .then(
+            (res) {
+              if (res.contains("success")) {
+                Get.snackbar(
+                  'Success',
+                  'Your message has been sent!',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.green,
+                  colorText: Colors.white,
+                );
+              } else {
+                Get.snackbar(
+                  'Error',
+                  res,
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.red,
+                );
+              }
+            },
+            onError: (error) {
+              Get.snackbar(
+                'Error',
+                'Something went wrong, Please try again',
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.red,
+                colorText: Colors.white,
+              );
+            },
           );
-        } else {
-          Get.snackbar(
-            'Error',
-            res,
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
-          );
-        }
-      }, onError: (error) {
-        Get.snackbar(
-          'Error',
-          'Something went wrong, Please try again',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
-      });
       // Clear the form
       nameController.clear();
       emailController.clear();

@@ -9,7 +9,7 @@ class AnimatedSection extends StatefulWidget {
   const AnimatedSection({required this.child, this.delay = 0, super.key});
 
   @override
-  _AnimatedSectionState createState() => _AnimatedSectionState();
+  State<AnimatedSection> createState() => _AnimatedSectionState();
 }
 
 class _AnimatedSectionState extends State<AnimatedSection>
@@ -54,15 +54,9 @@ class _AnimatedSectionState extends State<AnimatedSection>
       end: Offset.zero,
     ).animate(curve);
 
-    _opacityAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(curve);
+    _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(curve);
 
-    _scaleAnimation = Tween<double>(
-      begin: 0.9,
-      end: 1.0,
-    ).animate(curve);
+    _scaleAnimation = Tween<double>(begin: 0.9, end: 1.0).animate(curve);
   }
 
   @override
@@ -80,10 +74,7 @@ class _AnimatedSectionState extends State<AnimatedSection>
           scale: _scaleAnimation.value,
           child: FadeTransition(
             opacity: _opacityAnimation,
-            child: SlideTransition(
-              position: _offsetAnimation,
-              child: child,
-            ),
+            child: SlideTransition(position: _offsetAnimation, child: child),
           ),
         );
       },

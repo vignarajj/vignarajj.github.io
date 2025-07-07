@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/app/modules/skills/skill_controller.dart';
+import 'package:portfolio/app/modules/skills/controllers/skill_controller.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 
 class SkillView extends GetResponsiveView<SkillController> {
@@ -23,8 +23,15 @@ class SkillView extends GetResponsiveView<SkillController> {
           children: [
             Hero(
               tag: controller.skill.name,
-              child: SvgPicture.asset(controller.skill.iconPath,
-                  width: 75, height: 75, color: AppColors.appAccentColor),
+              child: SvgPicture.asset(
+                controller.skill.iconPath,
+                width: 75,
+                height: 75,
+                colorFilter: ColorFilter.mode(
+                  AppColors.appAccentColor,
+                  BlendMode.color,
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             Text(

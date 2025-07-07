@@ -4,9 +4,10 @@ class Skill {
   final double proficiency; // e.g., 0.8 for 80%
   final String iconPath;
 
-  Skill(
-      {required this.name,
-      required this.description,
-      required this.proficiency,
-      required this.iconPath});
+  Skill({
+    required this.name,
+    required this.description,
+    required this.proficiency,
+    required this.iconPath,
+  });
 }
