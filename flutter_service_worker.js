@@ -3,12 +3,12 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
-const RESOURCES = {"flutter_bootstrap.js": "201aebb22083e2cf314c63bf4431cf01",
+const RESOURCES = {"flutter_bootstrap.js": "b0b536b5fccee806714476a12eb377f0",
 "version.json": "009c9e65172e010890f7f65fde438006",
 "favicon.ico": "3f105cf55a652782b3e6160adcb648d5",
 "index.html": "df43f144b1112bd5b3c23e5423698998",
 "/": "df43f144b1112bd5b3c23e5423698998",
-"main.dart.js": "430a7eb779841050e3ccde7b02928c9f",
+"main.dart.js": "c69df016b68bc11be4d61ef181df7142",
 "flutter.js": "83d881c1dbb6d6bcd6b42e274605b69c",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
@@ -63,7 +63,7 @@ const RESOURCES = {"flutter_bootstrap.js": "201aebb22083e2cf314c63bf4431cf01",
 "assets/assets/images/profile_pic.jpeg": "9a4f620d9c57d9c739784ac73fe3a862",
 "assets/assets/shaders/ink_sparkle.frag": "ecc85a2e95f5e9f53123dcaf8cb9b6ce",
 "assets/assets/lottie/chatbot_loader.json": "3b66a552496b59554ed84f21bd4ece12",
-"assets/assets/fonts/MaterialIcons-Regular.otf": "ed1810c7590a02511132a8fb6895d59a",
+"assets/assets/fonts/MaterialIcons-Regular.otf": "ff1ac5e6917bdafaf9e3a813dd26d054",
 "assets/assets/assets/fonts/NotoSans-Regular.ttf": "c8e58befd2433eb89589dd1d23225c4e",
 "assets/assets/assets/fonts/NotoSerif-Regular.ttf": "811988e53e8c4aba75a5d2ce60bb362b",
 "assets/assets/assets/fonts/NotoSans-Bold.ttf": "ef4b39fb4d49db8beed2966debc0f477",

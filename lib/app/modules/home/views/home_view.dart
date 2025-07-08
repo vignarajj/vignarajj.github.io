@@ -86,7 +86,7 @@ class HomeView extends GetView<HomeController> {
                     delay: 1800,
                     child: _buildSectionTitle('Flutter Plugins', 2800),
                   ),
-                  AnimatedSection(delay: 1900, child: _buildFlutterPlugins()),
+                  // AnimatedSection(delay: 1900, child: _buildFlutterPlugins()),
                   const SizedBox(height: 40),
                   const ContactButtons(),
                   const SizedBox(height: 20),
