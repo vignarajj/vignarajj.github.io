@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:portfolio/app/modules/chat/views/chat_bottom_sheet.dart';
 import 'package:portfolio/app/modules/home/controllers/home_controller.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
@@ -22,7 +23,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     // Simulate loading
-    Future.delayed(const Duration(milliseconds: 1500), () {
+    Future.delayed(const Duration(milliseconds: 2500), () {
       _isLoading.value = false;
     });
 
@@ -50,7 +51,7 @@ class HomeView extends GetView<HomeController> {
     bool isDesktop,
     BoxConstraints constraints,
   ) {
-    final horizontalPadding = isDesktop ? 40.0 : 16.0;
+    final horizontalPadding = isDesktop ? 40.0 : 12.0;
     final maxContentWidth = 800.0;
     
     return LayoutBuilder(
@@ -68,7 +69,7 @@ class HomeView extends GetView<HomeController> {
                 child: Center(
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxWidth: isDesktop ? maxContentWidth : double.infinity,
+                      maxWidth: isDesktop ? maxContentWidth : constraints.maxWidth,
                       minHeight: constraints.maxHeight,
                     ),
                     child: Column(
@@ -98,7 +99,7 @@ class HomeView extends GetView<HomeController> {
                           key: _contactKey,
                           child: _buildContactSection(isDesktop),
                         ),
-                        SizedBox(height: isDesktop ? 24 : 100),
+                        SizedBox(height: isDesktop ? 24 : 80),
                       ],
                     ),
                   ),
@@ -223,30 +224,13 @@ class HomeView extends GetView<HomeController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: AppColors.lightAccent.withValues(alpha: 0.3),
-                  width: 2,
-                ),
-              ),
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  AppColors.lightAccent,
-                ),
-                strokeWidth: 3,
-              ),
-            ),
-            const SizedBox(height: 24),
-            Text(
-              'Loading Portfolio...',
-              style: TextStyle(
-                fontFamily: 'SourceCodePro',
-                fontSize: 16,
-                color: AppColors.primaryText,
+            SizedBox(
+              width: 150,
+              height: 150,
+              child: Lottie.asset(
+                'assets/lottie/loader_view.json',
+                fit: BoxFit.contain,
+                repeat: true,
               ),
             ),
           ],
@@ -302,9 +286,9 @@ class HomeView extends GetView<HomeController> {
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
-              crossAxisSpacing: 6,
-              mainAxisSpacing: 6,
-              childAspectRatio: 1.1,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+              childAspectRatio: 1.0,
             ),
             itemCount: skills.length,
             itemBuilder: (context, index) =>
@@ -314,7 +298,7 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildSkillCard(Map<String, dynamic> skill, bool isDesktop) {
     return Container(
-      padding: EdgeInsets.all(isDesktop ? 8 : 6),
+      padding: EdgeInsets.all(isDesktop ? 8 : 8),
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(8),
@@ -325,23 +309,25 @@ class HomeView extends GetView<HomeController> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Flexible(
+            flex: 2,
             child: SvgPicture.asset(
               skill['asset'] as String,
-              width: isDesktop ? 28 : 20,
-              height: isDesktop ? 28 : 20,
+              width: isDesktop ? 28 : 22,
+              height: isDesktop ? 28 : 22,
               colorFilter: ColorFilter.mode(
                 AppColors.pureWhite,
                 BlendMode.srcIn,
               ),
             ),
           ),
-          SizedBox(height: isDesktop ? 4 : 2),
+          SizedBox(height: isDesktop ? 4 : 3),
           Flexible(
+            flex: 1,
             child: Text(
               skill['name'] as String,
               style: TextStyle(
                 fontFamily: 'SourceCodePro',
-                fontSize: isDesktop ? 11 : 9,
+                fontSize: isDesktop ? 11 : 10,
                 fontWeight: FontWeight.bold,
                 color: AppColors.pureWhite,
               ),
@@ -350,12 +336,12 @@ class HomeView extends GetView<HomeController> {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          SizedBox(height: isDesktop ? 2 : 1),
+          SizedBox(height: isDesktop ? 2 : 2),
           Text(
             '${skill['level']}%',
             style: TextStyle(
               fontFamily: 'SourceCodePro',
-              fontSize: isDesktop ? 9 : 7,
+              fontSize: isDesktop ? 9 : 8,
               color: AppColors.primaryText,
             ),
           ),
@@ -444,8 +430,8 @@ class HomeView extends GetView<HomeController> {
       },
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        height: isDesktop ? null : 160,
-        padding: const EdgeInsets.all(16),
+        height: isDesktop ? null : 180,
+        padding: EdgeInsets.all(isDesktop ? 16 : 12),
         decoration: BoxDecoration(
           color: AppColors.cardBackground,
           borderRadius: BorderRadius.circular(12),
@@ -656,9 +642,9 @@ class HomeView extends GetView<HomeController> {
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 4,
-                  mainAxisSpacing: 4,
-                  childAspectRatio: 1.2,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                  childAspectRatio: 1.0,
                 ),
                 itemCount: plugins.length,
                 itemBuilder: (context, index) =>
@@ -670,8 +656,7 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildPluginCard(Map<String, dynamic> plugin, bool isDesktop) {
     return Container(
-      height: isDesktop ? 200 : 180,
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(isDesktop ? 16 : 12),
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(12),
@@ -690,7 +675,7 @@ class HomeView extends GetView<HomeController> {
                       plugin['name'] as String,
                       style: TextStyle(
                         fontFamily: 'SourceCodePro',
-                        fontSize: isDesktop ? 16 : 14,
+                        fontSize: isDesktop ? 16 : 13,
                         fontWeight: FontWeight.bold,
                         color: AppColors.pureWhite,
                       ),
@@ -737,15 +722,16 @@ class HomeView extends GetView<HomeController> {
           ),
           const SizedBox(height: 8),
           Flexible(
+            flex: 2,
             child: Text(
               plugin['description'] as String,
               style: TextStyle(
                 fontFamily: 'SourceCodePro',
-                fontSize: isDesktop ? 13 : 11,
+                fontSize: isDesktop ? 13 : 10,
                 color: AppColors.primaryText,
-                height: 1.4,
+                height: 1.3,
               ),
-              maxLines: isDesktop ? 3 : 2,
+              maxLines: isDesktop ? 3 : 3,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -764,12 +750,12 @@ class HomeView extends GetView<HomeController> {
             spacing: 6,
             runSpacing: 4,
             children: (plugin['platforms'] as List<String>)
-                .take(3)
+                .take(isDesktop ? 3 : 2)
                 .map(
                   (platform) => Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isDesktop ? 8 : 6,
+                      vertical: isDesktop ? 4 : 3,
                     ),
                     decoration: BoxDecoration(
                       color: AppColors.pureBlack,
@@ -780,7 +766,7 @@ class HomeView extends GetView<HomeController> {
                       platform,
                       style: TextStyle(
                         fontFamily: 'SourceCodePro',
-                        fontSize: 9,
+                        fontSize: isDesktop ? 9 : 8,
                         color: AppColors.pureWhite,
                         fontWeight: FontWeight.w500,
                       ),
@@ -805,10 +791,10 @@ class HomeView extends GetView<HomeController> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: (plugin['features'] as List<String>)
-                    .take(2)
+                    .take(isDesktop ? 2 : 1)
                     .map(
                       (feature) => Container(
-                        margin: const EdgeInsets.only(right: 6),
+                        margin: const EdgeInsets.only(right: 4),
                         padding: EdgeInsets.symmetric(
                           horizontal: isDesktop ? 6 : 4,
                           vertical: 2,
@@ -822,7 +808,7 @@ class HomeView extends GetView<HomeController> {
                           feature,
                           style: TextStyle(
                             fontFamily: 'SourceCodePro',
-                            fontSize: 8,
+                            fontSize: isDesktop ? 8 : 7,
                             color: AppColors.primaryText,
                             fontWeight: FontWeight.w500,
                           ),
@@ -1333,8 +1319,8 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildServiceCard(Map<String, dynamic> service, bool isDesktop) {
     return Container(
-      height: isDesktop ? null : 160,
-      padding: const EdgeInsets.all(16),
+      height: isDesktop ? null : 180,
+      padding: EdgeInsets.all(isDesktop ? 16 : 12),
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(12),

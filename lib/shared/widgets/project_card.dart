@@ -20,7 +20,8 @@ class _ProjectCardState extends State<ProjectCard> {
 
   @override
   Widget build(BuildContext context) {
-    final cardWidth = Get.width < 600 ? Get.width * 0.6 : 300.0;
+    final isMobile = Get.width < 600;
+    final cardWidth = isMobile ? Get.width * 0.7 : 300.0;
 
     return GestureDetector(
       onTap: () => _launchUrl(widget.project.url),
@@ -32,8 +33,11 @@ class _ProjectCardState extends State<ProjectCard> {
             duration: const Duration(milliseconds: 200),
             transform: Matrix4.identity()..scale(_scale.value),
             width: cardWidth,
-            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            padding: const EdgeInsets.all(12),
+            margin: EdgeInsets.symmetric(
+              horizontal: isMobile ? 6 : 8,
+              vertical: isMobile ? 6 : 8,
+            ),
+            padding: EdgeInsets.all(isMobile ? 10 : 12),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -57,38 +61,39 @@ class _ProjectCardState extends State<ProjectCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
+                  flex: 1,
                   child: Text(
                     widget.project.title,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: Get.width < 600 ? 14 : 16,
+                      fontSize: isMobile ? 13 : 16,
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: isMobile ? 4 : 6),
                 Flexible(
+                  flex: 2,
                   child: Text(
                     widget.project.description,
                     style: TextStyle(
                       color: Colors.grey[400],
-                      fontSize: Get.width < 600 ? 10 : 12,
+                      fontSize: isMobile ? 9 : 12,
+                      height: 1.3,
                     ),
-                    maxLines: 2,
+                    maxLines: isMobile ? 3 : 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(height: 2),
-                Flexible(
-                  child: Text(
-                    'Visit',
-                    style: TextStyle(
-                      color: AppColors.pureWhite,
-                      fontSize: Get.width < 600 ? 12 : 14,
-                      decoration: TextDecoration.underline,
-                    ),
+                SizedBox(height: isMobile ? 4 : 6),
+                Text(
+                  'Visit',
+                  style: TextStyle(
+                    color: AppColors.pureWhite,
+                    fontSize: isMobile ? 11 : 14,
+                    decoration: TextDecoration.underline,
                   ),
                 ),
               ],
