@@ -6,6 +6,7 @@ class AppTheme {
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     useMaterial3: true,
+    fontFamily: 'SourceCodePro', // Set global font family
 
     // Color Scheme - Pure Black & White
     colorScheme: const ColorScheme.dark(
@@ -68,84 +69,99 @@ class AppTheme {
     // Text Theme
     textTheme: const TextTheme(
       displayLarge: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.primaryText,
         fontSize: 57,
         fontWeight: FontWeight.w400,
         letterSpacing: -0.25,
       ),
       displayMedium: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.primaryText,
         fontSize: 45,
         fontWeight: FontWeight.w400,
       ),
       displaySmall: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.primaryText,
         fontSize: 36,
         fontWeight: FontWeight.w400,
       ),
       headlineLarge: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.primaryText,
         fontSize: 32,
         fontWeight: FontWeight.w400,
       ),
       headlineMedium: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.primaryText,
         fontSize: 28,
         fontWeight: FontWeight.w400,
       ),
       headlineSmall: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.primaryText,
         fontSize: 24,
         fontWeight: FontWeight.w400,
       ),
       titleLarge: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.primaryText,
         fontSize: 22,
         fontWeight: FontWeight.w500,
       ),
       titleMedium: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.primaryText,
         fontSize: 16,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.15,
       ),
       titleSmall: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.primaryText,
         fontSize: 14,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.1,
       ),
       bodyLarge: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.secondaryText,
         fontSize: 16,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.5,
       ),
       bodyMedium: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.secondaryText,
         fontSize: 14,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.25,
       ),
       bodySmall: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.mutedText,
         fontSize: 12,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.4,
       ),
       labelLarge: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.primaryText,
         fontSize: 14,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.1,
       ),
       labelMedium: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.secondaryText,
         fontSize: 12,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.5,
       ),
       labelSmall: TextStyle(
+        fontFamily: 'SourceCodePro',
         color: AppColors.mutedText,
         fontSize: 11,
         fontWeight: FontWeight.w500,
@@ -220,9 +236,11 @@ class AppTheme {
     ),
 
     // Floating Action Button Theme
-    floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: AppColors.pureWhite,
-      foregroundColor: AppColors.pureBlack,
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: Colors.grey.shade800,
+      foregroundColor: Colors.white,
+      iconSize: 36,
+      splashColor: Colors.grey.shade700,
       elevation: 12,
       shape: CircleBorder(),
     ),

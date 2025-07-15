@@ -33,11 +33,17 @@ class ChatController extends GetxController {
     isLoading.value = true;
 
     try {
-      // Get response from API
+      // Get response from service (includes API call + fallback)
       final response = await _chatService.sendMessage(message);
 
       // Add bot response
       messages.add(ChatMessage.bot(response));
+    } catch (e) {
+      print('❌ Chat Controller Error: $e');
+      // Add error message as final fallback
+      messages.add(ChatMessage.bot(
+        'I apologize, but I\'m experiencing technical difficulties right now. Please try contacting me directly through the contact section.',
+      ));
     } finally {
       isLoading.value = false;
     }

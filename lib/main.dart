@@ -5,7 +5,8 @@ import 'package:portfolio/app/modules/medium/controllers/medium_controller.dart'
 import 'package:portfolio/app/modules/flutter_plugins/controllers/flutter_plugins_controller.dart';
 import 'package:portfolio/core/services/injector.dart';
 import 'package:portfolio/routes/app_pages.dart';
-import 'package:portfolio/shared/theme/app_theme.dart';
+import 'package:theme_maker/theme_maker.dart';
+// import 'package:portfolio/shared/theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,8 +33,8 @@ class MyPortfolio extends StatelessWidget {
       // initialBinding: InitialBindings(),
       getPages: AppPages.routes,
       defaultTransition: Transition.rightToLeftWithFade,
-      darkTheme: AppTheme.darkTheme,
-      theme: AppTheme.darkTheme,
+      darkTheme: AppTheme.dark.blackAndWhite,
+      theme: AppTheme.dark.blackAndWhite,
       locale: const Locale("en", "US"),
       fallbackLocale: const Locale("en", "US"),
     );

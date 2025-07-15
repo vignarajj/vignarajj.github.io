@@ -13,7 +13,6 @@ class MediumController extends GetxController {
 
   @override
   void onInit() {
-    fetchPosts();
     super.onInit();
   }
 
