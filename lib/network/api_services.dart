@@ -6,9 +6,11 @@ class ApiServices extends GetConnect {
   @override
   void onInit() {
     httpClient.baseUrl = ApiConstants.baseUrl;
-    httpClient.timeout = const Duration(minutes: 3);
+    httpClient.timeout = const Duration(seconds: 20);
     httpClient.defaultContentType = 'application/json';
-    httpClient.timeout = const Duration(seconds: 10);
+    httpClient.followRedirects = true;
+    httpClient.maxRedirects = 3;
+    
     super.onInit();
   }
 
@@ -16,9 +18,20 @@ class ApiServices extends GetConnect {
   Future<T> getRequest<T>(
     String endpoint, {
     Map<String, dynamic>? queryParams,
+    Map<String, String>? headers,
   }) async {
     try {
-      final response = await get(endpoint, query: queryParams);
+      final defaultHeaders = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      };
+      
+      final response = await get(
+        endpoint, 
+        query: queryParams,
+        headers: {...defaultHeaders, ...?headers},
+      );
+      
       if (response.status.hasError) {
         throw Exception('GET failed: ${response.statusText}');
       }
@@ -30,9 +43,23 @@ class ApiServices extends GetConnect {
   }
 
   // Generic POST request
-  Future<T> postRequest<T>(String endpoint, dynamic data) async {
+  Future<T> postRequest<T>(
+    String endpoint, 
+    dynamic data, {
+    Map<String, String>? headers,
+  }) async {
     try {
-      final response = await post(endpoint, data);
+      final defaultHeaders = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      };
+      
+      final response = await post(
+        endpoint, 
+        data,
+        headers: {...defaultHeaders, ...?headers},
+      );
+      
       if (response.status.hasError) {
         throw Exception('POST failed: ${response.statusText}');
       }
@@ -47,7 +74,15 @@ class ApiServices extends GetConnect {
   Future<int> getVisitorsCount() async {
     print("📡 Calling: ${httpClient.baseUrl}${ApiConstants.trackVisit}");
     try {
-      final response = await get(ApiConstants.trackVisit);
+      final headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      };
+      
+      final response = await get(
+        ApiConstants.trackVisit,
+        headers: headers,
+      );
 
       if (response.status.hasError) {
         throw Exception(
@@ -69,7 +104,16 @@ class ApiServices extends GetConnect {
   // Contact form submission
   Future<String> sendContact(ContactModel contact) async {
     try {
-      final response = await post(ApiConstants.contact, contact.toJson());
+      final headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      };
+      
+      final response = await post(
+        ApiConstants.contact, 
+        contact.toJson(),
+        headers: headers,
+      );
 
       if (response.statusCode == 200) {
         print("✅ Contact sent");
@@ -89,27 +133,76 @@ class ApiServices extends GetConnect {
 
   // Chatbot question submission
   Future<String> askQuestion(String question) async {
-    try {
-      print("📡 Sending question to chatbot: $question");
-      final response = await post(ApiConstants.chatbot, {'question': question});
+    print("📡 Sending question to chatbot: $question");
+    
+    // Try multiple endpoints if primary fails
+    for (int i = 0; i < ApiConstants.fallbackUrls.length; i++) {
+      final baseUrl = ApiConstants.fallbackUrls[i];
+      
+      try {
+        print("🗺 Trying endpoint $i: $baseUrl");
+        
+        // Create a new HTTP client for each attempt
+        final client = GetConnect();
+        client.baseUrl = baseUrl;
+        client.timeout = const Duration(seconds: 8);
+        client.defaultContentType = 'application/json';
+        
+        // Add headers directly to the request
+        final headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'User-Agent': 'Flutter-Portfolio-App',
+        };
+        
+        final response = await client.post(
+          ApiConstants.chatbot,
+          {'question': question},
+          headers: headers,
+        ).timeout(
+          const Duration(seconds: 10),
+          onTimeout: () {
+            throw Exception('Request timeout for $baseUrl');
+          },
+        );
 
-      if (response.status.hasError) {
-        throw Exception('Chatbot request failed: ${response.statusText}');
-      }
-
-      if (response.body is Map<String, dynamic>) {
-        final data = response.body as Map<String, dynamic>;
-        if (data['status'] == 'success') {
-          return data['answer'] as String;
-        } else {
-          throw Exception('Chatbot returned error status: ${data['status']}');
+        if (response.status.hasError) {
+          print("⚠ Endpoint $baseUrl failed: ${response.statusText}");
+          if (i == ApiConstants.fallbackUrls.length - 1) {
+            throw Exception('All endpoints failed: ${response.statusText}');
+          }
+          continue; // Try next endpoint
         }
-      } else {
-        throw Exception('Invalid response format from chatbot');
+
+        if (response.body is Map<String, dynamic>) {
+          final data = response.body as Map<String, dynamic>;
+          if (data['status'] == 'success') {
+            print("✅ Success with endpoint: $baseUrl");
+            return data['answer'] as String;
+          } else {
+            print("⚠ API returned error: ${data['status']}");
+            if (i == ApiConstants.fallbackUrls.length - 1) {
+              throw Exception('API error: ${data['status']}');
+            }
+            continue; // Try next endpoint
+          }
+        } else {
+          print("⚠ Invalid response format from: $baseUrl");
+          if (i == ApiConstants.fallbackUrls.length - 1) {
+            throw Exception('Invalid response format');
+          }
+          continue; // Try next endpoint
+        }
+      } catch (e) {
+        print("❌ Error with endpoint $baseUrl: $e");
+        if (i == ApiConstants.fallbackUrls.length - 1) {
+          // Last attempt failed, re-throw
+          throw Exception('All chatbot endpoints failed: $e');
+        }
+        // Continue to next endpoint
       }
-    } catch (e) {
-      print("❌ Chatbot Error: $e");
-      return "I'm having trouble connecting right now. Please try again later.";
     }
+    
+    throw Exception('No endpoints available');
   }
 }

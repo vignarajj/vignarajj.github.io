@@ -47,7 +47,7 @@ class _ContactButtonsState extends State<ContactButtons> {
         children: [
           _buildButton(
             icon: Image.asset(
-              'assets/images/github.png',
+              'assets/images/github_rounded.png',
               width: _iconSize,
               height: _iconSize,
               color: AppColors.primaryText,
@@ -63,7 +63,7 @@ class _ContactButtonsState extends State<ContactButtons> {
           const SizedBox(width: 16),
           _buildButton(
             icon: Image.asset(
-              'assets/images/medium.png',
+              'assets/images/medium_rounded.png',
               width: _iconSize,
               height: _iconSize,
               color: AppColors.primaryText,
@@ -79,7 +79,7 @@ class _ContactButtonsState extends State<ContactButtons> {
           const SizedBox(width: 16),
           _buildButton(
             icon: Image.asset(
-              'assets/images/linkedin.png',
+              'assets/images/linkedin_rounded.png',
               width: _iconSize,
               height: _iconSize,
               color: AppColors.primaryText,
@@ -116,8 +116,8 @@ class _ContactButtonsState extends State<ContactButtons> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: _hovered.value
-                    ? Colors.grey.shade700
-                    : Colors.grey.shade600,
+                    ? Colors.grey.shade900
+                    : Colors.grey.shade800,
                 border: Border.all(color: AppColors.borderColor, width: 1.5),
                 boxShadow: [
                   BoxShadow(

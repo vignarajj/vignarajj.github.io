@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:portfolio/app/modules/contact/views/contact_screen.dart';
 import 'package:portfolio/app/modules/core_competency/views/core_competency_view.dart';
 import 'package:portfolio/app/modules/home/bindings/home_binding.dart';
 import 'package:portfolio/app/modules/home/views/home_view.dart';
@@ -31,6 +32,12 @@ class AppPages {
         final CoreCompetency competency = Get.arguments as CoreCompetency;
         return CoreCompetencyDetailView(competency: competency);
       },
+      transition: Transition.rightToLeftWithFade,
+      transitionDuration: const Duration(milliseconds: 400),
+    ),
+    GetPage(
+      name: _Paths.contact,
+      page: () => ContactView(),
       transition: Transition.rightToLeftWithFade,
       transitionDuration: const Duration(milliseconds: 400),
     ),
