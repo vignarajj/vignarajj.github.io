@@ -3,6 +3,10 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
+import 'package:portfolio/shared/theme/text_styles.dart';
+import 'package:portfolio/shared/constants/app_dimensions.dart';
+import 'package:portfolio/shared/constants/app_strings.dart';
+import 'package:portfolio/shared/constants/app_assets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/chat_controller.dart';
@@ -15,7 +19,7 @@ class ChatBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(ChatController());
     final textController = TextEditingController();
-    final isWideScreen = Get.width > 600;
+    final isWideScreen = Get.width > AppDimensions.mobileBreakpoint;
     final errorText = RxString('');
 
     return Material(
@@ -25,10 +29,10 @@ class ChatBottomSheet extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.primaryBackground,
           borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(24),
-            topRight: const Radius.circular(24),
-            bottomLeft: isWideScreen ? const Radius.circular(24) : Radius.zero,
-            bottomRight: isWideScreen ? const Radius.circular(24) : Radius.zero,
+            topLeft: Radius.circular(AppDimensions.radiusXXLarge),
+            topRight: Radius.circular(AppDimensions.radiusXXLarge),
+            bottomLeft: isWideScreen ? Radius.circular(AppDimensions.radiusXXLarge) : Radius.zero,
+            bottomRight: isWideScreen ? Radius.circular(AppDimensions.radiusXXLarge) : Radius.zero,
           ),
           border: Border.all(
             color: AppColors.lightAccent.withValues(alpha: 0.2),
@@ -37,8 +41,8 @@ class ChatBottomSheet extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: AppColors.pureBlack.withValues(alpha: 0.5),
-              blurRadius: 20,
-              offset: const Offset(0, -8),
+              blurRadius: AppDimensions.shadowBlurXLarge,
+              offset: Offset(0, -AppDimensions.spacing8),
             ),
           ],
         ),
@@ -46,7 +50,7 @@ class ChatBottomSheet extends StatelessWidget {
           children: [
             // Header
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(AppDimensions.paddingXLarge),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -56,9 +60,9 @@ class ChatBottomSheet extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(24),
-                  topRight: Radius.circular(24),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(AppDimensions.radiusXXLarge),
+                  topRight: Radius.circular(AppDimensions.radiusXXLarge),
                 ),
                 border: Border(
                   bottom: BorderSide(
@@ -70,10 +74,10 @@ class ChatBottomSheet extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: EdgeInsets.all(AppDimensions.paddingMedium),
                     decoration: BoxDecoration(
                       color: AppColors.lightAccent.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
                       border: Border.all(
                         color: AppColors.lightAccent.withValues(alpha: 0.2),
                         width: 1,
@@ -82,16 +86,13 @@ class ChatBottomSheet extends StatelessWidget {
                     child: FaIcon(
                       FontAwesomeIcons.message,
                       color: AppColors.lightAccent,
-                      size: 20,
+                      size: AppDimensions.iconMedium,
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: AppDimensions.spacing16),
                   Text(
-                    'Chat with me',
-                    style: TextStyle(
-                      fontFamily: 'SourceCodePro',
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                    AppStrings.chatTitle,
+                    style: TextStyles.chatTitle.copyWith(
                       color: AppColors.pureWhite,
                     ),
                   ),
@@ -99,13 +100,13 @@ class ChatBottomSheet extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       color: AppColors.lightAccent.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(AppDimensions.radiusSmall),
                     ),
                     child: IconButton(
                       icon: Icon(
                         Icons.close,
                         color: AppColors.pureWhite,
-                        size: 20,
+                        size: AppDimensions.iconMedium,
                       ),
                       onPressed: () => Get.back(),
                     ),
@@ -135,7 +136,7 @@ class ChatBottomSheet extends StatelessWidget {
 
             // Input area
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(AppDimensions.paddingLarge),
               decoration: BoxDecoration(
                 color: AppColors.cardBackground,
                 border: Border(
@@ -147,8 +148,8 @@ class ChatBottomSheet extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.pureBlack.withValues(alpha: 0.2),
-                    blurRadius: 8,
-                    offset: const Offset(0, -4),
+                    blurRadius: AppDimensions.shadowBlurMedium,
+                    offset: Offset(0, -AppDimensions.spacing4),
                   ),
                 ],
               ),
@@ -159,23 +160,15 @@ class ChatBottomSheet extends StatelessWidget {
                       child: Obx(
                         () => TextField(
                           controller: textController,
-                          style: TextStyle(
-                            fontFamily: 'SourceCodePro',
-                            color: AppColors.pureWhite,
-                            fontSize: 14,
-                          ),
+                          style: TextStyles.formInput,
                           decoration: InputDecoration(
-                            hintText: 'Type your message...',
+                            hintText: AppStrings.chatInputHint,
                             errorText: errorText.value.isEmpty
                                 ? null
                                 : errorText.value,
-                            errorStyle: TextStyle(
-                              fontFamily: 'SourceCodePro',
-                              color: AppColors.errorColor,
-                              fontSize: 12,
-                            ),
+                            errorStyle: TextStyles.formError,
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(AppDimensions.radiusLarge),
                               borderSide: BorderSide(
                                 color: AppColors.lightAccent.withValues(
                                   alpha: 0.3,
@@ -184,7 +177,7 @@ class ChatBottomSheet extends StatelessWidget {
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(AppDimensions.radiusLarge),
                               borderSide: BorderSide(
                                 color: AppColors.lightAccent.withValues(
                                   alpha: 0.3,
@@ -193,7 +186,7 @@ class ChatBottomSheet extends StatelessWidget {
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(AppDimensions.radiusLarge),
                               borderSide: BorderSide(
                                 color: AppColors.lightAccent,
                                 width: 2,
@@ -201,19 +194,15 @@ class ChatBottomSheet extends StatelessWidget {
                             ),
                             filled: true,
                             fillColor: AppColors.primaryBackground,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: AppDimensions.paddingLarge,
+                              vertical: AppDimensions.paddingMedium,
                             ),
-                            hintStyle: TextStyle(
-                              fontFamily: 'SourceCodePro',
-                              color: AppColors.mutedText,
-                              fontSize: 14,
-                            ),
+                            hintStyle: TextStyles.formHint,
                           ),
                           onSubmitted: (value) {
                             if (value.trim().isEmpty) {
-                              errorText.value = 'Message cannot be empty';
+                              errorText.value = AppStrings.chatEmptyMessageError;
                               return;
                             }
                             errorText.value = '';
@@ -223,18 +212,18 @@ class ChatBottomSheet extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: AppDimensions.spacing12),
                     Obx(
                       () => controller.isLoading.value
                           ? Container(
-                              width: 48,
-                              height: 48,
-                              padding: const EdgeInsets.all(12),
+                              width: AppDimensions.containerHeight,
+                              height: AppDimensions.containerHeight,
+                              padding: EdgeInsets.all(AppDimensions.paddingMedium),
                               decoration: BoxDecoration(
                                 color: AppColors.lightAccent.withValues(
                                   alpha: 0.1,
                                 ),
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
                               ),
                               child: CircularProgressIndicator(
                                 color: AppColors.lightAccent,
@@ -244,7 +233,7 @@ class ChatBottomSheet extends StatelessWidget {
                           : InkWell(
                               onTap: () {
                                 if (textController.text.trim().isEmpty) {
-                                  errorText.value = 'Message cannot be empty';
+                                  errorText.value = AppStrings.chatEmptyMessageError;
                                   return;
                                 }
                                 errorText.value = '';
@@ -252,9 +241,9 @@ class ChatBottomSheet extends StatelessWidget {
                                 textController.clear();
                               },
                               child: Image.asset(
-                                'assets/images/plane_send.png',
-                                width: 28,
-                                height: 28,
+                                AppAssets.planeSendIcon,
+                                width: AppDimensions.iconXLarge,
+                                height: AppDimensions.iconXLarge,
                                 color: Colors.white,
                               ),
                             ),
@@ -272,13 +261,13 @@ class ChatBottomSheet extends StatelessWidget {
   Widget _buildPredefinedQuestions(ChatController controller) {
     return Flexible(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(AppDimensions.paddingXLarge),
         physics: const BouncingScrollPhysics(),
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(AppDimensions.paddingXLarge),
           decoration: BoxDecoration(
             color: AppColors.cardBackground,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppDimensions.radiusLarge),
             border: Border.all(
               color: AppColors.lightAccent.withValues(alpha: 0.2),
               width: 1,
@@ -286,8 +275,8 @@ class ChatBottomSheet extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: AppColors.pureBlack.withValues(alpha: 0.3),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
+                blurRadius: AppDimensions.shadowBlurLarge,
+                offset: Offset(0, AppDimensions.spacing4),
               ),
             ],
           ),
@@ -299,35 +288,32 @@ class ChatBottomSheet extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      'Choose a question to get started:',
-                      style: TextStyle(
-                        fontFamily: 'SourceCodePro',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                      AppStrings.chatQuestionPrompt,
+                      style: TextStyles.chatQuestion.copyWith(
                         color: AppColors.pureWhite,
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: AppDimensions.spacing20),
               ...controller.predefinedQuestions.map(
                 (question) => Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
+                  padding: EdgeInsets.only(bottom: AppDimensions.spacing12),
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () =>
                           controller.handlePredefinedQuestion(question),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 16,
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppDimensions.paddingLarge,
+                          horizontal: AppDimensions.paddingLarge,
                         ),
                         decoration: BoxDecoration(
                           color: AppColors.primaryBackground,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
                           border: Border.all(
                             color: AppColors.lightAccent.withValues(alpha: 0.3),
                             width: 1,
@@ -336,21 +322,19 @@ class ChatBottomSheet extends StatelessWidget {
                         child: Row(
                           children: [
                             Container(
-                              width: 6,
-                              height: 6,
+                              width: AppDimensions.spacing4 + 2,
+                              height: AppDimensions.spacing4 + 2,
                               decoration: BoxDecoration(
                                 color: AppColors.lightAccent,
                                 shape: BoxShape.circle,
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            SizedBox(width: AppDimensions.spacing12),
                             Flexible(
                               child: Text(
                                 question,
-                                style: TextStyle(
-                                  fontFamily: 'SourceCodePro',
+                                style: TextStyles.chatMessage.copyWith(
                                   color: AppColors.primaryText,
-                                  fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -358,7 +342,7 @@ class ChatBottomSheet extends StatelessWidget {
                             Icon(
                               Icons.arrow_forward_ios,
                               color: AppColors.mutedText,
-                              size: 14,
+                              size: AppDimensions.iconSmall - 4,
                             ),
                           ],
                         ),
@@ -376,7 +360,7 @@ class ChatBottomSheet extends StatelessWidget {
 
   Widget _buildChatMessages(ChatController controller) {
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: AppDimensions.paddingLarge, vertical: AppDimensions.paddingSmall),
       reverse: true,
       physics: const BouncingScrollPhysics(),
       itemCount: controller.messages.length,
@@ -393,11 +377,11 @@ class ChatBottomSheet extends StatelessWidget {
       alignment: message.isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         margin: EdgeInsets.only(
-          bottom: 12,
-          left: message.isUser ? 60 : 0,
-          right: message.isUser ? 0 : 60,
+          bottom: AppDimensions.spacing12,
+          left: message.isUser ? AppDimensions.spacing64 - 4 : 0,
+          right: message.isUser ? 0 : AppDimensions.spacing64 - 4,
         ),
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppDimensions.paddingLarge),
         decoration: BoxDecoration(
           gradient: message.isUser
               ? LinearGradient(
@@ -410,10 +394,10 @@ class ChatBottomSheet extends StatelessWidget {
                   ],
                 ),
           borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(16),
-            topRight: const Radius.circular(16),
-            bottomLeft: Radius.circular(message.isUser ? 16 : 4),
-            bottomRight: Radius.circular(message.isUser ? 4 : 16),
+            topLeft: Radius.circular(AppDimensions.radiusLarge),
+            topRight: Radius.circular(AppDimensions.radiusLarge),
+            bottomLeft: Radius.circular(message.isUser ? AppDimensions.radiusLarge : AppDimensions.spacing4),
+            bottomRight: Radius.circular(message.isUser ? AppDimensions.spacing4 : AppDimensions.radiusLarge),
           ),
           border: Border.all(
             color: message.isUser
@@ -424,31 +408,26 @@ class ChatBottomSheet extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: AppColors.pureBlack.withValues(alpha: 0.2),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+              blurRadius: AppDimensions.shadowBlurMedium,
+              offset: Offset(0, 2),
             ),
           ],
         ),
         child: message.isUser
             ? Text(
                 message.message,
-                style: TextStyle(
-                  fontFamily: 'SourceCodePro',
+                style: TextStyles.chatMessage.copyWith(
                   color: AppColors.pureBlack,
-                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                 ),
               )
             : Linkify(
                 text: message.message,
-                style: TextStyle(
-                  fontFamily: 'SourceCodePro',
+                style: TextStyles.chatMessage.copyWith(
                   color: AppColors.pureWhite,
-                  fontSize: 14,
                   height: 1.4,
                 ),
-                linkStyle: TextStyle(
-                  fontFamily: 'SourceCodePro',
+                linkStyle: TextStyles.chatMessage.copyWith(
                   color: AppColors.lightAccent,
                   decoration: TextDecoration.underline,
                   fontWeight: FontWeight.w600,
@@ -459,7 +438,7 @@ class ChatBottomSheet extends StatelessWidget {
                     await launchUrl(uri, mode: LaunchMode.externalApplication);
                   } else {
                     Get.snackbar(
-                      'Error',
+                      AppStrings.error,
                       'Could not open ${link.url}',
                       snackPosition: SnackPosition.BOTTOM,
                       backgroundColor: AppColors.errorColor,
