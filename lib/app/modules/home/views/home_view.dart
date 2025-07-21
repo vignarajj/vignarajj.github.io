@@ -1075,7 +1075,13 @@ class HomeView extends GetView<HomeController> {
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
       child: TextButton(
-        onPressed: () => _scrollToSection(key),
+        onPressed: () {
+          if (title == AppStrings.contactNav) {
+            Get.toNamed('/contact');
+          } else {
+            _scrollToSection(key);
+          }
+        },
         style: TextButton.styleFrom(
           backgroundColor: Colors.transparent,
           foregroundColor: AppColors.primaryText,
