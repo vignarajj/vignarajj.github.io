@@ -206,7 +206,8 @@ class TextStyles {
 
   static const TextStyle formError = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 12,
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
     color: AppColors.errorColor,
   );
 
@@ -301,7 +302,8 @@ class TextStyles {
   );
 
   // Responsive text style helper
-  static TextStyle getResponsiveTextStyle(double width, {
+  static TextStyle getResponsiveTextStyle(
+    double width, {
     required TextStyle desktop,
     required TextStyle mobile,
   }) {

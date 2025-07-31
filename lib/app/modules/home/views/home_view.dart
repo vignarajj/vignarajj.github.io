@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:portfolio/app/modules/chat/views/chat_bottom_sheet.dart';
 import 'package:portfolio/app/modules/home/controllers/home_controller.dart';
+import 'package:portfolio/shared/constants/app_constants.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 import 'package:portfolio/shared/theme/text_styles.dart';
-import 'package:portfolio/shared/constants/app_constants.dart';
 import 'package:portfolio/shared/widgets/contact_buttons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -25,16 +25,20 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     // Simulate loading
-    Future.delayed(const Duration(milliseconds: AppDimensions.loadingDelayMilliseconds), () {
-      _isLoading.value = false;
-    });
+    Future.delayed(
+      const Duration(milliseconds: AppDimensions.loadingDelayMilliseconds),
+      () {
+        _isLoading.value = false;
+      },
+    );
 
     return Obx(
       () => _isLoading.value
           ? _buildLoadingScreen()
           : LayoutBuilder(
               builder: (context, constraints) {
-                final isDesktop = constraints.maxWidth > AppDimensions.homeDesktopBreakpoint;
+                final isDesktop =
+                    constraints.maxWidth > AppDimensions.homeDesktopBreakpoint;
                 return Scaffold(
                   backgroundColor: AppColors.primaryBackground,
                   drawer: !isDesktop ? _buildMobileDrawer() : null,
@@ -53,9 +57,11 @@ class HomeView extends GetView<HomeController> {
     bool isDesktop,
     BoxConstraints constraints,
   ) {
-    final horizontalPadding = isDesktop ? AppDimensions.homeHorizontalPaddingDesktop : AppDimensions.homeHorizontalPaddingMobile;
+    final horizontalPadding = isDesktop
+        ? AppDimensions.homeHorizontalPaddingDesktop
+        : AppDimensions.homeHorizontalPaddingMobile;
     final maxContentWidth = AppDimensions.maxContentWidth;
-    
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return CustomScrollView(
@@ -65,13 +71,17 @@ class HomeView extends GetView<HomeController> {
             SliverPadding(
               padding: EdgeInsets.symmetric(
                 horizontal: horizontalPadding,
-                vertical: isDesktop ? AppDimensions.homeVerticalPaddingDesktop : AppDimensions.homeVerticalPaddingMobile,
+                vertical: isDesktop
+                    ? AppDimensions.homeVerticalPaddingDesktop
+                    : AppDimensions.homeVerticalPaddingMobile,
               ),
               sliver: SliverToBoxAdapter(
                 child: Center(
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxWidth: isDesktop ? maxContentWidth : constraints.maxWidth,
+                      maxWidth: isDesktop
+                          ? maxContentWidth
+                          : constraints.maxWidth,
                       minHeight: constraints.maxHeight,
                     ),
                     child: Column(
@@ -90,7 +100,10 @@ class HomeView extends GetView<HomeController> {
                           child: _buildProjectsSection(isDesktop),
                         ),
                         const SizedBox(height: AppDimensions.spacing32),
-                        Container(key: _worksKey, child: _buildWorksSection(isDesktop)),
+                        Container(
+                          key: _worksKey,
+                          child: _buildWorksSection(isDesktop),
+                        ),
                         const SizedBox(height: AppDimensions.spacing32),
                         Container(
                           key: _servicesKey,
@@ -101,7 +114,11 @@ class HomeView extends GetView<HomeController> {
                           key: _contactKey,
                           child: _buildContactSection(isDesktop),
                         ),
-                        SizedBox(height: isDesktop ? AppDimensions.spacing24 : AppDimensions.bottomBarHeightDesktop),
+                        SizedBox(
+                          height: isDesktop
+                              ? AppDimensions.spacing24
+                              : AppDimensions.bottomBarHeightDesktop,
+                        ),
                       ],
                     ),
                   ),
@@ -115,7 +132,9 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _buildProfileSection(bool isDesktop) {
-    final avatarRadius = isDesktop ? AppDimensions.profileAvatarRadiusDesktop : AppDimensions.profileAvatarRadiusMobile;
+    final avatarRadius = isDesktop
+        ? AppDimensions.profileAvatarRadiusDesktop
+        : AppDimensions.profileAvatarRadiusMobile;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -142,12 +161,17 @@ class HomeView extends GetView<HomeController> {
         const SizedBox(height: AppDimensions.spacing24),
         Text(
           AppStrings.profileName,
-          style: isDesktop ? TextStyles.profileName : TextStyles.profileNameMobile,
+          style: isDesktop
+              ? TextStyles.profileName
+              : TextStyles.profileNameMobile,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: AppDimensions.spacing12),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingLarge, vertical: AppDimensions.paddingSmall),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppDimensions.paddingLarge,
+            vertical: AppDimensions.paddingSmall,
+          ),
           decoration: BoxDecoration(
             color: AppColors.cardBackground,
             borderRadius: BorderRadius.circular(AppDimensions.radiusXLarge),
@@ -158,7 +182,9 @@ class HomeView extends GetView<HomeController> {
           ),
           child: Text(
             AppStrings.profileSubtitle,
-            style: isDesktop ? TextStyles.profileSubtitle : TextStyles.profileSubtitleMobile,
+            style: isDesktop
+                ? TextStyles.profileSubtitle
+                : TextStyles.profileSubtitleMobile,
             textAlign: TextAlign.center,
           ),
         ),
@@ -172,17 +198,23 @@ class HomeView extends GetView<HomeController> {
       children: [
         Text(
           AppStrings.aboutMeTitle,
-          style: isDesktop ? TextStyles.sectionTitle : TextStyles.sectionTitleMobile,
+          style: isDesktop
+              ? TextStyles.sectionTitle
+              : TextStyles.sectionTitleMobile,
         ),
         const SizedBox(height: 12),
         Text(
           AppStrings.aboutDescription,
-          style: isDesktop ? TextStyles.sectionDescription : TextStyles.sectionDescriptionMobile,
+          style: isDesktop
+              ? TextStyles.sectionDescription
+              : TextStyles.sectionDescriptionMobile,
         ),
         const SizedBox(height: 20),
         Text(
           AppStrings.skillsTitle,
-          style: isDesktop ? TextStyles.sectionTitle : TextStyles.sectionTitleMobile,
+          style: isDesktop
+              ? TextStyles.sectionTitle
+              : TextStyles.sectionTitleMobile,
         ),
         const SizedBox(height: 8),
         _buildInteractiveSkills(isDesktop),
@@ -273,8 +305,12 @@ class HomeView extends GetView<HomeController> {
             flex: 2,
             child: SvgPicture.asset(
               skill['asset'] as String,
-              width: isDesktop ? AppDimensions.skillIconSizeDesktop : AppDimensions.skillIconSizeMobile,
-              height: isDesktop ? AppDimensions.skillIconSizeDesktop : AppDimensions.skillIconSizeMobile,
+              width: isDesktop
+                  ? AppDimensions.skillIconSizeDesktop
+                  : AppDimensions.skillIconSizeMobile,
+              height: isDesktop
+                  ? AppDimensions.skillIconSizeDesktop
+                  : AppDimensions.skillIconSizeMobile,
               colorFilter: ColorFilter.mode(
                 AppColors.pureWhite,
                 BlendMode.srcIn,
@@ -286,7 +322,9 @@ class HomeView extends GetView<HomeController> {
             flex: 1,
             child: Text(
               skill['name'] as String,
-              style: isDesktop ? TextStyles.skillName : TextStyles.skillNameMobile,
+              style: isDesktop
+                  ? TextStyles.skillName
+                  : TextStyles.skillNameMobile,
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -330,7 +368,9 @@ class HomeView extends GetView<HomeController> {
       children: [
         Text(
           AppStrings.featuredProjectsTitle,
-          style: isDesktop ? TextStyles.sectionTitle : TextStyles.sectionTitleMobile,
+          style: isDesktop
+              ? TextStyles.sectionTitle
+              : TextStyles.sectionTitleMobile,
         ),
         const SizedBox(height: AppDimensions.spacing16),
         isDesktop
@@ -372,7 +412,9 @@ class HomeView extends GetView<HomeController> {
       borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
       child: Container(
         height: isDesktop ? null : AppDimensions.projectCardHeightMobile,
-        padding: EdgeInsets.all(isDesktop ? AppDimensions.paddingLarge : AppDimensions.paddingMedium),
+        padding: EdgeInsets.all(
+          isDesktop ? AppDimensions.paddingLarge : AppDimensions.paddingMedium,
+        ),
         decoration: BoxDecoration(
           color: AppColors.cardBackground,
           borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
@@ -417,7 +459,7 @@ class HomeView extends GetView<HomeController> {
                 project['description'] as String,
                 style: TextStyle(
                   fontFamily: 'SourceCodePro',
-                  fontSize: isDesktop ? 13 : 11,
+                  fontSize: isDesktop ? 13 : 12,
                   color: AppColors.primaryText,
                   height: 1.4,
                 ),
@@ -555,7 +597,9 @@ class HomeView extends GetView<HomeController> {
       children: [
         Text(
           AppStrings.flutterPluginsTitle,
-          style: isDesktop ? TextStyles.sectionTitle : TextStyles.sectionTitleMobile,
+          style: isDesktop
+              ? TextStyles.sectionTitle
+              : TextStyles.sectionTitleMobile,
         ),
         const SizedBox(height: 16),
         isDesktop
@@ -563,7 +607,8 @@ class HomeView extends GetView<HomeController> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: AppDimensions.pluginsGridCrossAxisCountDesktop,
+                  crossAxisCount:
+                      AppDimensions.pluginsGridCrossAxisCountDesktop,
                   crossAxisSpacing: AppDimensions.pluginsGridSpacingDesktop,
                   mainAxisSpacing: AppDimensions.pluginsGridSpacingDesktop,
                   childAspectRatio: AppDimensions.pluginsGridAspectRatioDesktop,
@@ -590,171 +635,131 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _buildPluginCard(Map<String, dynamic> plugin, bool isDesktop) {
-    return Container(
-      padding: EdgeInsets.all(isDesktop ? 16 : 12),
-      decoration: BoxDecoration(
-        color: AppColors.cardBackground,
-        borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
-        border: Border.all(color: AppColors.borderColor, width: 1),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      plugin['name'] as String,
-                      style: TextStyle(
-                        fontFamily: 'SourceCodePro',
-                        fontSize: isDesktop ? 16 : 13,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.pureWhite,
+    return InkWell(
+      onTap: () async {
+        final url = plugin['link'] as String;
+        if (await canLaunchUrl(Uri.parse(url))) {
+          await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+        }
+      },
+      borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
+      child: Container(
+        height: isDesktop ? null : AppDimensions.projectCardHeightMobile,
+        padding: EdgeInsets.all(
+          isDesktop ? AppDimensions.paddingLarge : AppDimensions.paddingMedium,
+        ),
+        decoration: BoxDecoration(
+          color: AppColors.cardBackground,
+          borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
+          border: Border.all(color: AppColors.borderColor, width: 1),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        plugin['name'] as String,
+                        style: TextStyle(
+                          fontFamily: 'SourceCodePro',
+                          fontSize: isDesktop ? 16 : 14,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.pureWhite,
+                        ),
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.lightAccent.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            plugin['version'] as String,
-                            style: TextStyle(
-                              fontFamily: 'SourceCodePro',
-                              fontSize: 10,
-                              color: AppColors.lightAccent,
-                              fontWeight: FontWeight.w600,
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.lightAccent.withValues(
+                                alpha: 0.2,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              plugin['version'] as String,
+                              style: TextStyle(
+                                fontFamily: 'SourceCodePro',
+                                fontSize: 10,
+                                color: AppColors.lightAccent,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          'pub.dev',
-                          style: TextStyle(
-                            fontFamily: 'SourceCodePro',
-                            fontSize: 12,
-                            color: AppColors.primaryText,
+                          const SizedBox(width: 8),
+                          Text(
+                            'pub.dev',
+                            style: TextStyle(
+                              fontFamily: 'SourceCodePro',
+                              fontSize: 12,
+                              color: AppColors.lightAccent,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Flexible(
-            flex: 2,
-            child: Text(
-              plugin['description'] as String,
-              style: TextStyle(
-                fontFamily: 'SourceCodePro',
-                fontSize: isDesktop ? 13 : 10,
-                color: AppColors.primaryText,
-                height: 1.3,
-              ),
-              maxLines: isDesktop ? 3 : 3,
-              overflow: TextOverflow.ellipsis,
+                Icon(Icons.launch, color: AppColors.primaryText, size: 16),
+              ],
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Platforms:',
-            style: TextStyle(
-              fontFamily: 'SourceCodePro',
-              fontSize: 11,
-              color: AppColors.lightAccent,
-              fontWeight: FontWeight.w600,
+            const SizedBox(height: 12),
+            Expanded(
+              child: Text(
+                plugin['description'] as String,
+                style: TextStyle(
+                  fontFamily: 'SourceCodePro',
+                  fontSize: isDesktop ? 13 : 12,
+                  color: AppColors.primaryText,
+                  height: 1.4,
+                ),
+                maxLines: isDesktop ? 5 : 4,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-          const SizedBox(height: 4),
-          Wrap(
-            spacing: 6,
-            runSpacing: 4,
-            children: (plugin['platforms'] as List<String>)
-                .take(isDesktop ? 3 : 2)
-                .map(
-                  (platform) => Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: isDesktop ? 8 : 6,
-                      vertical: isDesktop ? 4 : 3,
+            const SizedBox(height: 8),
+            SizedBox(
+              height: 20,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                itemCount: (plugin['platforms'] as List<String>).length,
+                itemBuilder: (context, index) {
+                  final platform = (plugin['platforms'] as List<String>)[index];
+                  return Container(
+                    margin: const EdgeInsets.only(right: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.pureBlack,
-                      borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
-                      border: Border.all(color: AppColors.pureWhite, width: 1),
+                      color: AppColors.borderColor,
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
                       platform,
                       style: TextStyle(
                         fontFamily: 'SourceCodePro',
-                        fontSize: isDesktop ? 9 : 8,
+                        fontSize: 9,
                         color: AppColors.pureWhite,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                  ),
-                )
-                .toList(),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Key Features:',
-            style: TextStyle(
-              fontFamily: 'SourceCodePro',
-              fontSize: 11,
-              color: AppColors.lightAccent,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: isDesktop ? 4 : 2),
-          Flexible(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: (plugin['features'] as List<String>)
-                    .take(isDesktop ? 2 : 1)
-                    .map(
-                      (feature) => Container(
-                        margin: const EdgeInsets.only(right: 4),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isDesktop ? 6 : 4,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.cardBackground,
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(color: Colors.white, width: 0.5),
-                        ),
-                        child: Text(
-                          feature,
-                          style: TextStyle(
-                            fontFamily: 'SourceCodePro',
-                            fontSize: isDesktop ? 8 : 7,
-                            color: AppColors.primaryText,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(),
+                  );
+                },
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -768,9 +773,13 @@ class HomeView extends GetView<HomeController> {
 
   Widget? _buildActionBottomBar(bool isDesktop) {
     return Container(
-      height: isDesktop ? AppDimensions.bottomBarHeightDesktop : AppDimensions.bottomBarHeightMobile,
+      height: isDesktop
+          ? AppDimensions.bottomBarHeightDesktop
+          : AppDimensions.bottomBarHeightMobile,
       padding: EdgeInsets.symmetric(
-        horizontal: isDesktop ? AppDimensions.bottomBarPaddingDesktop : AppDimensions.bottomBarPaddingMobile,
+        horizontal: isDesktop
+            ? AppDimensions.bottomBarPaddingDesktop
+            : AppDimensions.bottomBarPaddingMobile,
         vertical: AppDimensions.spacing12,
       ),
       decoration: BoxDecoration(
@@ -805,7 +814,9 @@ class HomeView extends GetView<HomeController> {
             Expanded(
               child: _buildActionBarButton(
                 icon: Icons.calendar_today,
-                label: isDesktop ? AppStrings.meetingAction : AppStrings.bookAction,
+                label: isDesktop
+                    ? AppStrings.meetingAction
+                    : AppStrings.bookAction,
                 isSecondary: true,
                 onPressed: _openCalendly,
               ),
@@ -831,12 +842,12 @@ class HomeView extends GetView<HomeController> {
           height: AppDimensions.bottomBarButtonHeight,
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: isSecondary 
+            color: isSecondary
                 ? AppColors.primaryBackground
                 : AppColors.lightAccent,
             borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
             border: Border.all(
-              color: isSecondary 
+              color: isSecondary
                   ? AppColors.lightAccent.withValues(alpha: 0.3)
                   : AppColors.pureWhite.withValues(alpha: 0.2),
               width: 1,
@@ -847,7 +858,9 @@ class HomeView extends GetView<HomeController> {
             children: [
               Icon(
                 icon,
-                color: isSecondary ? AppColors.lightAccent : AppColors.pureBlack,
+                color: isSecondary
+                    ? AppColors.lightAccent
+                    : AppColors.pureBlack,
                 size: 18,
               ),
               const SizedBox(width: 8),
@@ -857,7 +870,9 @@ class HomeView extends GetView<HomeController> {
                   style: TextStyle(
                     fontFamily: 'SourceCodePro',
                     fontSize: 14,
-                    color: isSecondary ? AppColors.pureWhite : AppColors.pureBlack,
+                    color: isSecondary
+                        ? AppColors.pureWhite
+                        : AppColors.pureBlack,
                     fontWeight: FontWeight.w600,
                   ),
                   maxLines: 1,
@@ -892,10 +907,7 @@ class HomeView extends GetView<HomeController> {
 
   PreferredSizeWidget _buildMobileAppBar() {
     return AppBar(
-      title: Text(
-        '',
-        style: TextStyles.sectionTitle,
-      ),
+      title: Text('', style: TextStyles.sectionTitle),
       backgroundColor: AppColors.primaryBackground,
       elevation: 0,
       iconTheme: IconThemeData(color: AppColors.pureWhite),
@@ -944,10 +956,26 @@ class HomeView extends GetView<HomeController> {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 physics: const BouncingScrollPhysics(),
                 children: [
-                  _buildMobileNavItem(AppStrings.aboutNav, _aboutKey, Icons.person),
-                  _buildMobileNavItem(AppStrings.projectsNav, _projectsKey, Icons.code),
-                  _buildMobileNavItem(AppStrings.worksNav, _worksKey, Icons.work_outline),
-                  _buildMobileNavItem(AppStrings.servicesNav, _servicesKey, Icons.business),
+                  _buildMobileNavItem(
+                    AppStrings.aboutNav,
+                    _aboutKey,
+                    Icons.person,
+                  ),
+                  _buildMobileNavItem(
+                    AppStrings.projectsNav,
+                    _projectsKey,
+                    Icons.code,
+                  ),
+                  _buildMobileNavItem(
+                    AppStrings.worksNav,
+                    _worksKey,
+                    Icons.work_outline,
+                  ),
+                  _buildMobileNavItem(
+                    AppStrings.servicesNav,
+                    _servicesKey,
+                    Icons.business,
+                  ),
                   _buildMobileNavItem(
                     AppStrings.contactNav,
                     _contactKey,
@@ -1002,17 +1030,10 @@ class HomeView extends GetView<HomeController> {
                   width: 24,
                   height: 24,
                   color: AppColors.pureWhite,
-                  errorBuilder: (context, error, stackTrace) => Icon(
-                    icon,
-                    color: AppColors.pureWhite,
-                    size: 20,
-                  ),
+                  errorBuilder: (context, error, stackTrace) =>
+                      Icon(icon, color: AppColors.pureWhite, size: 20),
                 )
-              : Icon(
-                  icon,
-                  color: AppColors.pureWhite,
-                  size: 20,
-                ),
+              : Icon(icon, color: AppColors.pureWhite, size: 20),
         ),
         title: Text(
           title,
@@ -1026,13 +1047,19 @@ class HomeView extends GetView<HomeController> {
         onTap: () {
           Navigator.pop(Get.context!);
           if (isContactScreen) {
-            Future.delayed(const Duration(milliseconds: AppDimensions.navigationDelayMs), () {
-              Get.toNamed('/contact');
-            });
+            Future.delayed(
+              const Duration(milliseconds: AppDimensions.navigationDelayMs),
+              () {
+                Get.toNamed('/contact');
+              },
+            );
           } else {
-            Future.delayed(const Duration(milliseconds: AppDimensions.navigationDelayMs), () {
-              _scrollToSection(key);
-            });
+            Future.delayed(
+              const Duration(milliseconds: AppDimensions.navigationDelayMs),
+              () {
+                _scrollToSection(key);
+              },
+            );
           }
         },
       ),
@@ -1104,17 +1131,22 @@ class HomeView extends GetView<HomeController> {
   }
 
   void _scrollToSection(GlobalKey key) {
-    Future.delayed(const Duration(milliseconds: AppDimensions.loadingInitialDelayMs), () {
-      final context = key.currentContext;
-      if (context != null) {
-        Scrollable.ensureVisible(
-          context,
-          duration: const Duration(milliseconds: AppDimensions.scrollAnimationDurationMs),
-          curve: Curves.easeOutCubic,
-          alignment: 0.1,
-        );
-      }
-    });
+    Future.delayed(
+      const Duration(milliseconds: AppDimensions.loadingInitialDelayMs),
+      () {
+        final context = key.currentContext;
+        if (context != null) {
+          Scrollable.ensureVisible(
+            context,
+            duration: const Duration(
+              milliseconds: AppDimensions.scrollAnimationDurationMs,
+            ),
+            curve: Curves.easeOutCubic,
+            alignment: 0.1,
+          );
+        }
+      },
+    );
   }
 
   Widget _buildServicesSection(bool isDesktop) {
@@ -1211,7 +1243,9 @@ class HomeView extends GetView<HomeController> {
         const SizedBox(height: 20),
         Text(
           AppStrings.servicesTitle,
-          style: isDesktop ? TextStyles.sectionTitle : TextStyles.sectionTitleMobile,
+          style: isDesktop
+              ? TextStyles.sectionTitle
+              : TextStyles.sectionTitleMobile,
         ),
         const SizedBox(height: 16),
         isDesktop
@@ -1293,7 +1327,8 @@ class HomeView extends GetView<HomeController> {
                   physics: const BouncingScrollPhysics(),
                   itemCount: (service['features'] as List<String>).length,
                   itemBuilder: (context, index) {
-                    final feature = (service['features'] as List<String>)[index];
+                    final feature =
+                        (service['features'] as List<String>)[index];
                     return Container(
                       margin: const EdgeInsets.only(right: 8),
                       padding: const EdgeInsets.symmetric(
@@ -1302,8 +1337,13 @@ class HomeView extends GetView<HomeController> {
                       ),
                       decoration: BoxDecoration(
                         color: AppColors.pureBlack,
-                        borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
-                        border: Border.all(color: AppColors.pureWhite, width: 1),
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.radiusMedium,
+                        ),
+                        border: Border.all(
+                          color: AppColors.pureWhite,
+                          width: 1,
+                        ),
                       ),
                       child: Text(
                         feature,

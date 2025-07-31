@@ -39,5 +39,5 @@ class AppColors {
   static const Color warningColor = Color(
     0xFF999999,
   ); // Medium grey for warning
-  static const Color errorColor = Color(0xFF666666); // Dark grey for error
+  static const Color errorColor = Color(0xFFFF4757); // Cool red for error
 }
