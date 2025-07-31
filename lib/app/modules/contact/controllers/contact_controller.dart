@@ -26,9 +26,11 @@ class ContactController extends GetxController {
 
   // Validate and submit the form
   void submitForm() async {
+    print("submit form called");
     if (formKey.currentState!.validate()) {
       isSubmitting.value = true;
       // Simulate a network call (replace with actual API call if needed)
+      print("checkpoint 1");
       await apiServices
           .sendContact(
             ContactModel(

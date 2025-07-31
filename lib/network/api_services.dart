@@ -1,4 +1,7 @@
+import 'dart:convert'; // Add this import for json encoding
+
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http; // Add http package import
 import 'package:portfolio/network/api_constants.dart';
 import 'package:portfolio/shared/models/contact_model.dart';
 
@@ -10,7 +13,7 @@ class ApiServices extends GetConnect {
     httpClient.defaultContentType = 'application/json';
     httpClient.followRedirects = true;
     httpClient.maxRedirects = 3;
-    
+
     super.onInit();
   }
 
@@ -25,13 +28,13 @@ class ApiServices extends GetConnect {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       };
-      
+
       final response = await get(
-        endpoint, 
+        endpoint,
         query: queryParams,
         headers: {...defaultHeaders, ...?headers},
       );
-      
+
       if (response.status.hasError) {
         throw Exception('GET failed: ${response.statusText}');
       }
@@ -44,7 +47,7 @@ class ApiServices extends GetConnect {
 
   // Generic POST request
   Future<T> postRequest<T>(
-    String endpoint, 
+    String endpoint,
     dynamic data, {
     Map<String, String>? headers,
   }) async {
@@ -53,13 +56,13 @@ class ApiServices extends GetConnect {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       };
-      
+
       final response = await post(
-        endpoint, 
+        endpoint,
         data,
         headers: {...defaultHeaders, ...?headers},
       );
-      
+
       if (response.status.hasError) {
         throw Exception('POST failed: ${response.statusText}');
       }
@@ -78,11 +81,8 @@ class ApiServices extends GetConnect {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       };
-      
-      final response = await get(
-        ApiConstants.trackVisit,
-        headers: headers,
-      );
+
+      final response = await get(ApiConstants.trackVisit, headers: headers);
 
       if (response.status.hasError) {
         throw Exception(
@@ -101,19 +101,25 @@ class ApiServices extends GetConnect {
     }
   }
 
-  // Contact form submission
+  // Contact form submission using standard HTTP package
   Future<String> sendContact(ContactModel contact) async {
+    print("📡 Sending contact: ${contact.toJson()}"); // Debug log
     try {
+      final url = Uri.parse('${ApiConstants.baseUrl}${ApiConstants.contact}');
       final headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       };
-      
-      final response = await post(
-        ApiConstants.contact, 
-        contact.toJson(),
-        headers: headers,
-      );
+
+      final jsonData = contact.toJson();
+      final jsonString = jsonEncode(jsonData);
+      print("📤 JSON String: $jsonString"); // Debug log
+      print("📤 URL: $url"); // Debug log
+
+      final response = await http.post(url, headers: headers, body: jsonString);
+
+      print("📥 Response Status: ${response.statusCode}"); // Debug log
+      print("📥 Response Body: ${response.body}"); // Debug log
 
       if (response.statusCode == 200) {
         print("✅ Contact sent");
@@ -123,10 +129,11 @@ class ApiServices extends GetConnect {
       } else if (response.statusCode == 400) {
         return "Invalid input data. Please check your entries.";
       } else {
-        throw Exception("❌ Failed: ${response.statusText}");
+        throw Exception("❌ Failed: ${response.statusCode} ${response.body}");
       }
-    } catch (e) {
+    } catch (e, trace) {
       print("❌ Contact Error: $e");
+      print("Stack Trace: $trace");
       return "Something went wrong. Please try again.";
     }
   }
@@ -134,37 +141,37 @@ class ApiServices extends GetConnect {
   // Chatbot question submission
   Future<String> askQuestion(String question) async {
     print("📡 Sending question to chatbot: $question");
-    
+
     // Try multiple endpoints if primary fails
     for (int i = 0; i < ApiConstants.fallbackUrls.length; i++) {
       final baseUrl = ApiConstants.fallbackUrls[i];
-      
+
       try {
         print("🗺 Trying endpoint $i: $baseUrl");
-        
+
         // Create a new HTTP client for each attempt
         final client = GetConnect();
         client.baseUrl = baseUrl;
         client.timeout = const Duration(seconds: 8);
         client.defaultContentType = 'application/json';
-        
+
         // Add headers directly to the request
         final headers = {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
           'User-Agent': 'Flutter-Portfolio-App',
         };
-        
-        final response = await client.post(
-          ApiConstants.chatbot,
-          {'question': question},
-          headers: headers,
-        ).timeout(
-          const Duration(seconds: 10),
-          onTimeout: () {
-            throw Exception('Request timeout for $baseUrl');
-          },
-        );
+
+        final response = await client
+            .post(ApiConstants.chatbot, {
+              'question': question,
+            }, headers: headers)
+            .timeout(
+              const Duration(seconds: 10),
+              onTimeout: () {
+                throw Exception('Request timeout for $baseUrl');
+              },
+            );
 
         if (response.status.hasError) {
           print("⚠ Endpoint $baseUrl failed: ${response.statusText}");
@@ -202,7 +209,7 @@ class ApiServices extends GetConnect {
         // Continue to next endpoint
       }
     }
-    
+
     throw Exception('No endpoints available');
   }
 }
