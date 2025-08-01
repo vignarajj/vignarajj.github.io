@@ -43,8 +43,15 @@ class HomeView extends GetView<HomeController> {
                   backgroundColor: AppColors.primaryBackground,
                   drawer: !isDesktop ? _buildMobileDrawer() : null,
                   appBar: !isDesktop ? _buildMobileAppBar() : null,
-                  body: _buildMainContent(context, isDesktop, constraints),
-                  bottomNavigationBar: _buildActionBottomBar(isDesktop),
+                  body: Stack(
+                    children: [
+                      _buildMainContent(context, isDesktop, constraints),
+                      if (isDesktop) _buildFloatingActionButtons(),
+                    ],
+                  ),
+                  bottomNavigationBar: !isDesktop
+                      ? _buildActionBottomBar(false)
+                      : null,
                   extendBody: true,
                 );
               },
@@ -1359,6 +1366,83 @@ class HomeView extends GetView<HomeController> {
                 ),
               );
             },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFloatingActionButtons() {
+    return Positioned(
+      bottom: 20,
+      right: 20,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: AppColors.lightAccent,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.lightAccent.withValues(alpha: 0.3),
+                  blurRadius: 8,
+                  spreadRadius: 2,
+                ),
+              ],
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: _showChatBottomSheet,
+                borderRadius: BorderRadius.circular(16),
+                child: Container(
+                  width: 56,
+                  height: 56,
+                  padding: const EdgeInsets.all(16),
+                  child: Icon(
+                    FontAwesomeIcons.message,
+                    color: AppColors.primaryBackground,
+                    size: 24,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            decoration: BoxDecoration(
+              color: AppColors.cardBackground,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: AppColors.lightAccent.withValues(alpha: 0.3),
+                width: 1,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.pureBlack.withValues(alpha: 0.2),
+                  blurRadius: 8,
+                  spreadRadius: 2,
+                ),
+              ],
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: _openCalendly,
+                borderRadius: BorderRadius.circular(16),
+                child: Container(
+                  width: 56,
+                  height: 56,
+                  padding: const EdgeInsets.all(16),
+                  child: Icon(
+                    Icons.calendar_today,
+                    color: AppColors.lightAccent,
+                    size: 24,
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),
