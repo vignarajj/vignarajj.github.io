@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_theme.dart';
 
 class ProjectCard extends StatefulWidget {
   final Project project;
@@ -64,7 +65,7 @@ class _ProjectCardState extends State<ProjectCard> {
                   flex: 1,
                   child: Text(
                     widget.project.title,
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Colors.white,
                       fontSize: isMobile ? 13 : 16,
                       fontWeight: FontWeight.bold,
@@ -78,7 +79,7 @@ class _ProjectCardState extends State<ProjectCard> {
                   flex: 2,
                   child: Text(
                     widget.project.description,
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Colors.grey[400],
                       fontSize: isMobile ? 9 : 12,
                       height: 1.3,
@@ -90,7 +91,7 @@ class _ProjectCardState extends State<ProjectCard> {
                 SizedBox(height: isMobile ? 4 : 6),
                 Text(
                   'Visit',
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
                     color: AppColors.pureWhite,
                     fontSize: isMobile ? 11 : 14,
                     decoration: TextDecoration.underline,

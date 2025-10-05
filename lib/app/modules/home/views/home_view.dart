@@ -7,6 +7,7 @@ import 'package:portfolio/app/modules/chat/views/chat_bottom_sheet.dart';
 import 'package:portfolio/app/modules/home/controllers/home_controller.dart';
 import 'package:portfolio/shared/constants/app_constants.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
+import 'package:portfolio/shared/theme/app_theme.dart';
 import 'package:portfolio/shared/theme/text_styles.dart';
 import 'package:portfolio/shared/widgets/contact_buttons.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -451,7 +452,7 @@ class HomeView extends GetView<HomeController> {
                       Text(
                         project['name'] as String,
                         style: TextStyle(
-                          fontFamily: 'SourceCodePro',
+                          fontFamily: AppTheme.fontFamily,
                           fontSize: isDesktop ? 16 : 14,
                           fontWeight: FontWeight.bold,
                           color: AppColors.pureWhite,
@@ -461,7 +462,7 @@ class HomeView extends GetView<HomeController> {
                       Text(
                         project['type'] as String,
                         style: TextStyle(
-                          fontFamily: 'SourceCodePro',
+                          fontFamily: AppTheme.fontFamily,
                           fontSize: 12,
                           color: AppColors.lightAccent,
                         ),
@@ -477,7 +478,7 @@ class HomeView extends GetView<HomeController> {
               child: Text(
                 project['description'] as String,
                 style: TextStyle(
-                  fontFamily: 'SourceCodePro',
+                  fontFamily: AppTheme.fontFamily,
                   fontSize: isDesktop ? 13 : 12,
                   color: AppColors.primaryText,
                   height: 1.4,
@@ -510,7 +511,7 @@ class HomeView extends GetView<HomeController> {
                         child: Text(
                           tech,
                           style: TextStyle(
-                            fontFamily: 'SourceCodePro',
+                            fontFamily: AppTheme.fontFamily,
                             fontSize: 9,
                             color: AppColors.pureWhite,
                             fontWeight: FontWeight.w500,
@@ -684,7 +685,7 @@ class HomeView extends GetView<HomeController> {
                       Text(
                         plugin['name'] as String,
                         style: TextStyle(
-                          fontFamily: 'SourceCodePro',
+                          fontFamily: AppTheme.fontFamily,
                           fontSize: isDesktop ? 16 : 14,
                           fontWeight: FontWeight.bold,
                           color: AppColors.pureWhite,
@@ -707,7 +708,7 @@ class HomeView extends GetView<HomeController> {
                             child: Text(
                               plugin['version'] as String,
                               style: TextStyle(
-                                fontFamily: 'SourceCodePro',
+                                fontFamily: AppTheme.fontFamily,
                                 fontSize: 10,
                                 color: AppColors.lightAccent,
                                 fontWeight: FontWeight.w600,
@@ -718,7 +719,7 @@ class HomeView extends GetView<HomeController> {
                           Text(
                             'pub.dev',
                             style: TextStyle(
-                              fontFamily: 'SourceCodePro',
+                              fontFamily: AppTheme.fontFamily,
                               fontSize: 12,
                               color: AppColors.lightAccent,
                             ),
@@ -736,7 +737,7 @@ class HomeView extends GetView<HomeController> {
               child: Text(
                 plugin['description'] as String,
                 style: TextStyle(
-                  fontFamily: 'SourceCodePro',
+                  fontFamily: AppTheme.fontFamily,
                   fontSize: isDesktop ? 13 : 12,
                   color: AppColors.primaryText,
                   height: 1.4,
@@ -767,7 +768,7 @@ class HomeView extends GetView<HomeController> {
                     child: Text(
                       platform,
                       style: TextStyle(
-                        fontFamily: 'SourceCodePro',
+                        fontFamily: AppTheme.fontFamily,
                         fontSize: 9,
                         color: AppColors.pureWhite,
                         fontWeight: FontWeight.w500,
@@ -886,7 +887,7 @@ class HomeView extends GetView<HomeController> {
                 child: Text(
                   label,
                   style: TextStyle(
-                    fontFamily: 'SourceCodePro',
+                    fontFamily: AppTheme.fontFamily,
                     fontSize: 14,
                     color:
                         isSecondary ? AppColors.pureWhite : AppColors.pureBlack,
@@ -1055,7 +1056,7 @@ class HomeView extends GetView<HomeController> {
         title: Text(
           title,
           style: TextStyle(
-            fontFamily: 'SourceCodePro',
+            fontFamily: AppTheme.fontFamily,
             fontSize: 16,
             color: AppColors.pureWhite,
             fontWeight: FontWeight.w500,
@@ -1137,7 +1138,7 @@ class HomeView extends GetView<HomeController> {
         child: Text(
           title,
           style: TextStyle(
-            fontFamily: 'SourceCodePro',
+            fontFamily: AppTheme.fontFamily,
             fontSize: 14,
             color: AppColors.primaryText,
             fontWeight: FontWeight.w500,
@@ -1311,7 +1312,7 @@ class HomeView extends GetView<HomeController> {
               Text(
                 service['name'] as String,
                 style: TextStyle(
-                  fontFamily: 'SourceCodePro',
+                  fontFamily: AppTheme.fontFamily,
                   fontSize: isDesktop ? 16 : 14,
                   fontWeight: FontWeight.bold,
                   color: AppColors.pureWhite,
@@ -1325,7 +1326,7 @@ class HomeView extends GetView<HomeController> {
             child: Text(
               service['description'] as String,
               style: TextStyle(
-                fontFamily: 'SourceCodePro',
+                fontFamily: AppTheme.fontFamily,
                 fontSize: isDesktop ? 13 : 11,
                 color: AppColors.primaryText,
                 height: 1.4,
@@ -1365,7 +1366,7 @@ class HomeView extends GetView<HomeController> {
                       child: Text(
                         feature,
                         style: TextStyle(
-                          fontFamily: 'SourceCodePro',
+                          fontFamily: AppTheme.fontFamily,
                           fontSize: 10,
                           color: AppColors.pureWhite,
                           fontWeight: FontWeight.w500,

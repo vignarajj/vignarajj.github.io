@@ -4,10 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 
 class AppTheme {
+  // Get the Source Code Pro font family string
+  static String get _fontFamily => GoogleFonts.sourceCodePro().fontFamily!;
+  
+  // Public getter for use in hardcoded TextStyles
+  static String get fontFamily => _fontFamily;
+  
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     useMaterial3: true,
-    fontFamily: GoogleFonts.sourceCodePro().fontFamily, // Set global font family
+    fontFamily: _fontFamily, // Set global font family
 
     // Color Scheme - Pure Black & White
     colorScheme: const ColorScheme.dark(
