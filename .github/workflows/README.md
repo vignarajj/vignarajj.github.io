@@ -15,7 +15,7 @@ This directory contains GitHub Actions workflows for automated building, testing
 - ✅ Simple error handling
 
 ### 2. `ci-cd.yml` - Advanced CI/CD Pipeline
-**Trigger**: Push to `main`/`develop`, PR to `main`, Manual dispatch  
+**Trigger**: Push to `main`/`develop`, Manual dispatch  
 **Purpose**: Comprehensive CI/CD with multiple quality gates
 
 **Features:**
@@ -28,15 +28,6 @@ This directory contains GitHub Actions workflows for automated building, testing
 - 📝 Detailed deployment summaries
 - 💾 Build artifact caching
 
-### 3. `pr-validation.yml` - Pull Request Validation
-**Trigger**: PR events (open, sync, reopen, ready for review)  
-**Purpose**: Fast validation for pull requests
-
-**Features:**
-- 🏃‍♂️ Parallel validation matrix (format, analyze, test, build)
-- 🎭 Draft PR skip logic
-- 💬 Automated PR status comments
-- ⚡ Optimized for quick feedback
 
 ## 🔧 Setup Instructions
 
@@ -50,8 +41,7 @@ The workflows require these permissions (automatically configured):
 - `contents: read` - Access repository code
 - `pages: write` - Deploy to GitHub Pages
 - `id-token: write` - OIDC authentication for deployment
-- `checks: write` - Update PR check status
-- `pull-requests: write` - Comment on PRs
+- `actions: read` - Access workflow status
 
 ### 3. Flutter Version Configuration
 The workflows use Flutter `3.24.3` (stable). To update:
@@ -80,11 +70,6 @@ If using a custom domain:
 - ❌ No deployment (validation only)
 - 🔍 Change detection optimizations
 
-### Pull Requests
-- ⚡ Fast validation matrix
-- 💬 Automated status comments
-- 🎭 Skip draft PRs
-- ✅ Required status checks
 
 ## 🛠️ Customization Options
 
@@ -182,10 +167,9 @@ For issues with these workflows:
 ## 📝 Workflow Status
 
 | Workflow | Status | Last Updated |
-|----------|--------|--------------|
+|----------|--------|--------------|  
 | Simple Deploy | [![Deploy](../../actions/workflows/deploy.yml/badge.svg)](../../actions/workflows/deploy.yml) | Latest |
 | CI/CD Pipeline | [![CI/CD](../../actions/workflows/ci-cd.yml/badge.svg)](../../actions/workflows/ci-cd.yml) | Latest |
-| PR Validation | [![PR Validation](../../actions/workflows/pr-validation.yml/badge.svg)](../../actions/workflows/pr-validation.yml) | Latest |
 
 ---
 *🤖 These workflows are designed to be production-ready with best practices for Flutter web deployment.*
