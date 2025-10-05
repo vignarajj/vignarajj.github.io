@@ -1,69 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 
 class TextStyles {
-  // Font family
-  static const String fontFamily = 'SourceCodePro';
-
   // Header Styles
-  static const TextStyle consoleHeader = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get consoleHeader => GoogleFonts.sourceCodePro(
     fontSize: 36,
     fontWeight: FontWeight.bold,
     color: AppColors.primaryText,
     letterSpacing: 1.2,
   );
 
-  static const TextStyle consoleSubHeader = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get consoleSubHeader => GoogleFonts.sourceCodePro(
     fontSize: 24,
     fontWeight: FontWeight.w600,
     color: AppColors.lightAccent,
     letterSpacing: 0.8,
   );
 
-  static const TextStyle consoleBody = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get consoleBody => GoogleFonts.sourceCodePro(
     fontSize: 18,
     height: 1.6,
     color: AppColors.secondaryText,
     letterSpacing: 0.3,
   );
 
-  static const TextStyle consoleFooter = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get consoleFooter => GoogleFonts.sourceCodePro(
     fontSize: 16,
     color: AppColors.mutedText,
     letterSpacing: 0.2,
   );
 
   // Profile Styles
-  static const TextStyle profileName = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get profileName => GoogleFonts.sourceCodePro(
     fontSize: 36,
     fontWeight: FontWeight.bold,
     color: AppColors.primaryText,
     letterSpacing: 1.2,
   );
 
-  static const TextStyle profileNameMobile = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get profileNameMobile => GoogleFonts.sourceCodePro(
     fontSize: 28,
     fontWeight: FontWeight.bold,
     color: AppColors.primaryText,
     letterSpacing: 1.0,
   );
 
-  static const TextStyle profileSubtitle = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get profileSubtitle => GoogleFonts.sourceCodePro(
     fontSize: 18,
     fontWeight: FontWeight.w500,
     color: AppColors.lightAccent,
     letterSpacing: 0.5,
   );
 
-  static const TextStyle profileSubtitleMobile = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get profileSubtitleMobile => GoogleFonts.sourceCodePro(
     fontSize: 16,
     fontWeight: FontWeight.w500,
     color: AppColors.lightAccent,
@@ -71,32 +61,28 @@ class TextStyles {
   );
 
   // Section Styles
-  static const TextStyle sectionTitle = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get sectionTitle => GoogleFonts.sourceCodePro(
     fontSize: 22,
     fontWeight: FontWeight.bold,
     color: AppColors.lightAccent,
     letterSpacing: 0.8,
   );
 
-  static const TextStyle sectionTitleMobile = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get sectionTitleMobile => GoogleFonts.sourceCodePro(
     fontSize: 18,
     fontWeight: FontWeight.bold,
     color: AppColors.lightAccent,
     letterSpacing: 0.8,
   );
 
-  static const TextStyle sectionDescription = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get sectionDescription => GoogleFonts.sourceCodePro(
     fontSize: 15,
     color: AppColors.primaryText,
     height: 1.5,
     letterSpacing: 0.3,
   );
 
-  static const TextStyle sectionDescriptionMobile = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get sectionDescriptionMobile => GoogleFonts.sourceCodePro(
     fontSize: 13,
     color: AppColors.primaryText,
     height: 1.5,
@@ -104,32 +90,28 @@ class TextStyles {
   );
 
   // Card Styles
-  static const TextStyle cardTitle = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get cardTitle => GoogleFonts.sourceCodePro(
     fontSize: 16,
     fontWeight: FontWeight.w600,
     color: AppColors.primaryText,
     letterSpacing: 0.5,
   );
 
-  static const TextStyle cardTitleMobile = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get cardTitleMobile => GoogleFonts.sourceCodePro(
     fontSize: 14,
     fontWeight: FontWeight.w600,
     color: AppColors.primaryText,
     letterSpacing: 0.5,
   );
 
-  static const TextStyle cardDescription = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get cardDescription => GoogleFonts.sourceCodePro(
     fontSize: 13,
     color: AppColors.secondaryText,
     height: 1.4,
     letterSpacing: 0.2,
   );
 
-  static const TextStyle cardDescriptionMobile = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get cardDescriptionMobile => GoogleFonts.sourceCodePro(
     fontSize: 11,
     color: AppColors.secondaryText,
     height: 1.4,
@@ -137,32 +119,28 @@ class TextStyles {
   );
 
   // Skill Styles
-  static const TextStyle skillName = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get skillName => GoogleFonts.sourceCodePro(
     fontSize: 11,
     fontWeight: FontWeight.w500,
     color: AppColors.primaryText,
     letterSpacing: 0.3,
   );
 
-  static const TextStyle skillNameMobile = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get skillNameMobile => GoogleFonts.sourceCodePro(
     fontSize: 10,
     fontWeight: FontWeight.w500,
     color: AppColors.primaryText,
     letterSpacing: 0.3,
   );
 
-  static const TextStyle skillPercentage = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get skillPercentage => GoogleFonts.sourceCodePro(
     fontSize: 9,
     fontWeight: FontWeight.w400,
     color: AppColors.mutedText,
     letterSpacing: 0.2,
   );
 
-  static const TextStyle skillPercentageMobile = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get skillPercentageMobile => GoogleFonts.sourceCodePro(
     fontSize: 8,
     fontWeight: FontWeight.w400,
     color: AppColors.mutedText,
@@ -170,90 +148,77 @@ class TextStyles {
   );
 
   // Button Styles
-  static const TextStyle buttonText = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get buttonText => GoogleFonts.sourceCodePro(
     fontSize: 14,
     fontWeight: FontWeight.w600,
     letterSpacing: 0.8,
   );
 
-  static const TextStyle buttonTextSmall = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get buttonTextSmall => GoogleFonts.sourceCodePro(
     fontSize: 12,
     fontWeight: FontWeight.w600,
     letterSpacing: 0.6,
   );
 
   // Form Styles
-  static const TextStyle formLabel = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get formLabel => GoogleFonts.sourceCodePro(
     fontSize: 14,
     fontWeight: FontWeight.w600,
     color: AppColors.lightAccent,
   );
 
-  static const TextStyle formInput = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get formInput => GoogleFonts.sourceCodePro(
     fontSize: 14,
     color: AppColors.pureWhite,
   );
 
-  static const TextStyle formHint = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get formHint => GoogleFonts.sourceCodePro(
     fontSize: 14,
     color: AppColors.mutedText,
   );
 
-  static const TextStyle formError = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get formError => GoogleFonts.sourceCodePro(
     fontSize: 13,
     fontWeight: FontWeight.w500,
     color: AppColors.errorColor,
   );
 
   // Chat Styles
-  static const TextStyle chatTitle = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get chatTitle => GoogleFonts.sourceCodePro(
     fontSize: 18,
     fontWeight: FontWeight.bold,
     color: AppColors.primaryText,
   );
 
-  static const TextStyle chatQuestion = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get chatQuestion => GoogleFonts.sourceCodePro(
     fontSize: 16,
     color: AppColors.primaryText,
   );
 
-  static const TextStyle chatMessage = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get chatMessage => GoogleFonts.sourceCodePro(
     fontSize: 14,
     color: AppColors.primaryText,
   );
 
-  static const TextStyle chatInput = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get chatInput => GoogleFonts.sourceCodePro(
     fontSize: 14,
     color: AppColors.primaryText,
   );
 
-  static const TextStyle chatError = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get chatError => GoogleFonts.sourceCodePro(
     fontSize: 12,
     color: AppColors.errorColor,
   );
 
   // Chip Styles
-  static const TextStyle chipText = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get chipText => GoogleFonts.sourceCodePro(
     fontSize: 16,
     fontWeight: FontWeight.w500,
     color: AppColors.primaryText,
     letterSpacing: 0.3,
   );
 
-  static const TextStyle chipTextMobile = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get chipTextMobile => GoogleFonts.sourceCodePro(
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: AppColors.primaryText,
@@ -261,30 +226,26 @@ class TextStyles {
   );
 
   // Status Text Styles
-  static const TextStyle successText = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get successText => GoogleFonts.sourceCodePro(
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: AppColors.successColor,
   );
 
-  static const TextStyle warningText = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get warningText => GoogleFonts.sourceCodePro(
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: AppColors.warningColor,
   );
 
-  static const TextStyle errorText = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get errorText => GoogleFonts.sourceCodePro(
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: AppColors.errorColor,
   );
 
   // Hero text styles (for animated text widgets)
-  static const TextStyle heroTitle = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get heroTitle => GoogleFonts.sourceCodePro(
     fontSize: 48,
     fontWeight: FontWeight.w800,
     color: AppColors.primaryText,
@@ -292,8 +253,7 @@ class TextStyles {
     height: 1.2,
   );
 
-  static const TextStyle heroSubtitle = TextStyle(
-    fontFamily: fontFamily,
+  static TextStyle get heroSubtitle => GoogleFonts.sourceCodePro(
     fontSize: 20,
     fontWeight: FontWeight.w300,
     color: AppColors.lightAccent,

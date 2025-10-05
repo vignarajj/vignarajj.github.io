@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/shared/theme/app_colors.dart';
 
 class AppTheme {
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     useMaterial3: true,
-    fontFamily: 'SourceCodePro', // Set global font family
+    fontFamily: GoogleFonts.sourceCodePro().fontFamily, // Set global font family
 
     // Color Scheme - Pure Black & White
     colorScheme: const ColorScheme.dark(
@@ -45,20 +46,20 @@ class AppTheme {
     dividerColor: AppColors.borderColor,
 
     // App Bar Theme
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       backgroundColor: AppColors.primaryBackground,
       foregroundColor: AppColors.primaryText,
       elevation: 0,
       shadowColor: AppColors.pureBlack,
       surfaceTintColor: Colors.transparent,
-      titleTextStyle: TextStyle(
+      titleTextStyle: GoogleFonts.sourceCodePro(
         color: AppColors.primaryText,
         fontSize: 22,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.5,
       ),
-      iconTheme: IconThemeData(color: AppColors.primaryText, size: 24),
-      systemOverlayStyle: SystemUiOverlayStyle(
+      iconTheme: const IconThemeData(color: AppColors.primaryText, size: 24),
+      systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarColor: AppColors.primaryBackground,
         statusBarIconBrightness: Brightness.light,
         systemNavigationBarColor: AppColors.primaryBackground,
@@ -66,106 +67,93 @@ class AppTheme {
       ),
     ),
 
-    // Text Theme
-    textTheme: const TextTheme(
-      displayLarge: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.primaryText,
-        fontSize: 57,
-        fontWeight: FontWeight.w400,
-        letterSpacing: -0.25,
-      ),
-      displayMedium: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.primaryText,
-        fontSize: 45,
-        fontWeight: FontWeight.w400,
-      ),
-      displaySmall: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.primaryText,
-        fontSize: 36,
-        fontWeight: FontWeight.w400,
-      ),
-      headlineLarge: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.primaryText,
-        fontSize: 32,
-        fontWeight: FontWeight.w400,
-      ),
-      headlineMedium: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.primaryText,
-        fontSize: 28,
-        fontWeight: FontWeight.w400,
-      ),
-      headlineSmall: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.primaryText,
-        fontSize: 24,
-        fontWeight: FontWeight.w400,
-      ),
-      titleLarge: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.primaryText,
-        fontSize: 22,
-        fontWeight: FontWeight.w500,
-      ),
-      titleMedium: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.primaryText,
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 0.15,
-      ),
-      titleSmall: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.primaryText,
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 0.1,
-      ),
-      bodyLarge: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.secondaryText,
-        fontSize: 16,
-        fontWeight: FontWeight.w400,
-        letterSpacing: 0.5,
-      ),
-      bodyMedium: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.secondaryText,
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-        letterSpacing: 0.25,
-      ),
-      bodySmall: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.mutedText,
-        fontSize: 12,
-        fontWeight: FontWeight.w400,
-        letterSpacing: 0.4,
-      ),
-      labelLarge: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.primaryText,
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 0.1,
-      ),
-      labelMedium: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.secondaryText,
-        fontSize: 12,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 0.5,
-      ),
-      labelSmall: TextStyle(
-        fontFamily: 'SourceCodePro',
-        color: AppColors.mutedText,
-        fontSize: 11,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 0.5,
+    // Text Theme using Google Fonts
+    textTheme: GoogleFonts.sourceCodeProTextTheme(
+      const TextTheme(
+        displayLarge: TextStyle(
+          color: AppColors.primaryText,
+          fontSize: 57,
+          fontWeight: FontWeight.w400,
+          letterSpacing: -0.25,
+        ),
+        displayMedium: TextStyle(
+          color: AppColors.primaryText,
+          fontSize: 45,
+          fontWeight: FontWeight.w400,
+        ),
+        displaySmall: TextStyle(
+          color: AppColors.primaryText,
+          fontSize: 36,
+          fontWeight: FontWeight.w400,
+        ),
+        headlineLarge: TextStyle(
+          color: AppColors.primaryText,
+          fontSize: 32,
+          fontWeight: FontWeight.w400,
+        ),
+        headlineMedium: TextStyle(
+          color: AppColors.primaryText,
+          fontSize: 28,
+          fontWeight: FontWeight.w400,
+        ),
+        headlineSmall: TextStyle(
+          color: AppColors.primaryText,
+          fontSize: 24,
+          fontWeight: FontWeight.w400,
+        ),
+        titleLarge: TextStyle(
+          color: AppColors.primaryText,
+          fontSize: 22,
+          fontWeight: FontWeight.w500,
+        ),
+        titleMedium: TextStyle(
+          color: AppColors.primaryText,
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.15,
+        ),
+        titleSmall: TextStyle(
+          color: AppColors.primaryText,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.1,
+        ),
+        bodyLarge: TextStyle(
+          color: AppColors.secondaryText,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          letterSpacing: 0.5,
+        ),
+        bodyMedium: TextStyle(
+          color: AppColors.secondaryText,
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          letterSpacing: 0.25,
+        ),
+        bodySmall: TextStyle(
+          color: AppColors.mutedText,
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+          letterSpacing: 0.4,
+        ),
+        labelLarge: TextStyle(
+          color: AppColors.primaryText,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.1,
+        ),
+        labelMedium: TextStyle(
+          color: AppColors.secondaryText,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.5,
+        ),
+        labelSmall: TextStyle(
+          color: AppColors.mutedText,
+          fontSize: 11,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.5,
+        ),
       ),
     ),
 
@@ -216,23 +204,23 @@ class AppTheme {
     ),
 
     // Input Decoration Theme
-    inputDecorationTheme: const InputDecorationTheme(
+    inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.cardBackground,
-      border: OutlineInputBorder(
+      border: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: AppColors.borderColor),
       ),
-      enabledBorder: OutlineInputBorder(
+      enabledBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: AppColors.borderColor),
       ),
-      focusedBorder: OutlineInputBorder(
+      focusedBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: AppColors.pureWhite, width: 2),
       ),
-      labelStyle: TextStyle(color: AppColors.secondaryText),
-      hintStyle: TextStyle(color: AppColors.mutedText),
+      labelStyle: GoogleFonts.sourceCodePro(color: AppColors.secondaryText),
+      hintStyle: GoogleFonts.sourceCodePro(color: AppColors.mutedText),
     ),
 
     // Floating Action Button Theme
@@ -253,14 +241,14 @@ class AppTheme {
     ),
 
     // Chip Theme
-    chipTheme: const ChipThemeData(
+    chipTheme: ChipThemeData(
       backgroundColor: AppColors.cardBackground,
       deleteIconColor: AppColors.secondaryText,
       disabledColor: AppColors.surfaceColor,
       selectedColor: AppColors.pureWhite,
       secondarySelectedColor: AppColors.lightAccent,
-      labelStyle: TextStyle(color: AppColors.primaryText),
-      secondaryLabelStyle: TextStyle(color: AppColors.pureBlack),
+      labelStyle: GoogleFonts.sourceCodePro(color: AppColors.primaryText),
+      secondaryLabelStyle: GoogleFonts.sourceCodePro(color: AppColors.pureBlack),
       brightness: Brightness.dark,
       elevation: 2,
       pressElevation: 4,
@@ -276,11 +264,11 @@ class AppTheme {
     ),
 
     // Snack Bar Theme
-    snackBarTheme: const SnackBarThemeData(
+    snackBarTheme: SnackBarThemeData(
       backgroundColor: AppColors.cardBackground,
-      contentTextStyle: TextStyle(color: AppColors.primaryText),
+      contentTextStyle: GoogleFonts.sourceCodePro(color: AppColors.primaryText),
       actionTextColor: AppColors.pureWhite,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       elevation: 6,
