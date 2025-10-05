@@ -80,26 +80,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/fonts/
     - assets/packages/
     - assets/shaders/
     - assets/images/
     - assets/lottie/
-  fonts:
-    - family: SourceCodePro
-      fonts:
-        - asset: assets/assets/fonts/SourceCodePro-italic.ttf
-        - asset: assets/assets/fonts/SourceCodePro-variable.ttf
-    - family: NotoSans
-      fonts:
-        - asset: assets/assets/fonts/NotoSans-Regular.ttf
-        - asset: assets/assets/fonts/NotoSans-Bold.ttf
-          weight: 700
-    - family: NotoSerif
-      fonts:
-        - asset: assets/assets/fonts/NotoSerif-Regular.ttf
-        - asset: assets/assets/fonts/NotoSerif-Bold.ttf
-          weight: 700
+  # Using Google Fonts instead of bundled fonts for better performance
 
 
 
