@@ -44,11 +44,11 @@ The workflows require these permissions (automatically configured):
 - `actions: read` - Access workflow status
 
 ### 3. Flutter Version Configuration
-The workflows use Flutter `3.24.3` (stable). To update:
+The workflows use Flutter `3.35.3` (stable) compatible with Dart SDK >=3.8.1. To update:
 
 ```yaml
 env:
-  FLUTTER_VERSION: "3.24.3"  # Update this version
+  FLUTTER_VERSION: "3.35.3"  # Update this version
 ```
 
 ### 4. Custom Domain Setup

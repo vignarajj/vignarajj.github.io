@@ -29,7 +29,7 @@ jobs:
     - name: Setup Flutter SDK
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.24.3' # Use stable Flutter version
+        flutter-version: '3.35.3' # Use stable Flutter version compatible with Dart 3.8.1+
         channel: 'stable'
         cache: true
         cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:
@@ -50,8 +50,23 @@ jobs:
       continue-on-error: true # Don't fail the build if no tests exist
       
     - name: Build Flutter web
-      run: flutter build web --release --web-renderer html --base-href "/"
+      run: |
+        flutter build web \
+          --release \
+          --web-renderer html \
+          --base-href "/" \
+          --dart-define=FLUTTER_WEB_CANVASKIT_URL=https://www.gstatic.com/flutter-canvaskit/ \
+          --source-maps
       
+    - name: Prepare build for deployment
+      run: |
+        echo "Build completed successfully"
+        ls -la build/web/
+        echo "Main bundle size:"
+        du -h build/web/main.dart.js || echo "main.dart.js not found"
+        echo "Total build size:"
+        du -sh build/web/
+        
     - name: Upload build artifacts
       uses: actions/upload-pages-artifact@v3
       with:

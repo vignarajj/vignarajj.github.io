@@ -15,7 +15,7 @@ on:
         - staging
 
 env:
-  FLUTTER_VERSION: "3.24.3"
+  FLUTTER_VERSION: "3.35.3"
 
 permissions:
   contents: read
@@ -58,7 +58,7 @@ jobs:
     strategy:
       matrix:
         flutter-channel: [stable]
-        flutter-version: ["3.24.3"]
+        flutter-version: ["3.35.3"]
     
     steps:
     - name: 📚 Git Checkout
@@ -130,7 +130,8 @@ jobs:
           --web-renderer html \
           --base-href "/" \
           --source-maps \
-          --dart-define=ENVIRONMENT=production
+          --dart-define=ENVIRONMENT=production \
+          --dart-define=FLUTTER_WEB_CANVASKIT_URL=https://www.gstatic.com/flutter-canvaskit/
           
     - name: 📊 Analyze bundle size
       run: |
