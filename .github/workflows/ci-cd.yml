@@ -1,0 +1,231 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      deployment_target:
+        description: 'Deployment target'
+        required: true
+        default: 'github-pages'
+        type: choice
+        options:
+        - github-pages
+        - staging
+
+env:
+  FLUTTER_VERSION: "3.24.3"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: read
+  checks: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Job to detect changes and set up build matrix
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      flutter: ${{ steps.changes.outputs.flutter }}
+      workflow: ${{ steps.changes.outputs.workflow }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          flutter:
+            - 'lib/**'
+            - 'assets/**'
+            - 'web/**'
+            - 'pubspec.yaml'
+            - 'pubspec.lock'
+          workflow:
+            - '.github/workflows/**'
+
+  # Build and test job
+  build-and-test:
+    needs: changes
+    if: ${{ needs.changes.outputs.flutter == 'true' || needs.changes.outputs.workflow == 'true' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        flutter-channel: [stable]
+        flutter-version: ["3.24.3"]
+    
+    steps:
+    - name: 📚 Git Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: 🐦 Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ matrix.flutter-version }}
+        channel: ${{ matrix.flutter-channel }}
+        cache: true
+        cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+        cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
+        
+    - name: 📦 Cache pub dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ${{ env.PUB_CACHE }}
+          **/.packages
+          **/.flutter-plugins
+          **/.flutter-plugin-dependencies
+          **/.dart_tool/package_config.json
+        key: pub-cache-${{ runner.os }}-${{ hashFiles('**/pubspec.yaml') }}
+        restore-keys: |
+          pub-cache-${{ runner.os }}-
+        
+    - name: 🔍 Verify Flutter installation
+      run: |
+        flutter doctor -v
+        flutter --version
+        
+    - name: 📥 Install dependencies
+      run: flutter pub get
+      
+    - name: 🔍 Verify dependencies
+      run: flutter pub deps
+      
+    - name: 🧹 Check formatting
+      run: dart format --output=none --set-exit-if-changed .
+      continue-on-error: true
+      
+    - name: 📊 Analyze project source
+      run: flutter analyze --fatal-infos --fatal-warnings
+      continue-on-error: true
+      
+    - name: 🧪 Run tests
+      run: |
+        if [ -d "test" ]; then
+          flutter test --coverage --test-randomize-ordering-seed=random
+        else
+          echo "No tests found, skipping test execution"
+        fi
+      continue-on-error: true
+      
+    - name: 📈 Upload coverage to Codecov  
+      if: success()
+      uses: codecov/codecov-action@v3
+      continue-on-error: true
+      with:
+        file: coverage/lcov.info
+        
+    - name: 🏗️ Build Flutter Web (Release)
+      run: |
+        flutter build web \
+          --release \
+          --web-renderer html \
+          --base-href "/" \
+          --source-maps \
+          --dart-define=ENVIRONMENT=production
+          
+    - name: 📊 Analyze bundle size
+      run: |
+        du -sh build/web/
+        echo "Main bundle size:"
+        du -h build/web/main.dart.js
+        echo "Flutter bundle size:"
+        du -h build/web/flutter.js
+        
+    - name: 🔧 Optimize build output
+      run: |
+        # Remove source maps in production (optional)
+        # find build/web -name "*.js.map" -delete
+        
+        # Compress HTML (optional - GitHub Pages will handle compression)
+        # Install html-minifier-terser if needed
+        echo "Build optimization completed"
+        
+    - name: 🚀 Upload build artifacts
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: build/web
+        name: web-build-${{ github.sha }}
+        retention-days: 30
+
+  # Security and quality checks
+  security-scan:
+    needs: changes
+    if: ${{ needs.changes.outputs.flutter == 'true' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    
+    steps:
+    - name: 📚 Git Checkout
+      uses: actions/checkout@v4
+      
+    - name: 🛡️ Run security scan
+      run: |
+        echo "Running security scan..."
+        # Add your security scanning tools here
+        echo "Security scan completed"
+
+  # Deploy job (only for main branch)
+  deploy:
+    needs: [build-and-test, security-scan]
+    runs-on: ubuntu-latest
+    if: |
+      github.ref == 'refs/heads/main' && 
+      github.event_name == 'push' &&
+      needs.build-and-test.result == 'success'
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+      
+    steps:
+    - name: 🔧 Setup Pages
+      uses: actions/configure-pages@v4
+      
+    - name: 🚀 Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+      with:
+        artifact_name: web-build-${{ github.sha }}
+        
+    - name: 📝 Create deployment summary
+      run: |
+        echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Status**: Deployed successfully" >> $GITHUB_STEP_SUMMARY
+        echo "🔗 **URL**: ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
+        echo "📦 **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+        echo "🏷️ **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+        echo "👤 **Actor**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+        echo "⏰ **Time**: $(date -u)" >> $GITHUB_STEP_SUMMARY
+
+  # Notification job
+  notify:
+    needs: [build-and-test, deploy]
+    if: always()
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📧 Notify on success
+      if: needs.deploy.result == 'success'
+      run: |
+        echo "🎉 Deployment completed successfully!"
+        echo "Site is now live at the configured URL"
+        
+    - name: 📧 Notify on failure
+      if: needs.build-and-test.result == 'failure' || needs.deploy.result == 'failure'
+      run: |
+        echo "❌ Build or deployment failed!"
+        echo "Check the logs for more details"

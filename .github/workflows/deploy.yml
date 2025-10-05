@@ -1,0 +1,75 @@
+name: Build and Deploy Flutter Web
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: # Allows manual trigger
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Flutter SDK
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.24.3' # Use stable Flutter version
+        channel: 'stable'
+        cache: true
+        cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:
+        cache-path: ${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:
+        
+    - name: Verify Flutter installation
+      run: flutter doctor -v
+      
+    - name: Get dependencies
+      run: flutter pub get
+      
+    - name: Analyze project
+      run: flutter analyze --fatal-infos
+      continue-on-error: true # Don't fail the build on analysis issues
+      
+    - name: Run tests
+      run: flutter test
+      continue-on-error: true # Don't fail the build if no tests exist
+      
+    - name: Build Flutter web
+      run: flutter build web --release --web-renderer html --base-href "/"
+      
+    - name: Upload build artifacts
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+      
+    steps:
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+      
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4

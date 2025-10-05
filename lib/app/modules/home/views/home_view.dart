@@ -49,9 +49,8 @@ class HomeView extends GetView<HomeController> {
                       if (isDesktop) _buildFloatingActionButtons(),
                     ],
                   ),
-                  bottomNavigationBar: !isDesktop
-                      ? _buildActionBottomBar(false)
-                      : null,
+                  bottomNavigationBar:
+                      !isDesktop ? _buildActionBottomBar(false) : null,
                   extendBody: true,
                 );
               },
@@ -86,9 +85,8 @@ class HomeView extends GetView<HomeController> {
                 child: Center(
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxWidth: isDesktop
-                          ? maxContentWidth
-                          : constraints.maxWidth,
+                      maxWidth:
+                          isDesktop ? maxContentWidth : constraints.maxWidth,
                       minHeight: constraints.maxHeight,
                     ),
                     child: Column(
@@ -168,9 +166,8 @@ class HomeView extends GetView<HomeController> {
         const SizedBox(height: AppDimensions.spacing24),
         Text(
           AppStrings.profileName,
-          style: isDesktop
-              ? TextStyles.profileName
-              : TextStyles.profileNameMobile,
+          style:
+              isDesktop ? TextStyles.profileName : TextStyles.profileNameMobile,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: AppDimensions.spacing12),
@@ -329,9 +326,8 @@ class HomeView extends GetView<HomeController> {
             flex: 1,
             child: Text(
               skill['name'] as String,
-              style: isDesktop
-                  ? TextStyles.skillName
-                  : TextStyles.skillNameMobile,
+              style:
+                  isDesktop ? TextStyles.skillName : TextStyles.skillNameMobile,
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -367,6 +363,22 @@ class HomeView extends GetView<HomeController> {
         'url': 'https://vignaraj.dev/theme_generator/',
         'tech': ['Flutter Web', 'Material Design', 'CSS'],
         'type': 'Developer Tool',
+      },
+      {
+        'name': 'ToolMaster',
+        'description':
+            'A comprehensive suite of developer productivity tools designed to streamline everyday workflows and boost development efficiency.',
+        'url': 'https://vignaraj.dev/ToolMaster/',
+        'tech': ['Flutter Web', 'Dart', 'Productivity'],
+        'type': 'Developer Tool',
+      },
+      {
+        'name': 'QuickSignMaker',
+        'description':
+            'Generate professional email signatures in seconds with customizable templates and real-time preview functionality.',
+        'url': 'https://vignaraj.dev/EmailSign/',
+        'tech': ['Flutter Web', 'Dart', 'Email Templates'],
+        'type': 'Productivity Tool',
       },
     ];
 
@@ -865,9 +877,8 @@ class HomeView extends GetView<HomeController> {
             children: [
               Icon(
                 icon,
-                color: isSecondary
-                    ? AppColors.lightAccent
-                    : AppColors.pureBlack,
+                color:
+                    isSecondary ? AppColors.lightAccent : AppColors.pureBlack,
                 size: 18,
               ),
               const SizedBox(width: 8),
@@ -877,9 +888,8 @@ class HomeView extends GetView<HomeController> {
                   style: TextStyle(
                     fontFamily: 'SourceCodePro',
                     fontSize: 14,
-                    color: isSecondary
-                        ? AppColors.pureWhite
-                        : AppColors.pureBlack,
+                    color:
+                        isSecondary ? AppColors.pureWhite : AppColors.pureBlack,
                     fontWeight: FontWeight.w600,
                   ),
                   maxLines: 1,
